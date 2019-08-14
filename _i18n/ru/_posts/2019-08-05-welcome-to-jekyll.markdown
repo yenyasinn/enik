@@ -2,7 +2,8 @@
 layout: post
 title:  "Welcome to Jekyll!"
 date:   2019-08-05 18:54:53 +0300
-categories: ru posts
+categories: ru
+canonical_url: https://evn.io/ru/2019/08/05/welcome-to-jekyll.html
 ---
 Russian
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
