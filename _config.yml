@@ -1,4 +1,4 @@
-title: Drupal blog
+title: ''
 author: Evgenii Nikitin
 email: ''
 description: >- # this means to ignore newlines until "baseurl:"
@@ -8,19 +8,20 @@ url: "https://evn.io" # the base hostname & protocol for your site, e.g. http://
 
 # Build settings
 markdown: kramdown
-#theme: plainwhite
 
 sass:
   sass_dir: _sass
 
 plainwhite:
-  name: Evgenii Nikitin
-  tagline: Developer
+  tagline: ''
   date_format: "%b %-d, %Y"
   sitemap: false
 
+  social_links:
+    drupal: u/sinn
+    linkedIn: in/nikitinevgeny
+
 plugins:
-  - jekyll-feed
   - jekyll-multiple-languages-plugin
   - jekyll-seo-tag
 

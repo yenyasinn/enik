@@ -1,3 +1,11 @@
 language:
   russian: Русский
   english: English
+
+global:
+  posts: Статьи
+  name: Евгений Никитин
+  main_page: Главная страница
+
+path:
+  lang_prefix: ru/

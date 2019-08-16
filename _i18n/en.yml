@@ -2,4 +2,10 @@ language:
   russian: Русский
   english: English
 
+global:
+  posts: Articles
+  name: Evgenii Nikitin
+  main_page: Main page
 
+path:
+  lang_prefix: ''

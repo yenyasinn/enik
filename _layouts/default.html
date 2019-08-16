@@ -6,19 +6,17 @@
 <body>
 	<main class="container">
 		<section class="about">
-			<img src="{{ "/assets/portfolio.png" }}" alt="{{ site.plainwhite.name }}"/>
-			<h2>{{ site.plainwhite.name }}</h2>
+			<a href="/{% t path.lang_prefix %}" title="{% t global.main_page %}"><img src="/assets/portfolio.png" alt="{% t global.name %}"/></a>
+			<h2>{% t global.name %}</h2>
 			<p class="tagline">{{ site.plainwhite.tagline }}</p>
 			<ul class="social">
-				<a href="https://github.com/{{ site.plainwhite.social_links.github }}"><li><i class="icon-github-circled"></i></li></a>
-				<a href="https://www.linkedin.com/{{ site.plainwhite.social_links.linkedIn }}"><li><i class="icon-linkedin-squared"></i></li></a>
-				<a href="https://twitter.com/{{ site.plainwhite.social_links.twitter }}"><li><i class="icon-twitter-squared"></i></li></a>
+				<a href="https://www.linkedin.com/{{ site.plainwhite.social_links.linkedIn }}" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/{{ site.plainwhite.social_links.drupal }}" target="_blank"><li><i class="icon-drupal"></i></li></a>
 			</ul>
+
 			<p>
-
-				<a href="{{ site.baseurl_root }}/ru{{ page.url}}" title="Russian">{% t language.russian %}</a>
-				<a href="{{ site.baseurl_root }}{{ page.url  }}" title="English">English</a>
-
+			  <a href="/ru{{ page.url}}" title="{% t language.russian %}">{% t language.russian %}</a>
+			  <a href="{{ page.url  }}" title="{% t language.english %}">{% t language.english %}</a>
 			</p>
 		</section>
 		<section class="content">
