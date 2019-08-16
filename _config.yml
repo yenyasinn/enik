@@ -4,7 +4,7 @@ email: ''
 description: >- # this means to ignore newlines until "baseurl:"
   Blog about Drupal and related things.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://evn.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://www.enik.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
 markdown: kramdown
@@ -30,16 +30,17 @@ languages: ["en", "ru"]
 exclude_from_localizations: ["javascript", "images", "css", "assets"]
 
 # jekyll-seo-tag settings.
-canonical_url: 'https://evn.io/'
+canonical_url: 'https://www.enik.io/'
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
+exclude:
+  - docs
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - build.sh
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/

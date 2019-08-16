@@ -3,7 +3,7 @@ layout: post
 title:  "Типы уязвимостей в безопасности Drupal 8 и способы их устранения."
 date:   2019-08-15 18:54:53 +0000
 categories: en Drupal security
-canonical_url: https://evn.io/drupal/security/2019/08/15/security-vulnerabilities.html
+canonical_url: https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html
 ---
 Drupal, как и любая система может иметь уязвимости в безопасности. Важно знать и уметь устранять их для создания по-настоящему надежных информационных систем. В этой статье я бы хотел рассмотреть наиболее часто встречающиеся уязвимости и способы, как можно предотвратить их.
 
