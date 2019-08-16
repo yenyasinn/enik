@@ -1,4 +1,4 @@
 #!/bin/bash
 
 rm -rf docs
-cp _site docs
+cp -r _site docs
