@@ -5,6 +5,17 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
 <!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>When you should send mails through a queue in Drupal.</title>
 <meta name="generator" content="Jekyll v3.8.6" />
@@ -50,7 +61,7 @@
 <div class="post">
 	<p>Let’s understand how site sends mails in the beginning.</p>
 
-<p>There are two main ways to send mails:</p>
+<p><strong>There are two main ways to send mails:</strong></p>
 <ol>
   <li>Using PHP function mail(). This function puts your mail to sendmail that sends mails to the recipients.</li>
   <li>Using remote SMTP server.</li>
@@ -58,11 +69,11 @@
 
 <p>Usually, after the user clicks on the submit button, the PHP script connects to the mail server. If connection is established successfully, mail is sent to the server. Thus mail is sent. In case when mail server is inaccessible (there were different reasons: issue with servers, with connection) mail won’t be sent. All this time, while PHP script is trying to connect to mail server, user sees loading page. He is needed to wait while connection won’t be interrupted by timeout. If connection isn’t established he will see error message. He will be obligated to send the form once again. Otherwise his message will be lost.</p>
 
-<p>Alternative option - send mails asynchronously. We can put mails to the queue and send them later instead of sending right now.</p>
+<p>Alternative option - <strong>send mails asynchronously</strong>. We can put mails to the queue and send them later instead of sending right now.</p>
 
 <p>There is a module in Drupal that can help you with it - <a href="https://www.drupal.org/project/queue_mail">Queue Mail</a>. Mails, that are created on the site, are put to the queue. They will be sent during the next launch of cron.</p>
 
-<p>Queue mail provides you ability to set:</p>
+<p><strong>Queue mail provides you ability to set:</strong></p>
 <ul>
   <li>categories of mails that have to be sent through queue;</li>
   <li>how many attempts should be done before removal of the mail from the queue;</li>
@@ -79,5 +90,6 @@
 
 </div>
 		</section>
-	</main></body>
+	</main>
+</body>
 </html>

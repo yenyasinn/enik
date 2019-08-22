@@ -7,17 +7,17 @@ canonical_url: https://www.enik.io/drupal/architecture/2019/08/10/queue-mail.htm
 ---
 Let’s understand how site sends mails in the beginning.
 
-There are two main ways to send mails:
+**There are two main ways to send mails:**
 1. Using PHP function mail(). This function puts your mail to sendmail that sends mails to the recipients.
 2. Using remote SMTP server.
 
 Usually, after the user clicks on the submit button, the PHP script connects to the mail server. If connection is established successfully, mail is sent to the server. Thus mail is sent. In case when mail server is inaccessible (there were different reasons: issue with servers, with connection) mail won’t be sent. All this time, while PHP script is trying to connect to mail server, user sees loading page. He is needed to wait while connection won’t be interrupted by timeout. If connection isn’t established he will see error message. He will be obligated to send the form once again. Otherwise his message will be lost.
 
-Alternative option - send mails asynchronously. We can put mails to the queue and send them later instead of sending right now.
+Alternative option - **send mails asynchronously**. We can put mails to the queue and send them later instead of sending right now.
 
 There is a module in Drupal that can help you with it - [Queue Mail](https://www.drupal.org/project/queue_mail). Mails, that are created on the site, are put to the queue. They will be sent during the next launch of cron. 
 
-Queue mail provides you ability to set:
+**Queue mail provides you ability to set:**
 * categories of mails that have to be sent through queue;
 * how many attempts should be done before removal of the mail from the queue;
 * time between mail send. It can be used to set the frequency of mail sending if you want not to be added to spam list.
