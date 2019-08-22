@@ -14,3 +14,6 @@ jekyll-seo-tag installation:
 sudo gem install jekyll-seo-tag
 bundle install
 ```
+
+DNS setup
+https://stackoverflow.com/questions/9082499/custom-domain-for-github-project-pages/9123911

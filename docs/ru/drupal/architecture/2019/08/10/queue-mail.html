@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Когда вам следует отправлять письма через очередь в Drupal</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Когда вам следует отправлять письма через очередь в Drupal" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Для начала давайте разберемся, как сайт отправляет письма." />
+<meta property="og:description" content="Для начала давайте разберемся, как сайт отправляет письма." />
+<link rel="canonical" href="https://www.enik.io/ru/drupal/architecture/2019/08/10/queue-mail.html" />
+<meta property="og:url" content="https://www.enik.io/ru/drupal/architecture/2019/08/10/queue-mail.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-10T18:00:00+03:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/architecture/2019/08/10/queue-mail.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Для начала давайте разберемся, как сайт отправляет письма.","@type":"BlogPosting","headline":"Когда вам следует отправлять письма через очередь в Drupal","dateModified":"2019-08-10T18:00:00+03:00","datePublished":"2019-08-10T18:00:00+03:00","url":"https://www.enik.io/ru/drupal/architecture/2019/08/10/queue-mail.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/architecture/2019/08/10/queue-mail.html" title="Русский">Русский</a>
+			  <a href="/drupal/architecture/2019/08/10/queue-mail.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/architecture/2019/08/10/queue-mail.html">
+	<h2 class="post-title">Когда вам следует отправлять письма через очередь в Drupal</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>architecture</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Aug 10, 2019</div>
+</div>
+<div class="post">
+	<p>Для начала давайте разберемся, как сайт отправляет письма.</p>
+
+<p>Есть два основных способа отправки писем:</p>
+<ol>
+  <li>через PHP функцию mail(). Эта функция отправит ваше письмо в sendmail на сервере, откуда оно уйдет к получателю.</li>
+  <li>используя удаленный SMTP сервер.</li>
+</ol>
+
+<p>Обычно, после того, как пользователь нажал на кнопку отправки формы, PHP скрипт соединяется с почтовым сервером. Если соединение установлено успешно, то письмо передается на сервер и, таким образом, оно отправляется. В случае, если почтовый сервер недоступен (а причины могут быть разные: проблема с серверами, с соединением), то письмо отправлено не будет. Все это время, пока PHP скрипт пытается соединится с почтовым сервером, пользователь сайта будет видеть загружающееся окно, и ждать, пока соединение не отвалится по таймауту. Если соединится так и не получится, то в итоге он увидит сообщение об ошибке и ему придется отправлять форму еще раз. Иначе сообщение пропадет.</p>
+
+<p>Альтернативный этому вариант - <strong>отправка писем асинхронно</strong>. Вместо того, чтобы отправлять письма сразу, мы можем положить их в очередь и отправить позже.</p>
+
+<p>В Drupal в этом вам поможет модуль <a href="https://www.drupal.org/project/queue_mail">Queue Mail</a>. Письма, созданные на сайте, добавляются в очередь. Они будут отправлены во время следующего запуска крона.</p>
+
+<p>В Queue Mail есть возможность настроить:</p>
+<ul>
+  <li>категории писем, которые отправлять через очередь;</li>
+  <li>количество раз сколько нужно пытаться отправить письмо прежде, чем оно будет удалено из очереди;</li>
+  <li>время между отправкой писем. Эта возможность поможет настроить частоту  отправки писем, что бывает полезно если вы отправляете много писем и хотите, чтобы ваш сервер не посчитали спамерским.</li>
+</ul>
+
+<p><strong>Поэтому, использовать очередь при отправке почты стоит если:</strong></p>
+<ul>
+  <li>Нужно повысить скорость работы сайта - пользователям не придется ждать пока сообщение отправится во время отправки формы. Например разница между отправкой письма сразу через mail(), и вариантом с отложенной отправкой достигает 2 раз (по моим замерам если письма уходят сразу среднее время 11.76 миллисекунды, если мы кладем письма в очередь - 5.57 миллисекунды). Если отправляем письма через удаленный SMTP сервер, то там отправка происходит намного дольше</li>
+  <li>Необходимо улучшится “user experience” сайта - пользователям не придется отправлять форму еще раз если есть проблемы с отправкой почты.</li>
+  <li>Вы хотите сделать сайт более надежным - письма будут отправлены, как только восстановится возможность отправлять почту.</li>
+  <li>Вам нужно больше возможностей по конфигурированию отправки почты.</li>
+</ul>
+
+</div>
+		</section>
+	</main></body>
+</html>
