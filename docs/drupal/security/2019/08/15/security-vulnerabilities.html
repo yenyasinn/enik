@@ -17,19 +17,19 @@
 
 
 <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Типы уязвимостей в безопасности Drupal 8 и способы их устранения.</title>
+<title>Drupal 8 security vulnerabilities and ways to fix them.</title>
 <meta name="generator" content="Jekyll v3.8.6" />
-<meta property="og:title" content="Типы уязвимостей в безопасности Drupal 8 и способы их устранения." />
+<meta property="og:title" content="Drupal 8 security vulnerabilities and ways to fix them." />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Drupal сайт, как и любая сложная система, может иметь уязвимости в безопасности. Важно знать и уметь устранять их для создания по-настоящему надежных информационных систем. В этой статье я бы хотел рассмотреть наиболее часто встречающиеся уязвимости и способы, как можно предотвратить их." />
-<meta property="og:description" content="Drupal сайт, как и любая сложная система, может иметь уязвимости в безопасности. Важно знать и уметь устранять их для создания по-настоящему надежных информационных систем. В этой статье я бы хотел рассмотреть наиболее часто встречающиеся уязвимости и способы, как можно предотвратить их." />
+<meta name="description" content="Drupal site, as every complicated system, can have security vulnerabilities. It is important to know about them and be able to fix them to build secure information systems. I want to review in this article most frequent vulnerabilities and ways to prevent them." />
+<meta property="og:description" content="Drupal site, as every complicated system, can have security vulnerabilities. It is important to know about them and be able to fix them to build secure information systems. I want to review in this article most frequent vulnerabilities and ways to prevent them." />
 <link rel="canonical" href="https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html" />
 <meta property="og:url" content="https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-08-15T21:54:53+03:00" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Drupal сайт, как и любая сложная система, может иметь уязвимости в безопасности. Важно знать и уметь устранять их для создания по-настоящему надежных информационных систем. В этой статье я бы хотел рассмотреть наиболее часто встречающиеся уязвимости и способы, как можно предотвратить их.","@type":"BlogPosting","headline":"Типы уязвимостей в безопасности Drupal 8 и способы их устранения.","dateModified":"2019-08-15T21:54:53+03:00","datePublished":"2019-08-15T21:54:53+03:00","url":"https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Drupal site, as every complicated system, can have security vulnerabilities. It is important to know about them and be able to fix them to build secure information systems. I want to review in this article most frequent vulnerabilities and ways to prevent them.","@type":"BlogPosting","headline":"Drupal 8 security vulnerabilities and ways to fix them.","dateModified":"2019-08-15T21:54:53+03:00","datePublished":"2019-08-15T21:54:53+03:00","url":"https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -52,66 +52,65 @@
 		<section class="content">
 			<div class="post-container">
 <a class="post-link" href="/drupal/security/2019/08/15/security-vulnerabilities.html">
-	<h2 class="post-title">Типы уязвимостей в безопасности Drupal 8 и способы их устранения.</h2>
+	<h2 class="post-title">Drupal 8 security vulnerabilities and ways to fix them.</h2>
 </a>
 <div class="post-meta">
 	<ul class="post-categories"><li>Drupal</li><li>security</li></ul>
 	<div class="post-date"><i class="icon-calendar"></i>Aug 15, 2019</div>
 </div>
 <div class="post">
-	<p>Drupal сайт, как и любая сложная система, может иметь уязвимости в безопасности. Важно знать и уметь устранять их для создания по-настоящему надежных информационных систем. В этой статье я бы хотел рассмотреть наиболее часто встречающиеся уязвимости и способы, как можно предотвратить их.</p>
+	<p>Drupal site, as every complicated system, can have security vulnerabilities. It is important to know about them and be able to fix them to build secure information systems. I want to review in this article most frequent vulnerabilities and ways to prevent them.</p>
 
 <h2 id="cross-site-scripting-xss">Cross site scripting (XSS)</h2>
 
-<p>Эта уязвимость заключается в возможности разместить на сайте javascript код, который будет затем выполняться у всех пользователей, которые зайдут на страницу с вредоносным кодом. Используя эту уязвимость злоумышленник может похитить куки с вашей сессией и заполучить доступ к сайту или выполнить от имени пользователя какое-то действие, или просто сломать отображение страницы. 
-Как можно определить есть ли у вас такая проблема? Самый простой способ - введите в форму html код (например <code class="highlighter-rouge">&lt;strong&gt;Check&lt;/strong&gt;</code> или <code class="highlighter-rouge">&lt;script&gt;alert(‘!’)&lt;/script&gt;</code>) и посмотрите, как этот код будет отображаться на сайте.
-Чтобы пресечь это, нужно обязательно очищать данные от пользователя, которые выводятся на сайте, от возможной вставки javascript кода.</p>
+<p>This vulnerability lies in the possibility of adding javascript on the site, which will be executed for all users who would visit a page with this code. Intruder can steal cookies with your session and acquire access to the site or perform some action on behalf of user, or just break site view using this vulnerability.
+How can we recognise whether we have this issue? The simplest method is to add to the form html code (for example  <code class="highlighter-rouge">&lt;strong&gt;Check&lt;/strong&gt;</code> or <code class="highlighter-rouge">&lt;script&gt;alert(‘!’)&lt;/script&gt;</code>) and check how this code is shown on the site.
+You have to clean the user’s data that are shown on the site from possible included javascript code to prevent it.
+Drupal has different ways for it:</p>
 
-<p>В Drupal для этого есть следующие возможности.</p>
-
-<p><strong>FormattableMarkup</strong> - используется для вывода форматированного текста.</p>
+<p><strong>FormattableMarkup</strong> - is used to print formatted text.</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nn">Drupal\Component\Render\FormattableMarkup</span><span class="p">;</span>
 <span class="nv">$string</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormattableMarkup</span><span class="p">(</span><span class="s1">'&lt;a href=":variable"&gt;link text&lt;/a&gt;'</span><span class="p">,</span> <span class="p">[</span><span class="s1">':variable'</span> <span class="o">=&gt;</span> <span class="nv">$variable</span><span class="p">]);</span>
 </code></pre></div></div>
 
-<p><strong>Html::escape()</strong> - конвертирует специальные символы в html аналог. Так, например, <code class="highlighter-rouge">&amp;</code> конвертируется в <code class="highlighter-rouge">&amp;amp;</code>, <code class="highlighter-rouge">&lt;</code> конвертируется в <code class="highlighter-rouge">&amp;lt;</code>, а <code class="highlighter-rouge">&gt;</code> конвертируется <code class="highlighter-rouge">&amp;gt;</code>.</p>
+<p><strong>Html::escape()</strong> - converts special characters to html analogs. For instance <code class="highlighter-rouge">&amp;</code> is converted to <code class="highlighter-rouge">&amp;amp;</code>, <code class="highlighter-rouge">&lt;</code> is converted to <code class="highlighter-rouge">&amp;lt;</code>, and <code class="highlighter-rouge">&gt;</code> is converted to <code class="highlighter-rouge">&amp;gt;</code>.</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nn">Drupal\Component\Utility\Html</span><span class="p">;</span>
 <span class="nv">$safe_string</span> <span class="o">=</span> <span class="nx">Html</span><span class="o">::</span><span class="na">escape</span><span class="p">(</span><span class="nv">$string</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p><strong>t(), formatPlural()</strong> - используются для вывода переводимых строк.</p>
+<p><strong>t(), formatPlural()</strong> - is used to print translated strings.</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">t</span><span class="p">(</span><span class="err">‘</span><span class="nx">My</span> <span class="nx">name</span> <span class="nx">is</span> <span class="o">-</span> <span class="o">@</span><span class="nx">name</span><span class="err">’</span><span class="p">,</span> <span class="p">[</span><span class="err">‘</span><span class="o">@</span><span class="nx">name</span><span class="err">’</span> <span class="o">=&gt;</span> <span class="nv">$var</span><span class="p">]);</span>
 <span class="nx">\Drupal</span><span class="o">::</span><span class="na">translation</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">formatPlural</span><span class="p">(</span><span class="nv">$comment_count</span><span class="p">,</span> <span class="s1">'1 comment'</span><span class="p">,</span> <span class="s1">'@count comments'</span><span class="p">)]]</span>
 </code></pre></div></div>
 
-<p><strong>UrlHelper::stripDangerousProtocols(), UrlHelper::filterBadProtocol()</strong> - используются когда нужно вывести URL. Удаляет потенциально опасные протоколы (например javascript:) из адреса.</p>
+<p><strong>UrlHelper::stripDangerousProtocols(), UrlHelper::filterBadProtocol()</strong> - is used when URL is printed. It removes potential dangerous protocols (as “javascript:”) from the address.</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nn">Drupal\Component\Utility\UrlHelper</span><span class="p">;</span>
 
 <span class="nv">$page</span><span class="p">[</span><span class="s1">'#attached'</span><span class="p">][</span><span class="s1">'html_head_link'</span><span class="p">][][]</span> <span class="o">=</span> <span class="p">[</span>
- <span class="s1">'rel'</span> <span class="o">=&gt;</span> <span class="s1">'shortcut icon'</span><span class="p">,</span>
- <span class="s1">'href'</span> <span class="o">=&gt;</span> <span class="nx">UrlHelper</span><span class="o">::</span><span class="na">stripDangerousProtocols</span><span class="p">(</span><span class="nv">$favicon</span><span class="p">),</span>
- <span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="nv">$type</span><span class="p">,</span>
+<span class="s1">'rel'</span> <span class="o">=&gt;</span> <span class="s1">'shortcut icon'</span><span class="p">,</span>
+<span class="s1">'href'</span> <span class="o">=&gt;</span> <span class="nx">UrlHelper</span><span class="o">::</span><span class="na">stripDangerousProtocols</span><span class="p">(</span><span class="nv">$favicon</span><span class="p">),</span>
+<span class="s1">'type'</span> <span class="o">=&gt;</span> <span class="nv">$type</span><span class="p">,</span>
 <span class="p">];</span>
 </code></pre></div></div>
 
-<p><strong>Link::createFromRoute(), Link::fromTextAndUrl()</strong> - используются для вывода ссылок. Текст ссылки и все атрибуты будут очищены от вредоносного кода.</p>
+<p><strong>Link::createFromRoute(), Link::fromTextAndUrl()</strong> - is used to print links. Text of link and all attributes will be cleaned from malicious code.</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nn">Drupal\Core\Link</span><span class="p">;</span>
 <span class="nv">$link</span> <span class="o">=</span> <span class="nx">Link</span><span class="o">::</span><span class="na">fromTextAndUrl</span><span class="p">(</span><span class="nv">$text</span><span class="p">,</span> <span class="nv">$url</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">toString</span><span class="p">();</span>
 </code></pre></div></div>
 
-<p><strong>Xss::filter()</strong> - используется, когда нужно вывести html код. Только разрешенные html теги будут выведены.</p>
+<p><strong>Xss::filter()</strong> - it can be used when html code has to be printed. Allowed html tags are printed only.</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nn">Drupal\Component\Utility\Xss</span><span class="p">;</span>
 <span class="nv">$page_text</span> <span class="o">=</span> <span class="nx">Xss</span><span class="o">::</span><span class="na">filter</span><span class="p">(</span><span class="nv">$raw_content</span><span class="p">,</span> <span class="p">[]);</span>
 </code></pre></div></div>
 
-<p>Проблема XSS стоит довольно остро, поэтому очистка текста происходит и в теме. Например, Twig преобразует все специальные символы html при выводе текста через <code class="highlighter-rouge">{{ variable }}</code>.
-Также при использовании <strong>#markup</strong>, <strong>#plain_text</strong>, <strong>#item_list</strong>, <strong>#inline_template</strong> происходит перекодировка символов.</p>
+<p>Issue of XSS is quite important, therefore text clean up is made in a theme also. For instance, Twig escapes all special characters when text is printed as <code class="highlighter-rouge">{{ variable }}</code>.
+Also text is escaped when <strong>#markup</strong>, <strong>#plain_text</strong>, <strong>#item_list</strong>, <strong>#inline_template</strong> are used.</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$markup</span> <span class="o">=</span> <span class="s2">"&lt;strong&gt;Content will be processed by \Drupal\Component\Utility\Xss::filterAdmin()&lt;/strong&gt;"</span><span class="p">;</span>
 <span class="nv">$build</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'#markup'</span> <span class="o">=&gt;</span> <span class="nv">$markup</span><span class="p">];</span>
@@ -120,91 +119,92 @@
 <span class="nv">$render</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'#plain_text'</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">];</span>
 
 <span class="nv">$item_list</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'#theme'</span> <span class="o">=&gt;</span> <span class="s1">'item_list'</span><span class="p">,</span>
-  <span class="s1">'#items'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'one'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">],</span>
+ <span class="s1">'#theme'</span> <span class="o">=&gt;</span> <span class="s1">'item_list'</span><span class="p">,</span>
+ <span class="s1">'#items'</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'one'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">],</span>
 <span class="p">];</span>
 
 <span class="nv">$build</span><span class="p">[</span><span class="s1">'string'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-  <span class="s1">'#type'</span> <span class="o">=&gt;</span> <span class="s1">'inline_template'</span><span class="p">,</span>
-  <span class="s1">'#template'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;span&gt;&lt;/span&gt;'</span><span class="p">,</span>
-  <span class="s1">'#context'</span> <span class="o">=&gt;</span> <span class="p">[</span>
-    <span class="s1">'var'</span> <span class="o">=&gt;</span> <span class="nv">$possible_unsafe_var</span><span class="p">,</span>
-  <span class="p">],</span>
+ <span class="s1">'#type'</span> <span class="o">=&gt;</span> <span class="s1">'inline_template'</span><span class="p">,</span>
+ <span class="s1">'#template'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;span&gt;&lt;/span&gt;'</span><span class="p">,</span>
+ <span class="s1">'#context'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+   <span class="s1">'var'</span> <span class="o">=&gt;</span> <span class="nv">$possible_unsafe_var</span><span class="p">,</span>
+ <span class="p">],</span>
 <span class="p">];</span>
 </code></pre></div></div>
-
-<p>Важно отметить, что если вы используете для вывода объект типа <strong>\Drupal\Component\Render\MarkupInterface</strong>, то такой объект будет выводиться без преобразования. Это удобно если нужно вывести html текст или избежать двойного преобразования специальных символов.</p>
+<p>It’s important to note that if you use object of type <strong>\Drupal\Component\Render\MarkupInterface</strong>, then this object will be printed without escaping. It can be used if you would like to print html code or avoid double escaping.</p>
 
 <h2 id="sql-injection">SQL injection</h2>
 
-<p>Уязвимость заключается в возможности модифицировать sql запрос и выполнить вредоносную команду в базе данных.</p>
+<p>This vulnerability lies in the possibility of modifying sql query and execute malicious commands in the database.</p>
 
-<p>Например у нас есть код:</p>
+<p>For example there is a code:</p>
 
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">$</span><span class="k">sql</span> <span class="o">=</span> <span class="err">“</span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">uid</span> <span class="o">=</span> <span class="err">$</span><span class="n">_GET</span><span class="p">[</span><span class="err">‘</span><span class="n">uid</span><span class="err">’</span><span class="p">];</span><span class="err">”</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>Как мы видим данные передаются в sql запрос как есть. Если <code class="highlighter-rouge">$_GET[‘uid’]</code> будет содержать <code class="highlighter-rouge">“1; TRUNCATE node;”</code>, то запрос будет выглядеть так:</p>
+<p>As we see data is passed to sql as is. If <code class="highlighter-rouge">$_GET[‘uid’]</code> would contain “1; TRUNCATE node;”`, then query will be:</p>
 
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">uid</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="k">TRUNCATE</span> <span class="n">node</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>и вы можете потерять все данные в таблице node.</p>
+<p>and you can lose all data in the node table.</p>
 
-<p>Если <code class="highlighter-rouge">$_GET[‘uid’]</code> содержит <code class="highlighter-rouge">“1 or 1 = 1”</code>, то выполнится sql запрос</p>
+<p>If <code class="highlighter-rouge">$_GET[‘uid’]</code> would contain “1 or 1 = 1”`, then sql query will be executed</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SELECT * FROM users WHERE uid = 1 or 1 = 1
 </code></pre></div></div>
 
-<p>который выведет всех пользователей потому, что 1 = 1 это TRUE.</p>
+<p>that prints all users due to 1 = 1 is TRUE.</p>
 
-<p>Как вы видите SQL injection это довольно серьезная уязвимость.
-Чтобы предотвратить модифицирование sql запроса всегда используйте уровень абстракции базы данных и не передавайте данные в базу данных напрямую.</p>
+<p>As you can see, SQL injection is significant vulnerability.
+You have to use database abstraction layer to prevent sql query modification. Also you mustn’t pass data to database directly.</p>
+
+<p>Examples of correct usage:</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nn">Drupal\Core\Database\Database</span><span class="p">;</span>
 <span class="nx">Database</span><span class="o">::</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">(</span><span class="s2">"SELECT * FROM </span><span class="si">{</span><span class="nv">users</span><span class="si">}</span><span class="s2"> WHERE uid = :uid"</span><span class="p">,</span> <span class="p">[</span><span class="err">‘</span><span class="o">:</span><span class="nx">uid</span><span class="err">’</span> <span class="o">=&gt;</span> <span class="nv">$_GET</span><span class="p">[</span><span class="err">‘</span><span class="nx">uid</span><span class="err">’</span><span class="p">]]);</span>
 </code></pre></div></div>
 
-<p>или</p>
+<p>or</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nn">Drupal\Core\Database\Database</span><span class="p">;</span>
 <span class="nv">$result</span> <span class="o">=</span><span class="nx">Database</span><span class="o">::</span><span class="na">getConnection</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="s1">'u'</span><span class="p">)</span>
- <span class="o">-&gt;</span><span class="na">fields</span><span class="p">(</span><span class="s1">'u'</span><span class="p">)</span>
- <span class="o">-&gt;</span><span class="na">condition</span><span class="p">(</span><span class="s1">'u.uid'</span><span class="p">,</span> <span class="nv">$_GET</span><span class="p">[</span><span class="err">‘</span><span class="nx">uid</span><span class="err">’</span><span class="p">])</span>
- <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+<span class="o">-&gt;</span><span class="na">fields</span><span class="p">(</span><span class="s1">'u'</span><span class="p">)</span>
+<span class="o">-&gt;</span><span class="na">condition</span><span class="p">(</span><span class="s1">'u.uid'</span><span class="p">,</span> <span class="nv">$_GET</span><span class="p">[</span><span class="err">‘</span><span class="nx">uid</span><span class="err">’</span><span class="p">])</span>
+<span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
 </code></pre></div></div>
 
 <h2 id="cross-site-request-forgeries-csrf">Cross-site request forgeries (CSRF)</h2>
 
-<p>Смысл уязвимости в том, что вредоносный код может быть передан от пользователя, которому приложение доверяет. Причем сам пользователь об этом знать не будет.
-Чтобы избежать этого всегда используйте Drupal Form API. Каждая форма будет помечаться специальным токеном и при отправке формы Drupal будет проверять, что такой токен существует и значит форма была отправлена с вашего сайта.</p>
+<p>Meaning of this vulnerability is in ability of passing malicious code from user to the application that trust this user. Moreover user won’t know about it because malicious javascript code can send request when you visit attacker site.
+You have to use Drupal Form API to prevent it. Each form will be marked by special token that is checked during form submit. If token exist then the system knows that it is valid request.</p>
 
 <h2 id="http-host-header-spoofing">HTTP Host header spoofing</h2>
 
-<p>Drupal использует <code class="highlighter-rouge">$_SERVER[‘HOST’]</code> для определения адреса сайта. Но эта переменная приходит от пользователя. Таким образом доверять ей нельзя. Например если у нас есть код</p>
+<p>Drupal uses <code class="highlighter-rouge">$_SERVER[‘HOST’]</code> to determine the address of the site. But we can’t trust this variable because it can be changed by user. For example there a code:</p>
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">http://&lt;?php echo $_SERVER['HOST'] ?&gt;/script.js</span><span class="dl">"</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<p>то, отправив запрос с заголовком HOST “hacker.com”, получим в итоге</p>
+<p>if someone would send request with the header HOST “hacker.com” site will receive</p>
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">http://hacker.com/script.js</span><span class="dl">"</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<p>Если эта страница будет сохранена в кеше CDN, то остальные пользователи получат измененную версию страницы и загрузят вредоносный код.
-Чтобы это предотвратить, в Drupal можно определить список доменов, которым мы доверяем. Для этого в settings.php нужно определить настройку “trusted_host_patterns”.</p>
+<p>If this page is saved in the CDN cache, then rest users will receive changed version of the page and load malicious code.
+There is a list of trusted hosts in Drupal to prevent it. You can find setting  “trusted_host_patterns” in settings.php file</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$settings</span><span class="p">[</span><span class="s1">'trusted_host_patterns'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-   <span class="s1">'^example\.com$'</span><span class="p">,</span>
-   <span class="s1">'^.+\.example\.com$'</span><span class="p">,</span>
-   <span class="s1">'^example\.org$'</span><span class="p">,</span>
-   <span class="s1">'^.+\.example\.org$'</span><span class="p">,</span>
- <span class="p">];</span>
+  <span class="s1">'^example\.com$'</span><span class="p">,</span>
+  <span class="s1">'^.+\.example\.com$'</span><span class="p">,</span>
+  <span class="s1">'^example\.org$'</span><span class="p">,</span>
+  <span class="s1">'^.+\.example\.org$'</span><span class="p">,</span>
+<span class="p">];</span>
 </code></pre></div></div>
 
-<p>Drupal считается одной из самых защищенных систем по управлению контентом. Как вы видите в него встроено множество средств для предотвращения взлома. Главное знать о возможных угрозах и пользоваться возможностями, которые Drupal предлагает для противодействия им.</p>
+<p>Drupal is known as one of the most secure systems of content management. As you can see there are lots of tools to prevent hack. It’s important to know about possible vulnerabilities and use them in site building.</p>
 
-<p><strong>Ссылки</strong></p>
+<p><strong>Links</strong></p>
 <ul>
   <li><a href="https://www.drupal.org/node/2296163">Twig autoescape enabled and text sanitization APIs updated</a></li>
   <li><a href="https://www.drupal.org/node/28984">Handle text in a secure fashion</a></li>
