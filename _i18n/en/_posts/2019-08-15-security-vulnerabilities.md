@@ -112,7 +112,7 @@ SELECT * FROM users WHERE uid = 1 or 1 = 1
 
 that prints all users due to 1 = 1 is TRUE.
 
-As you can see, SQL injection is significant vulnerability.
+As you can see, SQL injection is a significant vulnerability.
 You have to use database abstraction layer to prevent sql query modification. Also you mustn’t pass data to database directly.
 
 Examples of correct usage:
@@ -135,17 +135,17 @@ $result =Database::getConnection()->select('users', 'u')
 ## Cross-site request forgeries (CSRF)
 
 Meaning of this vulnerability is in ability of passing malicious code from user to the application that trust this user. Moreover user won’t know about it because malicious javascript code can send request when you visit attacker site.
-You have to use Drupal Form API to prevent it. Each form will be marked by special token that is checked during form submit. If token exist then the system knows that it is valid request.
+You have to use Drupal Form API to prevent it. Each form will be marked by special token that is checked during form submit. If token exists then the system knows that it is a valid request.
 
 ## HTTP Host header spoofing
 
-Drupal uses `$_SERVER[‘HOST’]` to determine the address of the site. But we can’t trust this variable because it can be changed by user. For example there a code:
+Drupal uses `$_SERVER[‘HOST’]` to determine the address of the site. But we can’t trust this variable because it can be changed by user. For example there is code:
 
 ```js
 <script src="http://<?php echo $_SERVER['HOST'] ?>/script.js">
 ```
 
-if someone would send request with the header HOST “hacker.com” site will receive
+if someone sends a request with the header HOST “hacker.com” site will receive
 
 ```js
 <script src="http://hacker.com/script.js">

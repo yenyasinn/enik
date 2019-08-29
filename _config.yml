@@ -41,6 +41,7 @@ exclude:
   - Gemfile.lock
   - node_modules
   - build.sh
+  - README.md
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
