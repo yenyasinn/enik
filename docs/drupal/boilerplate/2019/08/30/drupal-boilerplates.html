@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Choosing Drupal 8 boilerplate</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Choosing Drupal 8 boilerplate" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="When a new project is started we always think what should we take as a base. If we are talking about Drupal development then many people can advise to take just Drupal. I would agree with this proposal if it is small project where only one person is involved. If there are lots of developers on the project or size of the project is middle or big then we have to think about: it has to be convenient for people to work with it; it should contain tools that will be used during the whole project life cycle or we could add such tools. increasing our efficiency on the project." />
+<meta property="og:description" content="When a new project is started we always think what should we take as a base. If we are talking about Drupal development then many people can advise to take just Drupal. I would agree with this proposal if it is small project where only one person is involved. If there are lots of developers on the project or size of the project is middle or big then we have to think about: it has to be convenient for people to work with it; it should contain tools that will be used during the whole project life cycle or we could add such tools. increasing our efficiency on the project." />
+<link rel="canonical" href="https://www.enik.io/drupal/boilerplate/2019/08/30/drupal-boilerplates.html" />
+<meta property="og:url" content="https://www.enik.io/drupal/boilerplate/2019/08/30/drupal-boilerplates.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-30T13:00:00+03:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/boilerplate/2019/08/30/drupal-boilerplates.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"When a new project is started we always think what should we take as a base. If we are talking about Drupal development then many people can advise to take just Drupal. I would agree with this proposal if it is small project where only one person is involved. If there are lots of developers on the project or size of the project is middle or big then we have to think about: it has to be convenient for people to work with it; it should contain tools that will be used during the whole project life cycle or we could add such tools. increasing our efficiency on the project.","@type":"BlogPosting","headline":"Choosing Drupal 8 boilerplate","dateModified":"2019-08-30T13:00:00+03:00","datePublished":"2019-08-30T13:00:00+03:00","url":"https://www.enik.io/drupal/boilerplate/2019/08/30/drupal-boilerplates.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<h2>Evgenii Nikitin</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/boilerplate/2019/08/30/drupal-boilerplates.html" title="Русский">Русский</a>
+			  <a href="/drupal/boilerplate/2019/08/30/drupal-boilerplates.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/drupal/boilerplate/2019/08/30/drupal-boilerplates.html">
+	<h2 class="post-title">Choosing Drupal 8 boilerplate</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>boilerplate</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Aug 30, 2019</div>
+</div>
+<div class="post">
+	<p>When a new project is started we always think what should we take as a base. If we are talking about Drupal development then many people can advise to take just Drupal. I would agree with this proposal if it is small project where only one person is involved. If there are lots of developers on the project or size of the project is middle or big then we have to think about:</p>
+<ul>
+  <li>it has to be convenient for people to work with it;</li>
+  <li>it should contain tools that will be used during the whole project life cycle or we could add such tools.</li>
+  <li>increasing our efficiency on the project.</li>
+</ul>
+
+<p>Computer programmers, who develop web applications consistently, usually have some boilerplates that they use for new projects. I would like to review a few such templates and will try to sort out when these boilerplates can be used.</p>
+
+<h2 id="decoupled-drupal-with-graphql-and-react-by-amazeelab">Decoupled Drupal with GraphQL and React by AmazeeLab.</h2>
+
+<p>As mentioned in the name, this boilerplate can be used for creation decoupled Drupal application using React on front side and GraphQL on the back-end.</p>
+
+<p><strong>Project includes:</strong></p>
+<ul>
+  <li>Docker image;</li>
+  <li>Drupal 8;</li>
+  <li>Drush 8;</li>
+  <li>Modules for <a href="https://graphql.org">GraphQL</a>.</li>
+  <li><a href="https://reactjs.org/">React</a></li>
+  <li>React framework <a href="https://nextjs.org">Next.js</a></li>
+</ul>
+
+<p>Project provides you two URLs after installation for front-end and back-end parts.</p>
+
+<p>This project is supported by Amazee Lab, who actively develop decoupled web applications.</p>
+
+<p>So I would recommend this boilerplate as a starter-kit if you want to use GraphQL and React in your project.</p>
+
+<p><strong>Link to the project</strong> - <a href="https://github.com/drupal-graphql/drupal-decoupled-app">https://github.com/drupal-graphql/drupal-decoupled-app</a></p>
+
+<h2 id="decoupled-drupal-with-react-by-systemseed">Decoupled Drupal with React by SystemSeed</h2>
+
+<p><strong>There are:</strong></p>
+<ul>
+  <li>Docker image</li>
+  <li>Drupal 8</li>
+  <li><a href="http://www.contentacms.org">Contenta CMS</a></li>
+  <li>React framework <a href="https://nextjs.org">Next.js</a></li>
+  <li>Prepared scripts for deploying to <a href="https://platform.sh/">platform.sh</a></li>
+  <li>Three types of tests.</li>
+</ul>
+
+<p>There are also two URLs after installation: for front-end and back-end. JSON API is used to transfer data.</p>
+
+<p>This boilerplate provides <a href="https://drupal-reactjs-boilerplate.readthedocs.io/commands/">commands for automatization frequent actions</a>, that can be used for site installation, configuration of Continuous Integration or in local development.</p>
+
+<p>If you develop decoupled web application and use platform.sh, then this boilerplate is well suited for your needs.</p>
+
+<p><strong>Link to the project</strong> - <a href="https://github.com/systemseed/drupal_reactjs_boilerplate">https://github.com/systemseed/drupal_reactjs_boilerplate</a></p>
+
+<h2 id="blt-by-acqua">BLT by Acqua.</h2>
+
+<p><strong>BLT (Build and Launch Tool)</strong> provides tools for development, testing and deploying Drupal 8 applications.</p>
+
+<p>There is <a href="https://www.drupalvm.com/">DrupalVM</a>, that can be installed by one command with working configuration for typical project. Therefore your teammates won’t spend time on the setting up of the local environment. Everything that you need for the development (Apache, Nginx, SOLR, PHP, Xdebug, Memcache) will be configured during DrupalVM installation. Thus we can guarantee that all developers have the same environment on local computers.</p>
+
+<p>BLT supplies lots of commands for simplification your work with the project. It adds an additional layer of abstraction and hides usual drush and shell commands.</p>
+
+<p>For example, BLT has built-in commands for code validation. So, by running command <code class="highlighter-rouge">blt validate:all</code>, we can:</p>
+<ul>
+  <li>execute phpcs for coding standard validation;</li>
+  <li>check composer.json and composer.lock;</li>
+  <li>ensure that the syntax of yml files is correct;</li>
+  <li>check syntax of twig files.</li>
+</ul>
+
+<p>Certainly, you can run these tests separately. It is very convenient when we can start to work right after project installation, and don’t need to waste time on setting up tools. Also BLT can be used in Continuous Integration, that also makes developer’s life easier.</p>
+
+<p>It’s simple to run PHPUnit and Behat tests, integrate your own tests, check security updates using BLT.</p>
+
+<p>Separately I would like to note deployment tools for Acquia Cloud. If you have already used this hosting platform you know how inconvenient deployment process is there. BLT hides deployment process behind one command.</p>
+
+<p>BLT provides Drupal 8 with <a href="https://www.drupal.org/project/lightning">Lightning</a> profile and installs huge amount of modules, about what you might be even have not heard. I think it is a negative point in this boilerplate because you need to spend some time on disabling and removing needless modules from the project.</p>
+
+<p><strong>I would recommend to use Acquia BLT if:</strong></p>
+<ul>
+  <li>you work with Acquia Cloud or Acquia Cloud Site Factory;</li>
+  <li>you have a project of Enterprise level;</li>
+  <li>there is a big team of developers.</li>
+</ul>
+
+<p>As you see this product isn’t for newbies. But it can simplify the process of development and project support for experts.</p>
+
+<p><strong>Links</strong></p>
+<ul>
+  <li><a href="https://docs.acquia.com/blt/">Project documentation</a></li>
+  <li><a href="https://github.com/acquia/blt">Code on GitHub</a></li>
+</ul>
+
+
+</div>
+		</section>
+	</main>
+</body>
+</html>

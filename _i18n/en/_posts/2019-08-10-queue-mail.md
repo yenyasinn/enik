@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "When you should send mails through a queue in Drupal."
+title:  "When you should send mails through a queue in Drupal"
 date:   2019-08-10 15:00:00 +0000
 categories: en Drupal architecture
 canonical_url: https://www.enik.io/drupal/architecture/2019/08/10/queue-mail.html

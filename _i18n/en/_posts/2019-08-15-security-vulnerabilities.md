@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Drupal 8 security vulnerabilities and ways to fix them."
+title:  "Drupal 8 security vulnerabilities and ways to fix them"
 date:   2019-08-15 18:54:53 +0000
 categories: en Drupal security
 canonical_url: https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html
