@@ -30,7 +30,7 @@ canonical_url: https://www.enik.io/ru/drupal/boilerplate/2019/08/30/drupal-boile
 
 Рекомендую этот проект как стартовый если вы решили использовать GraphQL и React у себя на проекте.
 
-Ссылка на проект - [https://github.com/drupal-graphql/drupal-decoupled-app](https://github.com/drupal-graphql/drupal-decoupled-app)
+**Ссылка на проект** - [https://github.com/drupal-graphql/drupal-decoupled-app](https://github.com/drupal-graphql/drupal-decoupled-app)
 
 ## Decoupled Drupal with React от SystemSeed
 
@@ -48,7 +48,7 @@ canonical_url: https://www.enik.io/ru/drupal/boilerplate/2019/08/30/drupal-boile
 
 Если вы делаете decoupled веб приложения и используете platform.sh, то этот шаблон то, что вам нужно.
 
-Ссылка на проект - [https://github.com/systemseed/drupal_reactjs_boilerplate](https://github.com/systemseed/drupal_reactjs_boilerplate)
+**Ссылка на проект** - [https://github.com/systemseed/drupal_reactjs_boilerplate](https://github.com/systemseed/drupal_reactjs_boilerplate)
 
 ## BLT от Acqua.
 
