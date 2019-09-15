@@ -5,7 +5,7 @@ date:   2019-08-30 10:00:00 +0000
 categories: en Drupal boilerplate
 canonical_url: https://www.enik.io/drupal/boilerplate/2019/08/30/drupal-boilerplates.html
 ---
-When a new project is started we always think what should we take as a base. If we are talking about Drupal development then many people can advise to take just Drupal. I would agree with this proposal if it is small project where only one person is involved. If there are lots of developers on the project or size of the project is middle or big then we have to think about:
+When a new project is started we always think what should we take as a base. If we are talking about Drupal development then many people can advise to take just Drupal. I would agree with this proposal if it is a small project where only one person is involved. If there are lots of developers on the project or size of the project is middle or big then we have to think about:
 * it has to be convenient for people to work with it;
 * it should contain tools that will be used during the whole project life cycle or we could add such tools.
 * increasing our efficiency on the project. 
@@ -71,7 +71,7 @@ It’s simple to run PHPUnit and Behat tests, integrate your own tests, check se
 
 Separately I would like to note deployment tools for Acquia Cloud. If you have already used this hosting platform you know how inconvenient deployment process is there. BLT hides deployment process behind one command.
 
-BLT provides Drupal 8 with [Lightning](https://www.drupal.org/project/lightning) profile and installs huge amount of modules, about what you might be even have not heard. I think it is a negative point in this boilerplate because you need to spend some time on disabling and removing needless modules from the project.
+BLT provides Drupal 8 with [Lightning](https://www.drupal.org/project/lightning) profile and installs huge amount of modules, about what you might not even heard. I think it is a negative point in this boilerplate because you need to spend some time on disabling and removing needless modules from the project.
 
 **I would recommend to use Acquia BLT if:**
 * you work with Acquia Cloud or Acquia Cloud Site Factory;
@@ -83,5 +83,6 @@ As you see this product isn’t for newbies. But it can simplify the process of 
 **Links**
 * [Project documentation](https://docs.acquia.com/blt/)
 * [Code on GitHub](https://github.com/acquia/blt)
+
 
 

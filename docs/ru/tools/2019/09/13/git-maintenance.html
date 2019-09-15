@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Обслуживаем GIT репозиторий</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Обслуживаем GIT репозиторий" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="В течение жизни проекта размер GIT репозитория постоянно увеличивается т.к. в нем хранятся все изменения файлов. Это приводит к тому, что в один прекрасный момент мы обнаруживаем, что репозиторий весит очень много и с ним становиться неудобно работать. В таком случае самое время провести обслуживание GIT репозитория." />
+<meta property="og:description" content="В течение жизни проекта размер GIT репозитория постоянно увеличивается т.к. в нем хранятся все изменения файлов. Это приводит к тому, что в один прекрасный момент мы обнаруживаем, что репозиторий весит очень много и с ним становиться неудобно работать. В таком случае самое время провести обслуживание GIT репозитория." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-09-13T13:00:00+03:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/tools/2019/09/13/git-maintenance.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"В течение жизни проекта размер GIT репозитория постоянно увеличивается т.к. в нем хранятся все изменения файлов. Это приводит к тому, что в один прекрасный момент мы обнаруживаем, что репозиторий весит очень много и с ним становиться неудобно работать. В таком случае самое время провести обслуживание GIT репозитория.","@type":"BlogPosting","headline":"Обслуживаем GIT репозиторий","dateModified":"2019-09-13T13:00:00+03:00","datePublished":"2019-09-13T13:00:00+03:00","url":"https://www.enik.io/ru/tools/2019/09/13/git-maintenance.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/tools/2019/09/13/git-maintenance.html" title="Русский">Русский</a>
+			  <a href="/tools/2019/09/13/git-maintenance.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/tools/2019/09/13/git-maintenance.html">
+	<h2 class="post-title">Обслуживаем GIT репозиторий</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>tools</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Sep 13, 2019</div>
+</div>
+<div class="post">
+	<p>В течение жизни проекта размер GIT репозитория постоянно увеличивается т.к. в нем хранятся все изменения файлов. Это приводит к тому, что в один прекрасный момент мы обнаруживаем, что репозиторий весит очень много и с ним становиться неудобно работать. В таком случае самое время провести обслуживание GIT репозитория.</p>
+
+<h2 id="подготавливаем-репозиторий">Подготавливаем репозиторий</h2>
+
+<p>Для начала скачаем репозиторий:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone <span class="nt">--mirror</span> git@hosting.com:path/project.git
+</code></pre></div></div>
+
+<p>Этой командой мы создали “зеркало” репозитория. Оно содержит сам репозиторий, то, что обычно хранится в папке .git, без файлов проекта.</p>
+
+<h2 id="создаем-архивную-копию-репозиторий">Создаем архивную копию репозиторий</h2>
+
+<p>Создадим архивную копию репозитория, которую можно будет восстановить, если что-то пойдет не так:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>czf achive_name.tgz project.git
+</code></pre></div></div>
+
+<h2 id="очищаем-базу-от-больших-файлов">Очищаем базу от больших файлов</h2>
+
+<p>Бывает, что в репозиторий кладут файлы большого размера. Часто это случается по-ошибке, но информация о изменениях в этих файлах уже попала в репозиторий и будем в нем хранится пока мы не удалим её.</p>
+
+<p>Поможет нам в удалении больших файлов <a href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner</a>.</p>
+
+<p>Скачайте к себе jar файл с сайта. Переименуйте его в bfg.jar и положите в папку где находится папка с вашим репозиторием project.git.</p>
+
+<p>Запустим удаление файлов больше 50 мегабайт:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-jar</span> bfg.jar <span class="nt">--strip-blobs-bigger-than</span> 50M project.git
+</code></pre></div></div>
+
+<blockquote>
+  <p><em>На MacOSX, возможно, выйдет ошибка</em></p>
+</blockquote>
+
+<blockquote>
+  <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Looks like your version of Java (1.6) is too old to run this program.
+</code></pre></div>  </div>
+</blockquote>
+
+<blockquote>
+  <p><em>Это из-за того, что в консоли используется системная версия Java. Скачайте себе последнюю версию <a href="https://www.java.com/en/download/mac_download.jsp">Oracle Java</a>. Если вы уже устанавливали Oracle Java, то обновитесь до последней версии через System Preference -&gt; Java.</em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>Oracle Java устанавливается в <code class="highlighter-rouge">/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java</code></em></p>
+</blockquote>
+
+<blockquote>
+  <p><em>Пропишем алиас для этой версии Java в командной строке:</em></p>
+</blockquote>
+
+<blockquote>
+  <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo alias </span><span class="nv">java_jre</span><span class="o">=</span><span class="s1">'/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java'</span> <span class="o">&gt;&gt;</span> ~/.profile
+</code></pre></div>  </div>
+</blockquote>
+
+<blockquote>
+  <p><em>Теперь можно вызвать BFG еще раз:</em></p>
+</blockquote>
+
+<blockquote>
+  <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java_jre <span class="nt">-jar</span> bfg.jar <span class="nt">--strip-blobs-bigger-than</span> 50M project.git
+</code></pre></div>  </div>
+</blockquote>
+
+<blockquote>
+  <p><em>В дальнейшем используйте вызов <code class="highlighter-rouge">java_jre</code> вместо <code class="highlighter-rouge">java</code>.</em></p>
+</blockquote>
+
+<p>Также BFG позволяет удалить файлы по расширению:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-jar</span> bfg.jar <span class="nt">--delete-files</span> <span class="k">*</span>.mp4 project.git
+</code></pre></div></div>
+
+<p>по имени:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-jar</span> bfg.jar <span class="nt">--delete-files</span> id_<span class="o">{</span>dsa,rsa<span class="o">}</span> project.git
+</code></pre></div></div>
+
+<p>или можно удалить папку:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-jar</span> <span class="nt">--delete-folders</span> folder_name <span class="nt">--delete-files</span> folder_name  <span class="nt">--no-blob-protection</span>  project.git
+</code></pre></div></div>
+
+<h2 id="очищаем-репозиторий-от-ненужных-данных">Очищаем репозиторий от ненужных данных</h2>
+
+<p>Теперь нужно почистить репозиторий и удалить в нем ненужные данные.</p>
+
+<p>Удаляем логи:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reflog expire <span class="nt">--expire</span><span class="o">=</span>now <span class="nt">--all</span>
+</code></pre></div></div>
+
+<p>Запускаем сборщик мусора, который удалит ненужные файлы и оптимизирует репозиторий:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git gc <span class="nt">--prune</span><span class="o">=</span>now <span class="nt">--aggressive</span>
+</code></pre></div></div>
+
+<h2 id="завершаем-процесс">Завершаем процесс</h2>
+<p>После того, как репозиторий был обслужен, настало время отправить изменения обратно:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push
+</code></pre></div></div>
+
+<p>После этого, желательно, всем членам команды следует склонировать репозиторий заново, чтобы старые комиты из локальных версий не попали по-ошибке обратно в общий репозиторий.</p>
+
+<h2 id="лучшие-практики-использования-git">Лучшие практики использования GIT.</h2>
+
+<p>Чтобы обслуживать репозиторий реже и сохранять размер репозитория в адекватном размере следует придерживаться нескольких правил:</p>
+
+<ul>
+  <li>В репозиторий, по-возможности, не следует сохранять архивы, медиа файлы, логи, копии баз данных, данные для миграций и прочие файлов с большим размером.</li>
+  <li>Если вы используете менеджер пакетов, например composer, npm или bower, то следует хранить в репозитории только файл с описанием проектов для установки. Добавлять установленные пакеты в репозиторий не нужно.</li>
+  <li>При работе над одной задачей полезно объединять несколько комитов в один, используя <strong>git rebase</strong> или <strong>git merge –squash</strong>.</li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/tools/2019/09/13/git-maintenance.html';
+      this.page.identifier = 'https://www.enik.io/ru/tools/2019/09/13/git-maintenance.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
