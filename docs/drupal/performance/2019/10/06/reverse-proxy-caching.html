@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>High performance caching of Drupal 8 using reverse proxy and CDN</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="High performance caching of Drupal 8 using reverse proxy and CDN" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery." />
+<meta property="og:description" content="As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery." />
+<link rel="canonical" href="https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html" />
+<meta property="og:url" content="https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-10-06T13:00:00+03:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.","@type":"BlogPosting","headline":"High performance caching of Drupal 8 using reverse proxy and CDN","dateModified":"2019-10-06T13:00:00+03:00","datePublished":"2019-10-06T13:00:00+03:00","url":"https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<h2>Evgenii Nikitin</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html" title="Русский">Русский</a>
+			  <a href="/drupal/performance/2019/10/06/reverse-proxy-caching.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/drupal/performance/2019/10/06/reverse-proxy-caching.html">
+	<h2 class="post-title">High performance caching of Drupal 8 using reverse proxy and CDN</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Oct 6, 2019</div>
+</div>
+<div class="post">
+	<p>As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.</p>
+
+<h2 id="cache-expiration">Cache expiration</h2>
+
+<p>The simplest cache strategy is <strong>cache expiration</strong> - proxy server checks header that it received from Drupal and depending on its parameters decides whether page has to be cached and how long or not. The main header that proxy servers take into consideration is  <strong>Cache-Control</strong> and its parameter <strong>max-age</strong>.</p>
+
+<p>It’s worthwhile to note that not all pages are cached. Usually proxy servers don’t cache POST requests (for example when form has been submitted) and requests containing session cookies (it means that user is authorised). Also different systems can check another parameters in the page header. For instance, Acquia Cloud doesn’t cache requests if parameter <strong>Authorization</strong> exist in the header (it’s required to disable Shield module and http authentication in .htaccess to allow Acquia Cloud’s Varnish cache pages).</p>
+
+<p>Cache clearing in the strategy “cache expiration” occurs when the cache expires. This value is set by parameter max-age in the header Cache-Control for each page. You don’t see content changes until cache won’t be flushed after some time or you won’t flush cache manually.</p>
+
+<p>This cache strategy is easy in configuration and can be used as the initial configuration for the application.</p>
+
+<p>But value of max-age has to be chosen as a compromise between your wish of decreasing the load on the server and provide users actual content. I think that you don’t want to show updated content day later after updating. Therefore, based on the load on the site and frequency of content update, cache lifetime can be from a few minutes to a few hours.</p>
+
+<h2 id="cache-invalidation">Cache invalidation</h2>
+
+<p>There is also another cache strategy - <strong>cache invalidation</strong>. This option allows use cache longer - days, months or even years. Cache is flushed by request using special key. Example of such key can be URL or tag.</p>
+
+<p>This strategy is more sophisticated in implementation but it has several advantages. Main of them is that cache is cleared when it is definitely needed. Thereby we can decrease the load on the server significantly. But this method requires dealing with cache invalidation very carefully. If we don’t show actual content to the users, it also will be an issue.</p>
+
+<h2 id="drupal-8-configuration-in-the-cache-expiration-strategy">Drupal 8 configuration in the Cache expiration strategy</h2>
+
+<p>We can use both strategies with Drupal 8.</p>
+
+<p>It’s enough to set cache lifetime on the page /admin/config/development/performance in the setting “Browser and proxy cache maximum age” in the “cache expiration” strategy.</p>
+
+<h2 id="drupal-8-configuration-in-the-cache-invalidation-strategy">Drupal 8 configuration in the Cache invalidation strategy</h2>
+
+<p>You can use standard Drupal 8 cache invalidation by tags, if “cache invalidation” option has been chosen. In the beginning you have to ensure that you invalidate cache tags when content and configuration is updated. If you have changed the site’s title so cache has to be cleaned for all pages. If news has been added then news listing page has to be updated also. Or when node is updated we have to check that search shows updated version.</p>
+
+<p>Tags that are used on the page can be found in the page header “X-Drupal-Cache-Tags”.</p>
+
+<h2 id="purge-module">Purge module</h2>
+
+<p>Next step is installation of module <a href="https://www.drupal.org/project/purge">Purge</a> and one of its plugin that works with your proxy server.</p>
+
+<p>Purge module architecture is pretty elegant. It consist of main module “purge” and modules-plugins that extends its functionality.</p>
+
+<p><img src="/assets/content/2019-10-06-reverse-proxy-caching/purge_architecture.png" alt="Purge module architecture" title="Purge module architecture" /></p>
+
+<p>Purge module has four main parts:</p>
+
+<ul>
+  <li><strong>Queue</strong> - defines storage for the queue. Purge implements queue in database, file system and memory. It’s recommended to use database queue for the typical project. Such option provides necessary compromise between reliability and performance.</li>
+  <li><strong>Queuer</strong> - defines handler that checks what have to cleared and add information about it to the queue. Module <strong>purge_queuer_coretags</strong> is used for flushing cache by tags.</li>
+  <li><strong>Processor</strong> - defines how purger will be started. You can use <strong>purge_processor_cron</strong> - it launches cleaning by cron, or <strong>purge_processor_lateruntime</strong> - cache is cleaned after each request to Drupal when response has been generated but isn’t sent. Also cleaning can be launched by drush command <code class="highlighter-rouge">drush p:queue-work</code>. Only a limited number of queue items can be processed during each processor run, so you can combine different processors based on your tasks or use them all together simultaneously.</li>
+  <li><strong>Purger</strong> - implements communication with proxy server or CDN. List of supported servers you can find on the module’s page <a href="https://www.drupal.org/project/purge">Purge</a>.</li>
+</ul>
+
+<p><strong>Purge UI</strong> (purge_ui) provides interface for the Purge, that is convenient for configuration, but it has to be disabled on the production site</p>
+
+<p>Module purge_drush provides useful drush commands for monitoring Purge processes:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>drush p:diagnostics <span class="c"># prints information about Purge configuration.</span>
+drush p:queue-browse <span class="c"># prints queue data.</span>
+drush p:queue-volume <span class="c"># prints number of items in the queue.</span>
+drush p:queue-work <span class="c"># launches cleaning.</span>
+</code></pre></div></div>
+
+<p><strong>Ссылки:</strong></p>
+
+<ul>
+  <li><a href="https://support.acquia.com/hc/en-us/articles/360005311513--Drupal-8-Acquia-Purge-cache-tags-invalidation-Public-Beta-Q-A">Drupal 8 Acquia Purge &amp; cache tags invalidation</a></li>
+  <li><a href="https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish">Cache tags + Varnish</a></li>
+  <li><a href="https://www.jeffgeerling.com/blog/2016/use-drupal-8-cache-tags-varnish-and-purge">Use Drupal 8 Cache Tags with Varnish and Purge</a></li>
+  <li><a href="https://www.nginx.com/blog/nginx-caching-guide/">A Guide to Caching with NGINX and NGINX Plus</a></li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html';
+      this.page.identifier = 'https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

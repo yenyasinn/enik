@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Высокопроизводительное кеширование Drupal 8 с использованием прокси серверов и CDN</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Высокопроизводительное кеширование Drupal 8 с использованием прокси серверов и CDN" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Как многие уже знают - не обязательно передавать все клиентские запросы напрямую в Drupal. Контент может быть закеширован и отдан прокси серверами, такими как, например, Varnish, или CDN серверами, например CloudFront, CloudFlare. Даже Nginx может быть настроен таким образом, чтобы отдавать закешированные запросы самостоятельно. Подобная практика позволяет в разы сократить нагрузку на сервер и увеличить скорость отдачи контента." />
+<meta property="og:description" content="Как многие уже знают - не обязательно передавать все клиентские запросы напрямую в Drupal. Контент может быть закеширован и отдан прокси серверами, такими как, например, Varnish, или CDN серверами, например CloudFront, CloudFlare. Даже Nginx может быть настроен таким образом, чтобы отдавать закешированные запросы самостоятельно. Подобная практика позволяет в разы сократить нагрузку на сервер и увеличить скорость отдачи контента." />
+<link rel="canonical" href="https://www.enik.io/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html" />
+<meta property="og:url" content="https://www.enik.io/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-10-06T13:00:00+03:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Как многие уже знают - не обязательно передавать все клиентские запросы напрямую в Drupal. Контент может быть закеширован и отдан прокси серверами, такими как, например, Varnish, или CDN серверами, например CloudFront, CloudFlare. Даже Nginx может быть настроен таким образом, чтобы отдавать закешированные запросы самостоятельно. Подобная практика позволяет в разы сократить нагрузку на сервер и увеличить скорость отдачи контента.","@type":"BlogPosting","headline":"Высокопроизводительное кеширование Drupal 8 с использованием прокси серверов и CDN","dateModified":"2019-10-06T13:00:00+03:00","datePublished":"2019-10-06T13:00:00+03:00","url":"https://www.enik.io/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html" title="Русский">Русский</a>
+			  <a href="/drupal/performance/2019/10/06/reverse-proxy-caching.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html">
+	<h2 class="post-title">Высокопроизводительное кеширование Drupal 8 с использованием прокси серверов и CDN</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Oct 6, 2019</div>
+</div>
+<div class="post">
+	<p>Как многие уже знают - не обязательно передавать все клиентские запросы напрямую в Drupal. Контент может быть закеширован и отдан прокси серверами, такими как, например, Varnish, или CDN серверами, например CloudFront, CloudFlare. Даже Nginx может быть настроен таким образом, чтобы отдавать закешированные запросы самостоятельно. Подобная практика позволяет в разы сократить нагрузку на сервер и увеличить скорость отдачи контента.</p>
+
+<h2 id="cache-expiration">Cache expiration</h2>
+
+<p>Самая простая стратегия кеширования, <strong>cache expiration</strong> - это когда прокси сервер смотрит на заголовок страницы, который он получил от Drupal, и в зависимости, от его параметров решает нужно ли кешировать страницу, и если нужно, то насколько. Основной заголовок, который учитывается прокси серверами - это <strong>Cache-Control</strong> и его параметр <strong>max-age</strong>.</p>
+
+<p>Сразу стоит заметить, что не все страницы кешируются. В конфигурациях прокси серверов считается правильно не кешировать POST запросы (например, когда форма отправила запрос), а также запросы содержащие сессионные куки (это значит, что пользователь авторизован). Также разные системы могут смотреть и на другие параметры в заголовке страницы. Например, Acquia Cloud не кеширует запросы в заголовке которых присутствует параметр <strong>Authorization</strong> (необходимо выключить модуль Shield и http аутентификацию в .htaccess, чтобы Varnish в Acquia Cloud кешировал страницы).</p>
+
+<p>Очистка кеша в стратегии “cache expiration” происходит при достижении срока хранения кеша, который задается параметром max-age в заголовке Cache-Control для каждой страницы. Вы не увидите изменений контента, пока кеш не сбросится через определенное время, или вы не сбросите кеш самостоятельно.</p>
+
+<p>Данный вариант размещения кеша легок в настройке и подходит в качестве первоначальной конфигурации для приложения.</p>
+
+<p>К минусам можно отнести то, что значение параметра max-age должно быть компромиссом между вашим желанием снизить нагрузку на сервер максимально и предоставить пользователям актуальный контент. Я думаю, вы бы не хотели показывать обновление страницы через сутки после того, как страница была на самом деле изменена. Поэтому, в зависимости от нагрузки на сайт и частоте обновления сайта, время жизни кеша может быть от пары минут до нескольких часов.</p>
+
+<h2 id="cache-invalidation">Cache invalidation</h2>
+
+<p>Есть и другая стратегия кеширования - <strong>cache invalidation</strong>. Используя эту стратегию мы можем закешировать данные намного дольше - на день, месяц или даже год. Очистка кеша будет происходить запросом от бекенда к прокси серверу, используя специальный ключ. Примером такого ключа может быть адрес страницы или тег.</p>
+
+<p>Данная стратегия сложнее в реализации, но у неё много преимуществ. Главное из которых - мы очищаем кеш только тогда, когда это действительно необходимо. Благодаря этому мы можем значительно снизить нагрузку на сервер. Но, в тоже время, мы должны очень тщательно подойти к процессу сброса кеша. Если мы не покажем актуальный контент пользователям, то это тоже будет проблемой.</p>
+
+<h2 id="настройка-drupal-8-в-стратегии-сache-expiration">Настройка Drupal 8 в стратегии “Сache expiration”</h2>
+
+<p>В Drupal 8 проектах мы можем использовать обе стратегии.</p>
+
+<p>В стратегии “cache expiration” в Drupal вам достаточно выставить время жизни кеша на странице /admin/config/development/performance в настройке “Browser and proxy cache maximum age”.</p>
+
+<h2 id="настройка-drupal-8-в-стратегии-сache-invalidation">Настройка Drupal 8 в стратегии “Сache invalidation”</h2>
+
+<p>Если вы выбрали стратегию “cache invalidation”, то в Drupal 8 можно использовать стандартную очистку кеша по тегам. В начале вам нужно убедиться, что вы сбрасываете нужные кеш теги при обновлении контента и конфигов. Если вы, например, изменили заголовок сайта, то кеш должен быть сброшен для всех страниц. А если вы добавили новую новость, то страница со списком новостей должна обновиться. Или при изменении ноды мы должны удостовериться, что поиск показывает измененную версию.</p>
+
+<p>Список тегов, которые используются на странице вы можете найти в заголовке страницы “X-Drupal-Cache-Tags”.</p>
+
+<h2 id="модуль-purge">Модуль Purge</h2>
+
+<p>Следующий этап - установка модуля <a href="https://www.drupal.org/project/purge">Purge</a> и одного из его плагинов, который работает с тем прокси сервером, который установлен у вас.</p>
+
+<p>Архитектура модуля Purge довольно изящна. Он состоит из основного модуля - purge и модулей-плагинов, которые реализовывают его функционал.</p>
+
+<p><img src="/assets/content/2019-10-06-reverse-proxy-caching/purge_architecture.png" alt="Архитекутра модуля Purge" title="Архитекутра модуля Purge" /></p>
+
+<p>Модуль Purge cостоит из четырех основных частей:</p>
+
+<ul>
+  <li><strong>Queue</strong> - задает хранилище для очереди. В модуле Purge есть реализация для базы данных, файловой системы и хранения в памяти. Для типового проекта рекомендуется использовать очередь реализованной в базе данных. Такой вариант обеспечивает необходимый компромисс между надежностью и быстродействием.</li>
+  <li><strong>Queuer</strong> - определяет обработчик, который смотрит, что должно быть очищено и добавляет информацию об этом в очередь. Для очистки кеша по тегам используется модуль <strong>purge_queuer_coretags</strong>.</li>
+  <li><strong>Processor</strong> - определяет способ запуска очистки. Вы можете использовать <strong>purge_processor_cron</strong> - запуск очистки по крону, или <strong>purge_processor_lateruntime</strong> - запуск будет производиться при каждом запросе Drupal после того, как ответ был сформирован, но еще не был отправлен. Также запустить очистку можно используя drush команду <code class="highlighter-rouge">drush p:queue-work</code>. За один запуск процессора может быть обработано определенное количество записей в очереди. Поэтому вы можете комбинировать процессоры в зависимости от ваших задач или использовать все варианты одновременно.</li>
+  <li><strong>Purger</strong> - реализует коммуникацию с прокси сервером. Список вариантов и модуль для интеграции вашего прокси сервера с Drupal вы можете найти на странице модуля <a href="https://www.drupal.org/project/purge">Purge</a>.</li>
+</ul>
+
+<p>Модуль <strong>Purge UI</strong> (purge_ui) предоставляет интерфейс для Purge, что удобно для настройки модуля, но на production сайте он не нужен и его следует выключить.</p>
+
+<p>Если включить модуль purge_drush то вы сможете увидеть, что происходит с Purge:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>drush p:diagnostics <span class="c"># показывает информацию о настройках Purge.</span>
+drush p:queue-browse <span class="c"># выводит содержимое очереди.</span>
+drush p:queue-volume <span class="c"># выводит количество записей в очереди.</span>
+drush p:queue-work <span class="c"># запускает очистку</span>
+</code></pre></div></div>
+
+<p><strong>Ссылки:</strong></p>
+
+<ul>
+  <li><a href="https://support.acquia.com/hc/en-us/articles/360005311513--Drupal-8-Acquia-Purge-cache-tags-invalidation-Public-Beta-Q-A">Drupal 8 Acquia Purge &amp; cache tags invalidation</a></li>
+  <li><a href="https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish">Cache tags + Varnish</a></li>
+  <li><a href="https://www.jeffgeerling.com/blog/2016/use-drupal-8-cache-tags-varnish-and-purge">Use Drupal 8 Cache Tags with Varnish and Purge</a></li>
+  <li><a href="https://www.nginx.com/blog/nginx-caching-guide/">A Guide to Caching with NGINX and NGINX Plus</a></li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html';
+      this.page.identifier = 'https://www.enik.io/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

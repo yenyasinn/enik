@@ -22,6 +22,8 @@
 <meta property="og:locale" content="en" />
 <meta name="description" content="Blog about Drupal and related things." />
 <meta property="og:description" content="Blog about Drupal and related things." />
+<link rel="canonical" href="https://www.enik.io" />
+<meta property="og:url" content="https://www.enik.io" />
 <script type="application/ld+json">
 {"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Blog about Drupal and related things.","@type":"WebSite","url":"https://www.enik.io","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
@@ -47,6 +49,16 @@
 			<ul class="posts">
 	<li>
 		<h1 id="posts-label">Articles</h1>
+	</li><li><a class="post-link" href="/drupal/performance/2019/10/06/reverse-proxy-caching.html">
+			<h2 class="post-title">High performance caching of Drupal 8 using reverse proxy and CDN</h2>
+		</a>
+		<div class="post-meta">
+			<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+			<div class="post-date"><i class="icon-calendar"></i>Oct 6, 2019</div>
+		</div>
+		<div class="post">
+			As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows...
+		</div>
 	</li><li><a class="post-link" href="/tools/2019/09/13/git-maintenance.html">
 			<h2 class="post-title">Git repository maintenance</h2>
 		</a>
