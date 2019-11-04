@@ -5,7 +5,7 @@ date:   2019-10-16 10:00:00 +0000
 categories: Drupal certification
 canonical_url: https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html
 ---
-Program of certification from Acquia is an attempt to determine standards of knowledge and experience of work with Drupal. Based on passed exams by developer, employers can understand his level. Clients can be sure that they work with professionals. Computer programmers can compare own level with level of colleagues. And Acquia checks the number of certified developers in the agencies when they want to be their partners.
+Program of certification from Acquia is an attempt to determine standards of knowledge and experience of working with Drupal. Based on passed exams by developer, employers can understand his level. Clients can be sure that they work with professionals. Computer programmers can compare own level with level of colleagues. And Acquia checks the number of certified developers in the agencies when they want to be their partners.
 
 ## Types of certificates
 
@@ -27,7 +27,7 @@ Everyone, who passed Acquia Certified Developer, Acquia Certified Front End Spec
 
 ## Preparation to the exams
 
-It’s possible to pass exam without preparation if only you work with Drupal quite a long time and know it very well. In any case would be better to prepare for the exam in advance.
+It’s possible to pass the exam without preparation if only you work with Drupal quite a long time and know it very well. In any case would be better to prepare for the exam in advance.
 
 **What can help you in the preparation:**
 * [Study guides for each exam from Acquia](https://training.acquia.com/study-guides).
@@ -41,9 +41,9 @@ After preparation you can check your knowledge by passing test exam on the  [htt
 
 If you think that you are ready for the exam then it’s time to [register to exam](https://www.acquia.com/customer-success/learning-services/acquia-certification-program). Exam can be passed online and offline.
 
-If online exam has been chosen you will be obligated to install special software. There your photo will be taken and you will be asked to type your name few times. You will be required to do it again prior to exam.
+If online exam has been chosen you will be obligated to install special software. There your photo will be taken and you will be asked to type your name for a few times. You will be required to do it again prior to exam.
 
-During the exam you can't use a pen, any books, notebooks. You will be watched by a person through webcam and microphone (these devices are required for passing the exam). If the person who watches by you suspect you in cheating he can ask you eliminate a problem or mark exam failed. Therefore it’s better not to cheat during the exam.
+During the exam you can't use a pen, any books, notebooks. You will be watched by a person through webcam and microphone (these devices are required for passing the exam). If the person who supervises you suspects you in cheating he can ask you eliminate a problem or mark exam failed. Therefore it’s better not to cheat during the exam.
 
 There are four answers on the question and one correct answer usually. If few options have to be chosen, it is described in the task.
 
@@ -51,7 +51,7 @@ You will be notified about result right after the exam. If the exam is passed su
 
 ![My certificate Acquia Certified Developer](/assets/content/2019-10-16-acquia-certification/acquia_certified_developer.jpg)
 
-List of certified developers can be found on the 
-[https://certification.acquia.com](https://certification.acquia.com). If you are one of them, don’t forget to place badge with passed exams to your resume and to social networks.
+List of certified developers can be found on the
+[https://certification.acquia.com](https://certification.acquia.com). If you are one of them, don’t forget to place badge with passed exams to your CV and to social networks.
 
 Good luck!

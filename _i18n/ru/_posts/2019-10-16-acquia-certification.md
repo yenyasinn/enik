@@ -51,6 +51,6 @@ canonical_url: https://www.enik.io/ru/drupal/certification/2019/10/16/acquia-cer
 
 ![Мой сертификат Acquia Certified Developer](/assets/content/2019-10-16-acquia-certification/acquia_certified_developer.jpg)
 
-Список людей, которые успешно сдали сертификацию можно найти на https://certification.acquia.com/. Если вы один из этих счастливчиков, то не забудьте поместить заветный бейдж о наличии сертификата в свое резюме и на страницу в LinkedIn.
+Список людей, которые успешно сдали сертификацию можно найти на [https://certification.acquia.com](https://certification.acquia.com). Если вы один из этих счастливчиков, то не забудьте поместить заветный бейдж о наличии сертификата в свое резюме и на страницу в LinkedIn.
 
 Удачи!

@@ -63,7 +63,7 @@ drush p:queue-volume # prints number of items in the queue.
 drush p:queue-work # launches cleaning.
 ```
 
-**Ссылки:**
+**Links:**
 
 * [Drupal 8 Acquia Purge & cache tags invalidation](https://support.acquia.com/hc/en-us/articles/360005311513--Drupal-8-Acquia-Purge-cache-tags-invalidation-Public-Beta-Q-A)
 * [Cache tags + Varnish](https://www.drupal.org/docs/8/api/cache-api/cache-tags-varnish)
