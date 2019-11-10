@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Разбираем систему событий в Drupal 8</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Разбираем систему событий в Drupal 8" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Для чего нам Event Subscriber" />
+<meta property="og:description" content="Для чего нам Event Subscriber" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-11-04T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"Для чего нам Event Subscriber","headline":"Разбираем систему событий в Drupal 8","dateModified":"2019-11-04T13:00:00+03:00","datePublished":"2019-11-04T13:00:00+03:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/certification/2019/10/16/acquia-certification.html"},"url":"https://www.enik.io/ru/drupal/certification/2019/10/16/acquia-certification.html","author":{"@type":"Person","name":"Evgenii Nikitin"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/api/2019/11/04/event-subscriber.html" title="Русский">Русский</a>
+			  <a href="/drupal/api/2019/11/04/event-subscriber.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/api/2019/11/04/event-subscriber.html">
+	<h2 class="post-title">Разбираем систему событий в Drupal 8</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>API</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Nov 4, 2019</div>
+</div>
+<div class="post">
+	<h2 id="для-чего-нам-event-subscriber">Для чего нам Event Subscriber</h2>
+
+<p>В Drupal 8 расширить стандартное поведение скриптов можно разными способами:</p>
+<ul>
+  <li>хуки;</li>
+  <li>переопределение сервисов через <a href="https://www.drupal.org/docs/8/api/services-and-dependency-injection/altering-existing-services-providing-dynamic-services">ServiceProviderBase</a>;</li>
+  <li>переопределение классов плагинов используя хуки;</li>
+  <li>события и подписчики на события.</li>
+</ul>
+
+<p>В Drupal 8 события пришли из компонента Symfony <a href="https://symfony.com/components/EventDispatcher">EventDispatcher</a>, который реализует архитектурный шаблон <a href="https://www.oodesign.com/mediator-pattern.html">Mediator</a> (Посредник). Идея этого шаблона в том, что связать разные классы друг с другом не напрямую, а используя посредник. Классы в этом шаблоне не знают друг о друге, но в тоже время они могут взаимодействовать между собой. Данный подход позволяет делать приложение гибче, а реализацию классов проще, ведь не нужно описывать все возможные связи.
+Как мы можем видеть, хуки в Drupal 7 это тоже реализация данного шаблона в парадигме процедурного программировании. В Drupal 8 хуки и события сосуществуют вместе, но в Drupal 9 от хуков будут отказываться в пользу событий, реализованных через объектно-ориентированный подход Уже сейчас можно использовать модуль <a href="https://www.drupal.org/project/hook_event_dispatcher">Hook Event Dispatcher</a>, который реализует события для хук из ядра.</p>
+
+<p>Для некоторых событий есть аналоги в виде хуков, как например <code class="highlighter-rouge">EntityTypeEvents::CREATE</code> и <code class="highlighter-rouge">hook_ENTITY_TYPE_create()</code> (например <code class="highlighter-rouge">hook_node_type_create</code> или <code class="highlighter-rouge">hook_comment_type_create</code>), но это скорее исключение.</p>
+
+<h2 id="виды-событий">Виды событий</h2>
+
+<p>Количество событий в ядре неуклонно растет. Список событий вы можете найти здесь:</p>
+<ul>
+  <li><a href="https://api.drupal.org/api/drupal/vendor%21symfony%21http-kernel%21KernelEvents.php/class/KernelEvents/8.8.x">Symfony Kernel Events</a></li>
+  <li><a href="https://api.drupal.org/api/drupal/core%21core.api.php/group/events/8.8.x">Drupal 8 Events</a></li>
+</ul>
+
+<p>Как вы видите мы должны использовать события:</p>
+<ul>
+  <li>при работе с запросами к сайту (KernelEvents)</li>
+  <li>при возвращении ответа от сайта (KernelEvents)</li>
+  <li>при обработке конфигураций (ConfigEvents)</li>
+  <li>при работе с типами сущностей (EntityTypeEvents)</li>
+  <li>при создании, обновлении и удалении хранилищ для полей (FieldStorageDefinitionEvents)</li>
+  <li>при работе с миграциями (MigrateEvents)</li>
+  <li>при обрабатывании путей (RoutingEvents)</li>
+  <li>и т.д.</li>
+</ul>
+
+<h2 id="система-событий">Система событий</h2>
+
+<p>Система событий в Drupal 8 состоят из 3 частей:</p>
+
+<ul>
+  <li><strong>Event Dispatcher</strong> - Реестр событий. Хранит информацию о всех событиях в системе, отсортированных по приоритетам. Используется для запуска событий. Вызывается через <code class="highlighter-rouge">\Drupal::service('event_dispatcher')</code> (смотрите реализацию в <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Component/EventDispatcher/ContainerAwareEventDispatcher.php">core/lib/Drupal/Component/EventDispatcher/ContainerAwareEventDispatcher.php</a>).</li>
+  <li><strong>Event Subscribers</strong> – Подписчики на события. В каждом подписчике определяются слушатели, которые будут запущены при возникновении события.</li>
+  <li><strong>Event</strong> - событие. Для каждого события определяется отдельный класс расширяющий <code class="highlighter-rouge">\Symfony\Component\EventDispatcher\Event</code>, в который помещаются данные для дальнейшей обработки.</li>
+</ul>
+
+<h2 id="подписчики-на-события">Подписчики на события</h2>
+
+<p>Давайте рассмотрим на примере, как работают подписчики на события.</p>
+
+<p>В начале определяется подписчик на событие в *.services.yml файле.
+Пример из core/modules/user/user.services.yml:</p>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Название подписчика</span>
+<span class="na">user_maintenance_mode_subscriber</span><span class="pi">:</span> 
+  <span class="c1"># Класс подписчика, где будет реализовываться логика.</span>
+ <span class="na">class</span><span class="pi">:</span> <span class="s">Drupal\user\EventSubscriber\MaintenanceModeSubscriber</span>
+ <span class="c1"># Сервисы, которые будут использоваться в подписчике.</span>
+ <span class="na">arguments</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">@maintenance_mode'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">@current_user'</span><span class="pi">]</span>
+ <span class="c1"># Используя тег “event_subscriber” мы обозначаем этот сервис как подписчик. </span>
+ <span class="c1"># Он добавится в Event Dispatcher сервис.</span>
+ <span class="na">tags</span><span class="pi">:</span>
+   <span class="pi">-</span> <span class="pi">{</span> <span class="nv">name</span><span class="pi">:</span> <span class="nv">event_subscriber</span> <span class="pi">}</span>
+</code></pre></div></div>
+
+<p>Реализация подписчика на примере <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/modules/user/src/EventSubscriber/MaintenanceModeSubscriber.php">core/modules/user/src/EventSubscriber/MaintenanceModeSubscriber.php</a></p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\user\EventSubscriber</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Drupal\Core\Routing\RouteMatch</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Drupal\Core\Session\AccountInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Drupal\Core\Site\MaintenanceModeInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Drupal\Core\Url</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\HttpFoundation\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\HttpKernel\Event\GetResponseEvent</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\HttpKernel\KernelEvents</span><span class="p">;</span>
+
+<span class="cd">/**
+* Maintenance mode subscriber to log out users.
+*/</span>
+<span class="kd">class</span> <span class="nc">MaintenanceModeSubscriber</span> <span class="k">implements</span> <span class="nx">EventSubscriberInterface</span> <span class="p">{</span>
+
+ <span class="cd">/**
+  * The maintenance mode.
+  */</span>
+ <span class="k">protected</span> <span class="nv">$maintenanceMode</span><span class="p">;</span>
+
+ <span class="cd">/**
+  * The current account.
+  */</span>
+ <span class="k">protected</span> <span class="nv">$account</span><span class="p">;</span>
+
+ <span class="cd">/**
+  * Constructs a new MaintenanceModeSubscriber.
+  */</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">MaintenanceModeInterface</span> <span class="nv">$maintenance_mode</span><span class="p">,</span> <span class="nx">AccountInterface</span> <span class="nv">$account</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// Подключаем сервисы, которые мы определили в описании сервиса в user.services.yml</span>
+   <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">maintenanceMode</span> <span class="o">=</span> <span class="nv">$maintenance_mode</span><span class="p">;</span>
+   <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">account</span> <span class="o">=</span> <span class="nv">$account</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="cd">/**
+  * Метод getSubscribedEvents() является обязательным и служит
+  * для описания слушателей.
+  */</span>
+ <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span> <span class="p">{</span>
+   <span class="c1">// Подписываемся на событие KernelEvents::REQUEST. </span>
+   <span class="c1">// Когда событие произойдет, то запустится метод-слушатель onKernelRequestMaintenance в этом же классе. </span>
+   <span class="c1">// 31 - приоритет слушателя.   </span>
+   <span class="nv">$events</span><span class="p">[</span><span class="nx">KernelEvents</span><span class="o">::</span><span class="na">REQUEST</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onKernelRequestMaintenance'</span><span class="p">,</span> <span class="mi">31</span><span class="p">];</span>
+   <span class="k">return</span> <span class="nv">$events</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="cd">/**
+  * Logout users if site is in maintenance mode.
+  */</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">onKernelRequestMaintenance</span><span class="p">(</span><span class="nx">GetResponseEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// Непосредственно реализация слушателя.</span>
+   <span class="nv">$request</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">();</span>
+   <span class="nv">$route_match</span> <span class="o">=</span> <span class="nx">RouteMatch</span><span class="o">::</span><span class="na">createFromRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+   <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">maintenanceMode</span><span class="o">-&gt;</span><span class="na">applies</span><span class="p">(</span><span class="nv">$route_match</span><span class="p">))</span> <span class="p">{</span>
+     <span class="c1">// If the site is offline, log out unprivileged users.</span>
+     <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">account</span><span class="o">-&gt;</span><span class="na">isAuthenticated</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">maintenanceMode</span><span class="o">-&gt;</span><span class="na">exempt</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">account</span><span class="p">))</span> <span class="p">{</span>
+       <span class="nx">user_logout</span><span class="p">();</span>
+       <span class="c1">// Redirect to homepage.</span>
+       <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">setResponse</span><span class="p">(</span>
+         <span class="k">new</span> <span class="nx">RedirectResponse</span><span class="p">(</span><span class="nx">Url</span><span class="o">::</span><span class="na">fromRoute</span><span class="p">(</span><span class="s1">'&lt;front&gt;'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">toString</span><span class="p">())</span>
+       <span class="p">);</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="прерывание-работы-события">Прерывание работы события.</h3>
+
+<p>Слушатели вызываются один за одним. Порядок определяется их приоритетом. Чем больше приоритет, тем раньше этот слушатель вызовется. Тут нужно быть внимательным и не перепутать с понятием “вес”, который работает наоборот.</p>
+
+<p>Можно сделать так, чтобы прекратить вызов слушателей. Для этого есть метод <code class="highlighter-rouge">Symfony\Component\EventDispatcher\Event::stopPropagation()</code>. Если этот метод был вызван в каком-либо из слушателей, то следующие слушатели не будут вызваны.</p>
+
+<p>Пример из <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/modules/system/src/SystemConfigSubscriber.php">core/modules/system/src/SystemConfigSubscriber.php</a>:</p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+* Инициализация слушателей.
+*/</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span> <span class="p">{</span>
+ <span class="nv">$events</span><span class="p">[</span><span class="nx">ConfigEvents</span><span class="o">::</span><span class="na">SAVE</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onConfigSave'</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+ <span class="c1">// Проверка на пустое значение имеет высокий приоритет, </span>
+ <span class="c1">// чтобы остановить дальнейшую обработку событий если конфигурация пустая.</span>
+ <span class="nv">$events</span><span class="p">[</span><span class="nx">ConfigEvents</span><span class="o">::</span><span class="na">IMPORT_VALIDATE</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onConfigImporterValidateNotEmpty'</span><span class="p">,</span> <span class="mi">512</span><span class="p">];</span>
+ <span class="k">return</span> <span class="nv">$events</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cd">/**
+* Если конфигурация пуста, то не нужно её импортировать, т.к. это удалит имеющуюся конфигурацию. 
+* Останавливаем процесс импорта на данном этапе.
+*/</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">onConfigImporterValidateNotEmpty</span><span class="p">(</span><span class="nx">ConfigImporterEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nv">$importList</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getStorageComparer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getSourceStorage</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listAll</span><span class="p">();</span>
+ <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$importList</span><span class="p">))</span> <span class="p">{</span>
+   <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">logError</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">'This import is empty and if applied would delete all of your configuration, so has been rejected.'</span><span class="p">));</span>
+   <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">stopPropagation</span><span class="p">();</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h3 id="определение-слушателей-динамически">Определение слушателей динамически.</h3>
+<p>Слушатели могут быть определены и “на лету”. Давайте рассмотрим пример из <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Core/Action/Plugin/Action/GotoAction.php">core/lib/Drupal/Core/Action/Plugin/Action/GotoAction.php</a>:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RedirectResponse</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<span class="c1">// Слушатель события определенный динамически.</span>
+<span class="nv">$listener</span> <span class="o">=</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$event</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">setResponse</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="c1">// Добавляем слушатель события в реестр событий используя сервис “event_dispatcher”.</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="nx">KernelEvents</span><span class="o">::</span><span class="na">RESPONSE</span><span class="p">,</span> <span class="nv">$listener</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>В данном примере при возникновении события <code class="highlighter-rouge">KernelEvents::RESPONSE</code> (ответ от сайта был сформирован, но еще не отправлен) происходит замена ответа на редирект на другую страницу. Как вы видите слушатель был создан “на лету” и он будет выполнен только во время данного запроса.</p>
+
+<h2 id="определение-событий">Определение событий</h2>
+
+<p>В процессе разработки модулей нам нужно предоставлять интерфейс для изменения данных другим разработчикам и уведомлять другие части системы о произошедших действиях. Как было уже сказано, хуки постепенно отживают свое. Будем переходить на события. Давайте разберемся как это делать на примере Route Events в ядре Drupal.</p>
+
+<p>В <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Core/Routing/RoutingEvents.php">core/lib/Drupal/Core/Routing/RoutingEvents.php</a> определяются названия событий. Обычно для этих целей используются константы. Да, можно было определить названия событий в классе события, но тогда константы можно было бы переопределить при расширении класса события. Чтобы защитить вашу систему от вас самих, названия событий определили в отдельном финальном классе, который вы не сможете расширить.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\Core\Routing</span><span class="p">;</span>
+
+<span class="cd">/**
+* Contains all events thrown in the core routing component.
+*/</span>
+<span class="k">final</span> <span class="kd">class</span> <span class="nc">RoutingEvents</span> <span class="p">{</span>
+
+ <span class="cd">/**
+  * Name of the event fired during route collection to allow new routes.
+  */</span>
+ <span class="k">const</span> <span class="no">DYNAMIC</span> <span class="o">=</span> <span class="s1">'routing.route_dynamic'</span><span class="p">;</span>
+
+ <span class="cd">/**
+  * Name of the event fired during route collection to allow changes to routes.
+  */</span>
+ <span class="k">const</span> <span class="no">ALTER</span> <span class="o">=</span> <span class="s1">'routing.route_alter'</span><span class="p">;</span>
+
+ <span class="cd">/**
+  * Name of the event fired to indicate route building has ended.
+  */</span>
+ <span class="k">const</span> <span class="no">FINISHED</span> <span class="o">=</span> <span class="s1">'routing.route_finished'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Непосредственно класс события реализован в <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Core/Routing/RouteBuildEvent.php">core/lib/Drupal/Core/Routing/RouteBuildEvent.php</a>. Как мы видим здесь реализован конструктор, который принимает переменную и функция getRouteCollection(), которая отдает эту переменную. Это все. Обычно класс события не содержит в себе логику, являясь лишь хранилищем для данных.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\Core\Routing</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nn">Symfony\Component\EventDispatcher\Event</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Symfony\Component\Routing\RouteCollection</span><span class="p">;</span>
+
+<span class="cd">/**
+* Represents route building information as event.
+*/</span>
+<span class="kd">class</span> <span class="nc">RouteBuildEvent</span> <span class="k">extends</span> <span class="nx">Event</span> <span class="p">{</span>
+
+ <span class="cd">/**
+  * The route collection.
+  */</span>
+ <span class="k">protected</span> <span class="nv">$routeCollection</span><span class="p">;</span>
+
+ <span class="cd">/**
+  * Constructs a RouteBuildEvent object.
+  */</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">RouteCollection</span> <span class="nv">$route_collection</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">routeCollection</span> <span class="o">=</span> <span class="nv">$route_collection</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="cd">/**
+  * Gets the route collection.
+  */</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">getRouteCollection</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">routeCollection</span><span class="p">;</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Как это вызывается? Для того, чтобы вызвать событие нам нужен объект сервиса <code class="highlighter-rouge">event_dispatcher</code> и метод <code class="highlighter-rouge">dispatch</code>: <code class="highlighter-rouge">\Drupal::service(“event_dispatcher”)-&gt;dispatch(Event::NAME, $event)</code></p>
+
+<p>Рассмотрим пример <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Core/Routing/RouteBuilder.php">core/lib/Drupal/Core/Routing/RouteBuilder.php</a></p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\Core\Routing</span><span class="p">;</span>
+
+<span class="cd">/**
+* Managing class for rebuilding the router table.
+*/</span>
+<span class="kd">class</span> <span class="nc">RouteBuilder</span> <span class="k">implements</span> <span class="nx">RouteBuilderInterface</span><span class="p">,</span> <span class="nx">DestructableInterface</span> <span class="p">{</span>
+
+<span class="cd">/**
+* The event dispatcher to notify of routes.
+*
+* @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+*/</span>
+<span class="k">protected</span> <span class="nv">$dispatcher</span><span class="p">;</span>
+
+<span class="o">...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">rebuild</span><span class="p">()</span> <span class="p">{</span>
+  <span class="o">...</span>
+  <span class="c1">// DYNAMIC is supposed to be used to add new routes based upon all the</span>
+  <span class="c1">// static defined ones.</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span><span class="o">-&gt;</span><span class="na">dispatch</span><span class="p">(</span><span class="nx">RoutingEvents</span><span class="o">::</span><span class="na">DYNAMIC</span><span class="p">,</span> <span class="k">new</span> <span class="nx">RouteBuildEvent</span><span class="p">(</span><span class="nv">$collection</span><span class="p">));</span>
+
+  <span class="c1">// ALTER is the final step to alter all the existing routes. We cannot stop</span>
+  <span class="c1">// people from adding new routes here, but we define two separate steps to</span>
+  <span class="c1">// make it clear.</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span><span class="o">-&gt;</span><span class="na">dispatch</span><span class="p">(</span><span class="nx">RoutingEvents</span><span class="o">::</span><span class="na">ALTER</span><span class="p">,</span> <span class="k">new</span> <span class="nx">RouteBuildEvent</span><span class="p">(</span><span class="nv">$collection</span><span class="p">));</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">checkProvider</span><span class="o">-&gt;</span><span class="na">setChecks</span><span class="p">(</span><span class="nv">$collection</span><span class="p">);</span>
+
+  <span class="o">...</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>Ссылки:</strong></p>
+
+<ul>
+  <li><a href="https://symfony.com/components/EventDispatcher">Symfony Event Dispatcher</a></li>
+  <li><a href="https://www.oodesign.com/mediator-pattern.html">Описание шаблона Mediator</a></li>
+  <li><a href="https://www.drupal.org/project/hook_event_dispatcher">Модуль Hook Event Dispatcher</a></li>
+  <li><a href="https://www.daggerhart.com/drupal-8-hooks-events-event-subscribers">Drupal 8: Hooks, Events, and Event Subscribers</a></li>
+  <li><a href="https://www.drupal.org/docs/8/creating-custom-modules/subscribe-to-and-dispatch-events">Subscribe to and dispatch events</a></li>
+  <li><a href="https://www.drupal.org/docs/8/modules/simple-fb-connect-8x/eventsubscriber-example">EventSubscriber example</a></li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/drupal/api/2019/11/04/event-subscriber.html';
+      this.page.identifier = 'https://www.enik.io/ru/drupal/api/2019/11/04/event-subscriber.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
