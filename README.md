@@ -4,6 +4,8 @@ Setting up a Proper Multilingual Site with GitHub Pages and Jekyll - https://www
 
 Theme is used - https://github.com/thelehhman/plainwhite-jekyll
 
+Gist support - https://github.com/jekyll/jekyll-gist
+
 Make the local Jekyll server work
 ```
 jekyll serve --watch

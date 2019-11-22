@@ -24,6 +24,7 @@ plainwhite:
 plugins:
   - jekyll-multiple-languages-plugin
   - jekyll-seo-tag
+  - jekyll-gist
 
 # jekyll-multiple-languages-plugin settings.
 languages: ["en", "ru"]
