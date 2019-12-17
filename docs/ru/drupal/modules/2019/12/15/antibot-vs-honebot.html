@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Antibot против Honeypot. Какую защиту от ботов выбрать для Drupal</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Antibot против Honeypot. Какую защиту от ботов выбрать для Drupal" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Если у вас на сайте есть формы для анонимных пользователей, то рано или поздно вы задумаетесь о том, как защитить их от ботов. Потому, что очищать комментарии или данные в веб формах от спама довольно утомительное занятие. Вы можете заставлять людей решать задачи используя Captcha модуль. Это работает неплохо, но вашим пользователям может не понравится вводить капчу каждый раз, особенно если они вводят сообщения часто." />
+<meta property="og:description" content="Если у вас на сайте есть формы для анонимных пользователей, то рано или поздно вы задумаетесь о том, как защитить их от ботов. Потому, что очищать комментарии или данные в веб формах от спама довольно утомительное занятие. Вы можете заставлять людей решать задачи используя Captcha модуль. Это работает неплохо, но вашим пользователям может не понравится вводить капчу каждый раз, особенно если они вводят сообщения часто." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-15T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"Если у вас на сайте есть формы для анонимных пользователей, то рано или поздно вы задумаетесь о том, как защитить их от ботов. Потому, что очищать комментарии или данные в веб формах от спама довольно утомительное занятие. Вы можете заставлять людей решать задачи используя Captcha модуль. Это работает неплохо, но вашим пользователям может не понравится вводить капчу каждый раз, особенно если они вводят сообщения часто.","@type":"BlogPosting","url":"https://www.enik.io/ru/drupal/modules/2019/12/15/antibot-vs-honebot.html","headline":"Antibot против Honeypot. Какую защиту от ботов выбрать для Drupal","dateModified":"2019-12-15T13:00:00+03:00","datePublished":"2019-12-15T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/modules/2019/12/15/antibot-vs-honebot.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/modules/2019/12/15/antibot-vs-honebot.html" title="Русский">Русский</a>
+			  <a href="/drupal/modules/2019/12/15/antibot-vs-honebot.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/modules/2019/12/15/antibot-vs-honebot.html">
+	<h2 class="post-title">Antibot против Honeypot. Какую защиту от ботов выбрать для Drupal</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>modules</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Dec 15, 2019</div>
+</div>
+<div class="post">
+	<p>Если у вас на сайте есть формы для анонимных пользователей, то рано или поздно вы задумаетесь о том, как защитить их от ботов. Потому, что очищать комментарии или данные в веб формах от спама довольно утомительное занятие.
+Вы можете заставлять людей решать задачи используя <a href="https://www.drupal.org/project/captcha">Captcha</a> модуль. Это работает неплохо, но  вашим пользователям может не понравится вводить капчу каждый раз, особенно если они вводят сообщения часто.</p>
+
+<p>В качестве бесплатной альтернативы можно использовать <a href="https://www.drupal.org/project/antibot">Antibot</a> или <a href="https://www.drupal.org/project/honeypot">Honeypot</a> модули. Они работают абсолютно невидимо для пользователей, но, в тоже время, помогают отсекать спам. Давайте разберемся как они работают, чтобы сделать выбор.</p>
+
+<h2 id="antibot">Antibot</h2>
+
+<p>Antibot модуль работает на основе предположения, что у ботов нет поддержки javascript. В него встроено два способа защиты:</p>
+
+<ol>
+  <li>Antibot заменяет <strong>action</strong> атрибут у формы на путь <code class="highlighter-rouge">/antibot</code>. Оригинальный action атрибут сохраняется в атрибуте <strong>data-action</strong>. Если у пользователя есть поддержка javascript, то data-action копируется обратно в action формы js скриптом. Таким образом бот, у которого js выключен, будет отправлять форму на пустую страницу <code class="highlighter-rouge">/antibot</code>.</li>
+  <li>Antibot добавляет к форме специальное пустое поле для ключа. Этот ключ он передает через drupalSettings в javascript. Затем скрипт подставляет этот ключ в специальное поле для ключа и валидатор формы проверяет наличие и корректность этого ключа.</li>
+</ol>
+
+<p>В настройках модуля вы можете включить защиту всех форм на сайте или только определенных.</p>
+
+<p>Данный модуль будет защищать форму от простых ботов. Но если бот построен на базе браузерного движка и в нем включена поддержка javascript, то бот будет обходить такой способ защиты.</p>
+
+<p><img src="/assets/content/2019-12-15-antibot-vs-honebot/antibot_settings.png" alt="Страница конфигурации Antibot" /></p>
+
+<h2 id="honepot">Honepot</h2>
+
+<p>В Honepot встроено два вида защиты, как и в предыдущий модуль:</p>
+
+<ol>
+  <li>Honepot добавляет пустое скрытое текстовое поле в форму. Если валидатор поля увидит, что это поле заполнено, то предполагается, что это сделал бот и такой запрос не пройдет валидацию.</li>
+  <li>Скрытое поле с текущим timestamp добавляется в форму. Для проверки используется предположение, что человек не может ввести форму быстрее чем за определенное количество времени. Если форма была отправлена быстрее чем заданный лимит времени, то такая форма не пройдет.</li>
+</ol>
+
+<p>Модуль предоставляет настройки где можно выбрать какие формы должны быть защищены, установить название скрытого поля и лимит времени, которое должно учитываться при вводе формы. Также можно включить логирование отраженных попыток пройти защиту. Есть API для расширения функционала.</p>
+
+<p><img src="/assets/content/2019-12-15-antibot-vs-honebot/honeypot_settings.png" alt="Страница конфигурации Honepot" /></p>
+
+<h2 id="проблемы-производительности">Проблемы производительности</h2>
+
+<p>К недостаткам этих модулей можно отнести то, что они хоть и решают проблему со спамерскими атаками, но не помогают бороться с нагрузкой, которую создают боты. Мы можем закешировать GET запросы используя прокси и не передавать запросы в Drupal. Но POST запросы, которые создают роботы с помощью форм, обрабатываются Drupal. При высокой активности спамеров это создает большую нагрузку на сервер.</p>
+
+<h2 id="кешируем-antibot">Кешируем Antibot</h2>
+
+<p>Antibot модуль устроен таким образом, что все запросы форм от роботов он отправляет на путь <code class="highlighter-rouge">/antibot</code>. Было бы отлично закешировать этот URL, чтобы запросы не передавались в приложение. POST запросы от форм содержат в себе уникальные значения, поэтому нужно убирать все значения, которые передаются на путь <code class="highlighter-rouge">/antibot</code>. Также желательно, чтобы запросы передавались методом GET, чтобы они могли кешироваться прокси со стандартной конфигурацией</p>
+
+<p>Мой коллега, <a href="https://www.drupal.org/u/maximpodorov">Максим Подоров</a>, предложил <a href="https://www.drupal.org/project/antibot/issues/3098088#comment-13378664">интересное решение</a>. Суть в том, что определяется путь <code class="highlighter-rouge">/antibot-static</code> куда перенаправляются пользователи используя GET запрос если у них javascript выключен. Страница <code class="highlighter-rouge">/antibot-static</code> будет кешироваться прокси. Для ботов веб сервер отдаёт 403 ошибку и не пропускает запросы в Drupal.</p>
+
+<h2 id="что-выбрать">Что выбрать?</h2>
+
+<p>Как мы видим оба решения предоставляют разные способы защиты от ботов. Сложно сказать, какие методы более эффективны. К сожалению нет одного универсального способа защиты, который бы работал одинаково хорошо для разных видов роботов. На самом деле эти модули можно сочетать и использовать их вместе. Также, для дополнительной защиты, можно включить модуль Captcha. Вы можете решить, какие формы на сайте каким образом защищать. Например, формы комментариев защищать с помощью Antibot и/или Honepot, а для формы логина использовать также и Captcha. Или наоборот, или все вместе, в зависимости от вашего сайта и активности ботов.</p>
+
+<p><strong>Ссылки:</strong></p>
+
+<ul>
+  <li><a href="https://www.drupal.org/project/antibot">Antibot модуль</a>;</li>
+  <li><a href="https://www.drupal.org/project/honeypot">Honebot модуль</a>;</li>
+  <li><a href="https://www.drupal.org/project/captcha">Captcha модуль</a>;</li>
+  <li><a href="https://www.drupal.org/project/antibot/issues/3098088#comment-13378664">Кешируем Antibot</a>.</li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/drupal/modules/2019/12/15/antibot-vs-honebot.html';
+      this.page.identifier = 'https://www.enik.io/ru/drupal/modules/2019/12/15/antibot-vs-honebot.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
