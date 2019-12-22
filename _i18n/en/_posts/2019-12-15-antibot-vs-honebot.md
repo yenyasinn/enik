@@ -3,26 +3,26 @@ layout: post
 title:  "Antibot vs Honeypot. What spam protector to prefer in Drupal"
 date:   2019-12-15 10:00:00 +0000
 categories: Drupal modules
-canonical_url: https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honebot.html
+canonical_url: https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html
 ---
 If there are forms for anonymous users on your site then sooner or later you will think about how to protect them against bots. It is tiringly to remove spam comments or irrelevant webform submissions manually.
 
 You can force people to solve tasks provided by [Captcha](https://www.drupal.org/project/captcha) module. It works well but such solution is annoying for constant visitors.
 
-As a free alternative you can install [Antibot](https://www.drupal.org/project/antibot) or  [Honeypot](https://www.drupal.org/project/honeypot) modules. They work absolutely invisible for users that is better for user experience. In the same time they protect forms and don’t allow robots send spam. Let’s clarify how they work to make proper choice.
+As a free alternative you can install [Antibot](https://www.drupal.org/project/antibot) or  [Honeypot](https://www.drupal.org/project/honeypot) modules. They work absolutely invisibly for users that is better for user experience. At the same time they protect forms and don’t allow robots to send spam. Let’s clarify how they work to make proper choice.
 
 ## Antibot
 
 Antibot module works based on assumption that robots don’t support javascript. It contains two methods of protection:
 
 1. Antibot changes **action** form attribute on the path `/antibot`. Original action attribute is saved in attribute **data-action**. If javascript is enabled in user’s browser then value is copied data-action back to action by javascript. Thus bot with disabled javascript will be sent to the page `/antibot`.
-2. Antibot adds special hidden field for the key. This key is passed through drupalSettings into javascript. Script sets this key to the special field and form validator check whether key exist and correctness of this key.
+2. Antibot adds special hidden field for the key. This key is passed through drupalSettings into javascript. Script sets this key to the special field and form validator checks whether the key exists and the correctness of this key.
 
 You can configure what forms should be protected in the module configuration.
 
-This module protects forms from simple bots. But if bot is built based on browser’s engine and support of javascript is enabled then such robot will bypass such protection method. 
+This module protects forms from simple bots. But if bot is built based on browser’s engine and the support of javascript is enabled then such robot will bypass such protection method. 
 
-![Antibot configuration form](/assets/content/2019-12-15-antibot-vs-honebot/antibot_settings.png)
+![Antibot configuration form](/assets/content/2019-12-15-antibot-vs-honeypot/antibot_settings.png)
 
 ## Honepot
 
@@ -33,7 +33,7 @@ There are also two protection methods in Honepot as in previous module:
 
 The module provides settings to choose what forms have to be protected, to set name of hidden field and time limit that is considered during form submission. Logging of invalid attempts to send spam can be enabled. Also there is an API to extend functionality.
 
-![Honepot configuration form](/assets/content/2019-12-15-antibot-vs-honebot/honeypot_settings.png)
+![Honepot configuration form](/assets/content/2019-12-15-antibot-vs-honeypot/honeypot_settings.png)
 
 
 ## Problems of performance
@@ -48,13 +48,13 @@ My team mate, [Maxim Podorov](https://www.drupal.org/u/maximpodorov), has propos
 
 ## What to choose?
 
-As we see both modules provides different methods of protection against bots. It is hard to say which method is more effective. Unfortunately there isn’t one common method to protect forms that works effectively for different types of robots.
+As we see both modules provides different methods of protection against bots. It is hard to say which method is more effective. Unfortunately there isn’t one common method to protect forms that work effectively for different types of robots.
 
-In fact you can combine these modules and use them together. Also, for the additional protection, you can enable Captcha module. You can decide what forms and how to defend. For instance, the comment form can be protected by hidden methods that provide Antibot and Honebot, but login form can be protected also by Captcha. Or vise-versa, or all together based on your site and activity of bots.
+In fact you can combine these modules and use them together. Also, for the additional protection, you can enable Captcha module. You can decide what forms and how to defend. For instance, the comment form can be protected by hidden methods that provide Antibot and Honeypot, but login form can be protected also by Captcha. Or vise-versa, or all together based on your site and activity of bots.
 
 **Links:**
 
 * [Antibot module](https://www.drupal.org/project/antibot);
-* [Honebot module](https://www.drupal.org/project/honeypot);
+* [Honeypot module](https://www.drupal.org/project/honeypot);
 * [Captcha module](https://www.drupal.org/project/captcha);
 * [Antibot caching](https://www.drupal.org/project/antibot/issues/3098088#comment-13378664).

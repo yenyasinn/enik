@@ -27,7 +27,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-12-15T13:00:00+03:00" />
 <script type="application/ld+json">
-{"description":"If there are forms for anonymous users on your site then sooner or later you will think about how to protect them against bots. It is tiringly to remove spam comments or irrelevant webform submissions manually.","@type":"BlogPosting","url":"https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honebot.html","headline":"Antibot vs Honeypot. What spam protector to prefer in Drupal","dateModified":"2019-12-15T13:00:00+03:00","datePublished":"2019-12-15T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honebot.html"},"@context":"https://schema.org"}</script>
+{"description":"If there are forms for anonymous users on your site then sooner or later you will think about how to protect them against bots. It is tiringly to remove spam comments or irrelevant webform submissions manually.","@type":"BlogPosting","url":"https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html","headline":"Antibot vs Honeypot. What spam protector to prefer in Drupal","dateModified":"2019-12-15T13:00:00+03:00","datePublished":"2019-12-15T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -61,7 +61,7 @@
 
 <p>You can force people to solve tasks provided by <a href="https://www.drupal.org/project/captcha">Captcha</a> module. It works well but such solution is annoying for constant visitors.</p>
 
-<p>As a free alternative you can install <a href="https://www.drupal.org/project/antibot">Antibot</a> or  <a href="https://www.drupal.org/project/honeypot">Honeypot</a> modules. They work absolutely invisible for users that is better for user experience. In the same time they protect forms and don’t allow robots send spam. Let’s clarify how they work to make proper choice.</p>
+<p>As a free alternative you can install <a href="https://www.drupal.org/project/antibot">Antibot</a> or  <a href="https://www.drupal.org/project/honeypot">Honeypot</a> modules. They work absolutely invisibly for users that is better for user experience. At the same time they protect forms and don’t allow robots to send spam. Let’s clarify how they work to make proper choice.</p>
 
 <h2 id="antibot">Antibot</h2>
 
@@ -69,14 +69,14 @@
 
 <ol>
   <li>Antibot changes <strong>action</strong> form attribute on the path <code class="highlighter-rouge">/antibot</code>. Original action attribute is saved in attribute <strong>data-action</strong>. If javascript is enabled in user’s browser then value is copied data-action back to action by javascript. Thus bot with disabled javascript will be sent to the page <code class="highlighter-rouge">/antibot</code>.</li>
-  <li>Antibot adds special hidden field for the key. This key is passed through drupalSettings into javascript. Script sets this key to the special field and form validator check whether key exist and correctness of this key.</li>
+  <li>Antibot adds special hidden field for the key. This key is passed through drupalSettings into javascript. Script sets this key to the special field and form validator checks whether the key exists and the correctness of this key.</li>
 </ol>
 
 <p>You can configure what forms should be protected in the module configuration.</p>
 
-<p>This module protects forms from simple bots. But if bot is built based on browser’s engine and support of javascript is enabled then such robot will bypass such protection method.</p>
+<p>This module protects forms from simple bots. But if bot is built based on browser’s engine and the support of javascript is enabled then such robot will bypass such protection method.</p>
 
-<p><img src="/assets/content/2019-12-15-antibot-vs-honebot/antibot_settings.png" alt="Antibot configuration form" /></p>
+<p><img src="/assets/content/2019-12-15-antibot-vs-honeypot/antibot_settings.png" alt="Antibot configuration form" /></p>
 
 <h2 id="honepot">Honepot</h2>
 
@@ -89,7 +89,7 @@
 
 <p>The module provides settings to choose what forms have to be protected, to set name of hidden field and time limit that is considered during form submission. Logging of invalid attempts to send spam can be enabled. Also there is an API to extend functionality.</p>
 
-<p><img src="/assets/content/2019-12-15-antibot-vs-honebot/honeypot_settings.png" alt="Honepot configuration form" /></p>
+<p><img src="/assets/content/2019-12-15-antibot-vs-honeypot/honeypot_settings.png" alt="Honepot configuration form" /></p>
 
 <h2 id="problems-of-performance">Problems of performance</h2>
 
@@ -103,15 +103,15 @@
 
 <h2 id="what-to-choose">What to choose?</h2>
 
-<p>As we see both modules provides different methods of protection against bots. It is hard to say which method is more effective. Unfortunately there isn’t one common method to protect forms that works effectively for different types of robots.</p>
+<p>As we see both modules provides different methods of protection against bots. It is hard to say which method is more effective. Unfortunately there isn’t one common method to protect forms that work effectively for different types of robots.</p>
 
-<p>In fact you can combine these modules and use them together. Also, for the additional protection, you can enable Captcha module. You can decide what forms and how to defend. For instance, the comment form can be protected by hidden methods that provide Antibot and Honebot, but login form can be protected also by Captcha. Or vise-versa, or all together based on your site and activity of bots.</p>
+<p>In fact you can combine these modules and use them together. Also, for the additional protection, you can enable Captcha module. You can decide what forms and how to defend. For instance, the comment form can be protected by hidden methods that provide Antibot and Honeypot, but login form can be protected also by Captcha. Or vise-versa, or all together based on your site and activity of bots.</p>
 
 <p><strong>Links:</strong></p>
 
 <ul>
   <li><a href="https://www.drupal.org/project/antibot">Antibot module</a>;</li>
-  <li><a href="https://www.drupal.org/project/honeypot">Honebot module</a>;</li>
+  <li><a href="https://www.drupal.org/project/honeypot">Honeypot module</a>;</li>
   <li><a href="https://www.drupal.org/project/captcha">Captcha module</a>;</li>
   <li><a href="https://www.drupal.org/project/antibot/issues/3098088#comment-13378664">Antibot caching</a>.</li>
 </ul>
