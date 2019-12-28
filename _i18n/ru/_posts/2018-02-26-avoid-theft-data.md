@@ -5,7 +5,6 @@ date: 2018-02-26 10:00:00 +0000
 categories: ru Drupal modules
 canonical_url: https://www.enik.io/ru/drupal/modules/2018/02/26/avoid-theft-data.html
 ---
-
 Воркшоп как использовать модуль [DB Sanitizer](https://www.drupal.org/project/db_sanitizer) с презентации
 **"Как избежать кражи персональных данных и контента в процессе разработки на Drupal"** на Drupal Camp Kyiv 2015.
 
