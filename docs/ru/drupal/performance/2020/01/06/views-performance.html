@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Производительность Views в Drupal 8</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Производительность Views в Drupal 8" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Модуль Views один из самых популярных модулей на Drupal сайтах. Думаю, он включен практически на всех сайтах построенных на Drupal. В этой статье я бы хотел описать проблемы с производительностью Views с которыми я столкнулся работая с этим модулем в Drupal 8 и способы оптимизации." />
+<meta property="og:description" content="Модуль Views один из самых популярных модулей на Drupal сайтах. Думаю, он включен практически на всех сайтах построенных на Drupal. В этой статье я бы хотел описать проблемы с производительностью Views с которыми я столкнулся работая с этим модулем в Drupal 8 и способы оптимизации." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-06T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"Модуль Views один из самых популярных модулей на Drupal сайтах. Думаю, он включен практически на всех сайтах построенных на Drupal. В этой статье я бы хотел описать проблемы с производительностью Views с которыми я столкнулся работая с этим модулем в Drupal 8 и способы оптимизации.","@type":"BlogPosting","url":"https://www.enik.io/ru/drupal/performance/2020/01/06/views-performance.html","headline":"Производительность Views в Drupal 8","dateModified":"2020-01-06T13:00:00+03:00","datePublished":"2020-01-06T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/performance/2020/01/06/views-performance.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/performance/2020/01/06/views-performance.html" title="Русский">Русский</a>
+			  <a href="/drupal/performance/2020/01/06/views-performance.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/performance/2020/01/06/views-performance.html">
+	<h2 class="post-title">Производительность Views в Drupal 8</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Jan 6, 2020</div>
+</div>
+<div class="post">
+	<p>Модуль Views один из самых популярных модулей на Drupal сайтах. Думаю, он включен практически на всех сайтах построенных на Drupal. В этой статье я бы хотел описать проблемы с производительностью Views с которыми я столкнулся работая с этим модулем в Drupal 8 и способы оптимизации.</p>
+
+<h2 id="проблема-вывода-большого-количества-сущностей-во-views">Проблема вывода большого количества сущностей во Views</h2>
+
+<p>Отличительной особенностью Views в Drupal 8 от Views в Drupal 7 является то, что в восьмерке Views загружает всю сущность всякий раз, даже если нужно отобразить одно поле (<a href="https://git.drupalcode.org/project/drupal/blob/8.9.x/core/modules/views/src/Plugin/views/cache/CachePluginBase.php#L132">Drupal\views\Plugin\views\cache\CachePluginBase</a>). Если вам нужно показать на одной странице 10 или 100 элементов, то загрузка такого количества нод не будет проблемой. Но если вам нужно будет отобразить 1000 сущностей, то их загрузка не будет быстрой, особенно если в сущности много полей. Кроме длительной обработки Views вы можете столкнуться с ограничением памяти в PHP. Если вы используете shared hosting, то это может быть серьезной проблемой т.к. зачастую там нет возможности прибавить память.</p>
+
+<p>Поэтому для вывода полей из большого количества сущностей одновременно (больше 500) я бы рекомендовал рассмотреть возможность реализовать блок, в котором бы загружались только нужные поля через sql запрос. Да, придется потратить на это время  и  реализовать самостоятельно, но только так вы сможете избежать загрузки всех сущностей и увеличить скорость обработки страницы.</p>
+
+<p>Если вы используете SOLR в качестве хранилища данных, то ознакомьтесь со статьей <a href="https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/create-a-search-view-that-doesnt-load">Create a search view that doesn’t load entities from the database</a>, которая расскажет как избежать загрузки сущностей во views при использовании SOLR.</p>
+
+<p>Если вы используете такие модули как <strong><a href="https://www.drupal.org/project/views_selective_filters">Views selective filters</a></strong> или <strong><a href="https://www.drupal.org/project/selective_better_exposed_filters">Selective better exposed filters</a></strong>, то вы должны знать, что эти модули запускают views еще раз с выводом абсолютно всех значений для построения каждого селективного фильтра.</p>
+
+<p>Например, если у нас есть 1000 нод, то не проблема отобразить их постранично по 10 сущностей на странице. Но если мы добавили 2 селективных фильтра, то тогда будет запускаться эта views с отображением 10 сущностей, а также 2 раза эта views c выводом 1000 нод для построения селективных фильтров. Можете себе представить, как это скажется на производительности.
+Так что если у вас несколько сотен сущностей и пара селективных фильтров, то эти модули могут использоваться. Но если у вас тысячи нод, то я бы рекомендовал реализовать плагин для фильтра views, где вы сможете подготовить данные, самостоятельно.</p>
+
+<h2 id="увеличиваем-срок-жизни-кеша-во-views">Увеличиваем срок жизни кеша во Views</h2>
+
+<p>Следующее, что стоит отметить, является то, как Views работает с кешем. Во views результаты кешируются постранично (<a href="https://git.drupalcode.org/project/drupal/blob/8.9.x/core/modules/views/src/Plugin/views/cache/CachePluginBase.php#L104">Drupal\views\Plugin\views\cache\CachePluginBase</a>). Этот кеш с результатами помечается специальным тегом вида <strong>[ENTITY_TYPE]_list</strong> (например, node_list, taxonomy_term_list, media_list). Тег сбрасывается каждый раз когда сущность добавляется, обновляется или удаляется. В общем, при любых операциях с сущностью. Это нужно, чтобы views знала когда нужно обновлять кеш с результатами, чтобы новая сущность попала во views.</p>
+
+<p>Проблема тут заключается в том, что при обновлении любой сущности кеш у всех views, которые выводят сущности такого же типа, будет очищаться.</p>
+
+<p>Чтобы увеличить срок кеша views мы можем взять патч из <a href="https://www.drupal.org/project/drupal/issues/2145751">https://www.drupal.org/project/drupal/issues/2145751</a> (вполне возможно, что в Drupal 9 это будет в ядре), который предоставляет листинг тег <strong>[ENTITY_TYPE]_list:[BUNDLE]</strong>. При обновлении сущности будут сбрасываться теги <strong>[ENTITY_TYPE]_list</strong> и <strong>[ENTITY_TYPE]_list:[BUNDLE]</strong>.</p>
+
+<p>Затем устанавливаем модуль <a href="https://www.drupal.org/project/views_custom_cache_tag">Views custom cache tag</a>. Этот модуль предоставляет возможность указывать теги для кеша views вручную. Прописываем во views листинг теги для тех сущностей, которые в нём используются:</p>
+
+<p><img src="/assets/content/2020-01-06-views-performance/custom_cache_tags.png" alt="Настройка Views custom cache tag" /></p>
+
+<p>В моем примере views выводит список нод типа Page, а также используются фильтры с терминами таксономии One, Two, Three. Теперь кеш этой views будет очищаться только если ноды Page или термины в словарях One, Two или Three были обновлены.</p>
+
+<h2 id="кешируем-ajax-запросы-во-views">Кешируем ajax запросы во Views</h2>
+
+<p>Одной из лучших практик кеширования запросов для анонимных пользователей является <a href="/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html">использование reverse proxy</a>, например Varnish. Проблема в том, что они не кешируют POST запросы, а именно такие запросы создаются если ajax включен во views.</p>
+
+<p>Чтобы исправить это мы можем воспользоваться модулем <a href="https://www.drupal.org/project/views_ajax_get">Views ajax get</a>. Он расширяет стандартную Drupal ajax библиотеку и заменяет тип запроса с POST на GET для ajax запросов во views. После установки и включения модуля нужно в настройках views “Use AJAX” поставить галочку “Use GET requests”.</p>
+
+<p><img src="/assets/content/2020-01-06-views-performance/views_ajax_get_settings.png" alt="Настройка Views ajax get" /></p>
+
+<p>Таким очень простым способом можно серьезно снизить нагрузку на сервер и увеличить скорость отдачи ajax запросов во views, при условии что вы используете reverse proxy для кеширования на проекте.</p>
+
+<h2 id="вывод">Вывод</h2>
+<p>Модуль Views является очень мощным и универсальным решением. Он спроектирован для того, чтобы с помощью него можно было быстро и легко решать типовые задачи по выводу контента. Но если ваши задачи выходят за рамки типовых, то могут начаться проблемы. Анализируйте текущее состояние вашего сайта, смотрите на свои требования и не бойтесь реализовывать оптимизированные решения для вашего проекта - views предоставляет широкие возможности для расширения функционала.</p>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/drupal/performance/2020/01/06/views-performance.html';
+      this.page.identifier = 'https://www.enik.io/ru/drupal/performance/2020/01/06/views-performance.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Выбираем основу для создания проекта на Drupal 8"
-date:   2019-08-30 10:00:00 +0000
+title: "Выбираем основу для создания проекта на Drupal 8"
+date: 2019-08-30 10:00:00 +0000
 categories: ru Drupal boilerplate
 canonical_url: https://www.enik.io/ru/drupal/boilerplate/2019/08/30/drupal-boilerplates.html
 ---

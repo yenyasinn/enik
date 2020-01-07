@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Performance of Views in Drupal 8</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Performance of Views in Drupal 8" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Module Views is one of the most popular modules on the Drupal sites. I think it is enabled on all sites built on Drupal. In this article I would like to describe issues with performance of Views that I’ve faced using this module and ways for optimisation." />
+<meta property="og:description" content="Module Views is one of the most popular modules on the Drupal sites. I think it is enabled on all sites built on Drupal. In this article I would like to describe issues with performance of Views that I’ve faced using this module and ways for optimisation." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-06T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"Module Views is one of the most popular modules on the Drupal sites. I think it is enabled on all sites built on Drupal. In this article I would like to describe issues with performance of Views that I’ve faced using this module and ways for optimisation.","@type":"BlogPosting","url":"https://www.enik.io/drupal/performance/2020/01/06/views-performance.html","headline":"Performance of Views in Drupal 8","dateModified":"2020-01-06T13:00:00+03:00","datePublished":"2020-01-06T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/performance/2020/01/06/views-performance.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<h2>Evgenii Nikitin</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/performance/2020/01/06/views-performance.html" title="Русский">Русский</a>
+			  <a href="/drupal/performance/2020/01/06/views-performance.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/drupal/performance/2020/01/06/views-performance.html">
+	<h2 class="post-title">Performance of Views in Drupal 8</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Jan 6, 2020</div>
+</div>
+<div class="post">
+	<p>Module Views is one of the most popular modules on the Drupal sites. I think it is enabled on all sites built on Drupal. In this article I would like to describe issues with performance of Views that I’ve faced using this module and ways for optimisation.</p>
+
+<h2 id="problem-of-showing-big-number-of-entities-in-views">Problem of showing big number of entities in views</h2>
+
+<p>Distinctive feature of Views in Drupal 8 from Views in Drupal 7 is a fact that Views in Drupal 8 loads entity every time even if only one field has to be shown (<a href="https://git.drupalcode.org/project/drupal/blob/8.9.x/core/modules/views/src/Plugin/views/cache/CachePluginBase.php#L132">Drupal\views\Plugin\views\cache\CachePluginBase</a>). If you need to show 10 or 100 elements on the page it won’t be a problem. But if you need to show 1000 entities then their load won’t be fast, especially if entity has a lot of fields. Besides long processing you can face with PHP memory limitation. If you use shared hosting then it can be a serious issue due to usually there isn’t possibility to add additional memory there.</p>
+
+<p>Therefore I would recommend to consider to implement custom block where fields will be loaded using sql query to display big number of entities (more than 500) at once. Yes, you need to spend time and implement it independently but only so you can avoid loading of all entities and increase velocity of page processing.</p>
+
+<p>If you use SOLR as a data storage you should read article <a href="https://www.drupal.org/docs/8/modules/search-api-solr/search-api-solr-howtos/create-a-search-view-that-doesnt-load">Create a search view that doesn’t load entities from the database</a> that describes how to avoid loading of entities in views when SOLR is used.</p>
+
+<p>If such modules as  <strong><a href="https://www.drupal.org/project/views_selective_filters">Views selective filters</a></strong> or <strong><a href="https://www.drupal.org/project/selective_better_exposed_filters">Selective better exposed filters</a></strong> are used on your projects you should know that these modules execute views to build selective filters again.</p>
+
+<p>For example, there are 1000 nodes and it isn’t an issue to show them by 10 items on the page using 100 pages. But if we have added two selective filters then view will be executed  to show 10 entities, then this view will be executed two times to output 1000 nodes to build possible items for selective filters. You can imagine how it affects performance.</p>
+
+<p>So if there are few hundreds of entities and few selective filters then these modules can be used. But if there are thousands of entities I would recommend to implement views filter plugin where you can prepare data by himself.</p>
+
+<h2 id="increase-cache-lifetime-in-views">Increase cache lifetime in Views</h2>
+
+<p>Next, I want to note is how Views works with cache. Views caches results by page   (<a href="https://git.drupalcode.org/project/drupal/blob/8.9.x/core/modules/views/src/Plugin/views/cache/CachePluginBase.php#L104">Drupal\views\Plugin\views\cache\CachePluginBase</a>). Cache with results is marked by special tag like <strong>[ENTITY_TYPE]_list</strong> (for instance, node_list, taxonomy_term_list, media_list). This listing cache tag is invalidated each time when entity is added, updated or removed. It is needed to add new entity to the views results.</p>
+
+<p>There is a performance issue - when any entity is updated, cache of all views that work with this entity type is flushed.</p>
+
+<p>To increase views cache lifetime we can apply patch from  <a href="https://www.drupal.org/project/drupal/issues/2145751">https://www.drupal.org/project/drupal/issues/2145751</a> (quite possible that it will be in Drupal 9 core), that provides listing tag <strong>[ENTITY_TYPE]_list:[BUNDLE]</strong>. When entity is updated tags <strong>[ENTITY_TYPE]_list</strong> and <strong>[ENTITY_TYPE]_list:[BUNDLE]</strong> will be invalidated.</p>
+
+<p>After it module <a href="https://www.drupal.org/project/views_custom_cache_tag">Views custom cache tag</a> has to be installed. This module provides ability to set any cache tags. So we can define listing cache tags of entities that are used in the views:</p>
+
+<p><img src="/assets/content/2020-01-06-views-performance/custom_cache_tags.png" alt="Set up views custom cache tag" /></p>
+
+<p>In my example views outputs list of Page nodes and uses filters with taxonomies One, Two, Three. After this modification views cache will be flushed only when Page node or terms in taxonomies One, Two or Three are updated.</p>
+
+<h2 id="cache-ajax-requests-in-views">Cache ajax requests in Views</h2>
+
+<p>One of the best practice of caching requests for anonymous users is <a href="/drupal/performance/2019/10/06/reverse-proxy-caching.html">using reverse proxy</a>, for instance Varnish. Issue here is that it doesn’t cache POST requests, but such requests are used in ajax requests in Views.</p>
+
+<p>We can use module <a href="https://www.drupal.org/project/views_ajax_get">Views ajax get</a> to solve this problem. It extends standard Drupal ajax library and changes the type of request from POST to GET for ajax requests in views. You should enable “Use GET requests” in the views settings “Use AJAX” after enabling this module.</p>
+
+<p><img src="/assets/content/2020-01-06-views-performance/views_ajax_get_settings.png" alt="Set up Views ajax get" /></p>
+
+<p>This simple solution helps reduce load on the server significantly and increases the speed of response of ajax request in views if you use reverse proxy for caching on the project.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Module Views is a powerful and versatile solution. It is designed to solve typical tasks for content output quickly and easily. But if your tasks go beyond typical, problems may begin. Analyse current state of the project, look at the requirements and don’t be afraid to implement optimised solutions for your project - module Views provides wide capabilities to extend functionality.</p>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/drupal/performance/2020/01/06/views-performance.html';
+      this.page.identifier = 'https://www.enik.io/drupal/performance/2020/01/06/views-performance.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
