@@ -50,7 +50,7 @@ Data is loaded from the disk and is merged with transactions from transaction lo
 
 ## System requirements
 
-Host for MemSQL has to have at least 4 core CPU and 8 GB RAM. It is recommended to use Linux core not less 3.10. RHEL/CentOS 6 or 7, Debian 8 or 9 are supported now. I’ve used Ubuntu 18.04 for testing and it works good. MemSQL can be used in Windows можно использовать MemSQL используя Docker контейнер.
+Host for MemSQL has to have at least 4 core CPU and 8 GB RAM. It is recommended to use Linux core not less 3.10. RHEL/CentOS 6 or 7, Debian 8 or 9 are supported now. I’ve used Ubuntu 18.04 for testing and it works good. MemSQL can be used in Windows using Docker container.
 
 ## Is it payable?
 
