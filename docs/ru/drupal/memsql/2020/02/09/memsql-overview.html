@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Drupal и MemSQL. Обзор</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Drupal и MemSQL. Обзор" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Что мы оптимизируем в первую очередь когда речь заходит о производительности Drupal? Ту часть, которая работает с хранилищем данных. Мы можем использовать key-value хранилище в ОЗУ (Memcache или Redis) для некоторых данных, но основные данные нам приходится хранить в SQL базе данных. Скорость получения данных из базы данных, которая находится на жестком диске, намного меньше, чем из базы, которая находится в памяти. Было бы здорово, чтобы все данные были бы в оперативной памяти, не правда ли?" />
+<meta property="og:description" content="Что мы оптимизируем в первую очередь когда речь заходит о производительности Drupal? Ту часть, которая работает с хранилищем данных. Мы можем использовать key-value хранилище в ОЗУ (Memcache или Redis) для некоторых данных, но основные данные нам приходится хранить в SQL базе данных. Скорость получения данных из базы данных, которая находится на жестком диске, намного меньше, чем из базы, которая находится в памяти. Было бы здорово, чтобы все данные были бы в оперативной памяти, не правда ли?" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-02-09T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"Что мы оптимизируем в первую очередь когда речь заходит о производительности Drupal? Ту часть, которая работает с хранилищем данных. Мы можем использовать key-value хранилище в ОЗУ (Memcache или Redis) для некоторых данных, но основные данные нам приходится хранить в SQL базе данных. Скорость получения данных из базы данных, которая находится на жестком диске, намного меньше, чем из базы, которая находится в памяти. Было бы здорово, чтобы все данные были бы в оперативной памяти, не правда ли?","@type":"BlogPosting","url":"https://www.enik.io/ru/drupal/memsql/2020/02/09/memsql-overview.html","headline":"Drupal и MemSQL. Обзор","dateModified":"2020-02-09T13:00:00+03:00","datePublished":"2020-02-09T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/memsql/2020/02/09/memsql-overview.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/memsql/2020/02/09/memsql-overview.html" title="Русский">Русский</a>
+			  <a href="/drupal/memsql/2020/02/09/memsql-overview.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/memsql/2020/02/09/memsql-overview.html">
+	<h2 class="post-title">Drupal и MemSQL. Обзор</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>memsql</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Feb 9, 2020</div>
+</div>
+<div class="post">
+	<p>Что мы оптимизируем в первую очередь когда речь заходит о производительности Drupal? Ту часть, которая работает с хранилищем данных. Мы можем использовать key-value хранилище в ОЗУ (Memcache или Redis) для некоторых данных, но основные данные нам приходится хранить в SQL базе данных. Скорость получения данных из базы данных, которая находится на жестком диске, намного меньше, чем из базы, которая находится в памяти. Было бы здорово, чтобы все данные были бы в оперативной памяти, не правда ли?</p>
+
+<p>К счастью, такая база данных есть - <strong><a href="https://www.memsql.com">MemSQL</a></strong>.</p>
+
+<p>MemSQL работает с данными, которые находятся в памяти и, в тоже время, является MySQL совместимой базой данных. Это обещает нам превосходную скорость в привычном нам LAMP стеке. Слишком хорошо, чтобы быть правдой? Давайте разберемся как можно интегрировать Drupal c MemSQL и когда это может быть эффективно использовано.</p>
+
+<h2 id="способы-хранения-данных">Способы хранения данных.</h2>
+
+<p>Современные базы данных можно разделить на <strong>операционные</strong> и <strong>аналитические</strong>. Первый тип баз данных используется для учета операций (On Line Transaction Processing - OLTP) и использует построчное хранение данных. Второй тип - для анализа данных (On Line Analytical Processing - OLAP). Здесь используется колоночное хранение.</p>
+
+<p>MemSQL позволяет хранить данные как построчно, так и поколоночно, причем в одной базе данных. Давайте рассмотрим особенности работы этих двух систем в MemSQL:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Колоночное хранение (OLAP)</th>
+      <th>Построчное хранение (OLTP)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Хранение данных на жестком диске. Считывание данных с жесткого диска.</td>
+      <td>Данные хранятся на жестком диске, но затем данные загружаются в оперативную память откуда потом и берутся.</td>
+    </tr>
+    <tr>
+      <td>Эффективно, когда данные обновляются редко. Основная операция - чтение.</td>
+      <td>Позволяет обновлять данные часто и в произвольном порядке.</td>
+    </tr>
+    <tr>
+      <td>Лучше справляется с чтением больших последовательных массивов данных.</td>
+      <td>Быстрый поиск произвольных данных.</td>
+    </tr>
+    <tr>
+      <td>Индекс по одному полю.</td>
+      <td>Возможно большое количество индексов.</td>
+    </tr>
+    <tr>
+      <td>Данные сжимаются. Данные занимают меньше места чем изначальные данные, особенно при предварительной сортировке.</td>
+      <td>Данные хранятся “как есть”. Данные в базе занимают в несколько раз больше места, чем изначальные данные.</td>
+    </tr>
+    <tr>
+      <td>Колоночные таблицы определяются ключом с обозначением <code class="highlighter-rouge">CLUSTERED COLUMNSTORE</code>.</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="архитектура">Архитектура</h2>
+
+<p>MemSQL может работать с огромными массивами данных. Но пока еще нет ОЗУ которая могла бы хранить больше нескольких сотен гигабайт данных. Поэтому кластер MemSQL состоит из нескольких частей - агрегатор (aggregator) и листья (leaf).</p>
+
+<p><img src="/assets/content/2020-02-09-memsql-overview/memsql_architecture.jpg" alt="Архитектура MemSQL" /></p>
+
+<p>Агрегатор хранит информацию о листьях в кластере. Получив sql запрос он отправляет этот запрос тем листьям на которых есть нужная информация. Затем он собирает полученные данные и отдает их клиенту.</p>
+
+<p>Листья используются для хранения данных. Все вычисления происходят именно здесь. MemSQL автоматически распределяет данные между узлами.</p>
+
+<p>В MemSQL достаточно просто добавлять агрегаторы и листья и, таким образом, масштабировать систему хранения данных.</p>
+
+<h2 id="надежность">Надежность</h2>
+
+<p>Когда мы говорим о том, что данные хранятся в памяти, то можем ли рассчитывать что данные у нас не потеряются при перезагрузке системы?</p>
+
+<p>Разработчики MemSQL утверждают, что данные не потеряются. Транзакции фиксируются в журнале транзакций на диске, а затем сжимаются и сохраняются в базу данных. Есть возможность настроить абсолютно надежную систему, когда все транзакции будут попадать на жесткий диск сразу же. Возможно увеличить производительность за счет надежности и установить размер буфера транзакций при достижении которого данные будут отправляться на диск. В таком случае мы можем потерять последние транзакции, но зато выиграем в производительности за счет меньшего количества обращения к дискам.</p>
+
+<p>При перезагрузке системы данные выгружаются из базы данных и берутся транзакции из журнала транзакций, которые еще не попали в базу. Так восстанавливается целостность после перезагрузки. На это уходит какое-то время потому, что тут MemSQL упирается в производительность файловой системы.</p>
+
+<p><img src="/assets/content/2020-02-09-memsql-overview/memsql_durability.png" alt="Схема сохранения транзакций в MemSQL" /></p>
+
+<h2 id="системные-требования">Системные требования</h2>
+
+<p>Хост для MemSQL должен иметь как минимум 4 ядра CPU и 8 GB RAM. Рекомендуется использовать ядро Linux не ниже 3.10. Поддерживаются RHEL/CentOS 6 или 7, Debian 8 или 9. Я для тестов использовал Ubuntu 18.04 на котором все работало замечательно. На Windows можно использовать MemSQL используя Docker контейнер.</p>
+
+<h2 id="это-платно">Это платно?</h2>
+
+<p>MemSQL это платная база данных. Но можно использовать её бесплатно. Для определения стоимости компания использует понятие юнит. Юнит это сочетание вычислительной мощности и памяти на сервере. Один юнит это 8 vCPU и 32GB ОЗУ. Кластер на 4 юнита можно использовать бесплатно.</p>
+
+<p><strong>Ссылки:</strong></p>
+
+<ul>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/columnstore">Columnstore</a></li>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/rowstore">Rowstore</a></li>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/aggregator">Aggregator</a></li>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/leaf">Leaf</a></li>
+  <li><a href="https://docs.memsql.com/v6.8/guides/cluster-management/operations/using-durability-and-recovery">Durability</a></li>
+  <li><a href="https://docs.memsql.com/v6.8/guides/deploy-memsql/self-managed/cluster-configuration/system-requirements">System requirements</a></li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/drupal/memsql/2020/02/09/memsql-overview.html';
+      this.page.identifier = 'https://www.enik.io/ru/drupal/memsql/2020/02/09/memsql-overview.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

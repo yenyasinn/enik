@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Drupal and MemSQL. Overview</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Drupal and MemSQL. Overview" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="What do we optimise first of all when we are talking about performance? That part that works with data storage. We can use key-value storage in RAM (Memcache or Redis) for some data but main data we keep in SQL database. Velocity of receiving data from memory much bigger than from the disk. It would be great to keep all data in RAM, wouldn’t it?" />
+<meta property="og:description" content="What do we optimise first of all when we are talking about performance? That part that works with data storage. We can use key-value storage in RAM (Memcache or Redis) for some data but main data we keep in SQL database. Velocity of receiving data from memory much bigger than from the disk. It would be great to keep all data in RAM, wouldn’t it?" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-02-09T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"What do we optimise first of all when we are talking about performance? That part that works with data storage. We can use key-value storage in RAM (Memcache or Redis) for some data but main data we keep in SQL database. Velocity of receiving data from memory much bigger than from the disk. It would be great to keep all data in RAM, wouldn’t it?","@type":"BlogPosting","url":"https://www.enik.io/drupal/memsql/2020/02/09/memsql-overview.html","headline":"Drupal and MemSQL. Overview","dateModified":"2020-02-09T13:00:00+03:00","datePublished":"2020-02-09T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/memsql/2020/02/09/memsql-overview.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<h2>Evgenii Nikitin</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/memsql/2020/02/09/memsql-overview.html" title="Русский">Русский</a>
+			  <a href="/drupal/memsql/2020/02/09/memsql-overview.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/drupal/memsql/2020/02/09/memsql-overview.html">
+	<h2 class="post-title">Drupal and MemSQL. Overview</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>memsql</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Feb 9, 2020</div>
+</div>
+<div class="post">
+	<p>What do we optimise first of all when we are talking about performance? That part that works with data storage. We can use key-value storage in RAM (Memcache or Redis) for some data but main data we keep in SQL database. Velocity of receiving data from memory much bigger than from the disk. It would be great to keep all data in RAM, wouldn’t it?</p>
+
+<p>Fortunately there is such database - <strong><a href="https://www.memsql.com">MemSQL</a></strong>.</p>
+
+<p>MemSQL works with data in RAM and is a MySQL compatible database. It promises great speed in familiar LAMP stack. Is it so wonderful to be true? Let’s understand how it can be integrated with Drupal and when it can be used effectively.</p>
+
+<h2 id="storage-methods">Storage methods</h2>
+
+<p>Modern databases can be splitted on the  <strong>operational</strong> and <strong>analytical</strong>. First type is used for operations accounting  (Online Transaction Processing - OLTP) and stores data by row. Second type - for data analysis. It stores data by column.</p>
+
+<p>MemSQL allows to store data by row and by column, moreover in the one database. Let’s have a look on the features of these two storing systems in MemSQL:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Column store (OLAP)</th>
+      <th>Row store (OLTP)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data is stored on the disk. Data is read from the disk.</td>
+      <td>Data is stored on the disk but then loaded to the RAM where it is read from.</td>
+    </tr>
+    <tr>
+      <td>Data is updated rare. Main operation - reading.</td>
+      <td>Data is updated frequently and in random order.</td>
+    </tr>
+    <tr>
+      <td>Works effectively with reading of big amount of consistent data.</td>
+      <td>Fast search of arbitrary data.</td>
+    </tr>
+    <tr>
+      <td>One index per table.</td>
+      <td>Few indexes are possible.</td>
+    </tr>
+    <tr>
+      <td>Data is compressed. Less amount of storage is needed then source data especially with pre-sorting.</td>
+      <td>Data is stored as-is. More space is needed for storage then source data.</td>
+    </tr>
+    <tr>
+      <td>Column tables are defined by by key <code class="highlighter-rouge">CLUSTERED COLUMNSTORE</code>.</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="architecture">Architecture</h2>
+
+<p>MemSQL can work with a huge amount of data. But there isn’t RAM that can store more than a few hundred gigabytes. Therefore MemSQL cluster consists of a few parts - aggregators and leafs.</p>
+
+<p><img src="/assets/content/2020-02-09-memsql-overview/memsql_architecture.jpg" alt="Architecture of  MemSQL" /></p>
+
+<p>Aggregator stores information about leafs in a cluster. It takes sql request and sends it to the leaves where necessary information is stored. Then it combines requested data from the leaves and returns it to the client.</p>
+
+<p>Leaves are used for storing data. All calculations take place here. MemSQL shares data across leaves automatically based on Shard key.</p>
+
+<p>It’s quite simple to add aggregators and leaves and, thus, scale data storage.</p>
+
+<h2 id="durability">Durability</h2>
+
+<p>Can we rely on the database that stores data in memory? Don’t we lose data after server reboot?</p>
+
+<p>MemSQL developers insist that this database is absolutely reliable and data isn’t lost. Transactions are added to the transaction log on the disk, compressed and saved to the database. System can be absolutely durable when all transactions are saved on the disk immediately. But performance can be increased at the expense of reliability and set transaction buffer that will be used to store transaction prior to sending to the disc. In this case latest transaction can be lost but we will get better performance due to less number of disk request.</p>
+
+<p>Data is loaded from the disk and is merged with transactions from transaction log after server loads. It takes some time due to the performance of the file system.</p>
+
+<p><img src="/assets/content/2020-02-09-memsql-overview/memsql_durability.png" alt="Schema of saving transactions in  MemSQL" /></p>
+
+<h2 id="system-requirements">System requirements</h2>
+
+<p>Host for MemSQL has to have at least 4 core CPU and 8 GB RAM. It is recommended to use Linux core not less 3.10. RHEL/CentOS 6 or 7, Debian 8 or 9 are supported now. I’ve used Ubuntu 18.04 for testing and it works good. MemSQL can be used in Windows можно использовать MemSQL используя Docker контейнер.</p>
+
+<h2 id="is-it-payable">Is it payable?</h2>
+
+<p>MemSQL is a commercial database. But it can be used for free. Company is used concept “unit” to calculate price. Unit is a combination of memory and computing on the server. One unit is 8 vCPU and 32GB RAM. Four units cluster can be used for free.</p>
+
+<p><strong>Links:</strong></p>
+
+<ul>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/columnstore">Columnstore</a></li>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/rowstore">Rowstore</a></li>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/aggregator">Aggregator</a></li>
+  <li><a href="https://docs.memsql.com/v7.0/concepts/leaf">Leaf</a></li>
+  <li><a href="https://docs.memsql.com/v6.8/guides/cluster-management/operations/using-durability-and-recovery">Durability</a></li>
+  <li><a href="https://docs.memsql.com/v6.8/guides/deploy-memsql/self-managed/cluster-configuration/system-requirements">System requirements</a></li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/drupal/memsql/2020/02/09/memsql-overview.html';
+      this.page.identifier = 'https://www.enik.io/drupal/memsql/2020/02/09/memsql-overview.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

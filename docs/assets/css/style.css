@@ -696,6 +696,9 @@ main {
     transition: border-bottom 0.4s; }
     .post a:hover {
       border-bottom: 0.5px solid #0A59B0; }
+  .post th, .post td {
+    border: 1px solid #eee;
+    padding: 5px; }
 
 #posts-label {
   border-bottom: 1px solid #eee;
