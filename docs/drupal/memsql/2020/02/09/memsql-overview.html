@@ -67,7 +67,7 @@
 
 <p>Modern databases can be splitted on the  <strong>operational</strong> and <strong>analytical</strong>. First type is used for operations accounting  (Online Transaction Processing - OLTP) and stores data by row. Second type - for data analysis. It stores data by column.</p>
 
-<p>MemSQL allows to store data by row and by column, moreover in the one database. Let’s have a look on the features of these two storing systems in MemSQL:</p>
+<p>MemSQL allows to store data by row and by column, moreover in the same database. Let’s have a look on the features of these two storing systems in MemSQL:</p>
 
 <table>
   <thead>
@@ -82,8 +82,8 @@
       <td>Data is stored on the disk but then loaded to the RAM where it is read from.</td>
     </tr>
     <tr>
-      <td>Data is updated rare. Main operation - reading.</td>
-      <td>Data is updated frequently and in random order.</td>
+      <td>Data is rarely updated. Main operation is reading.</td>
+      <td>Data is updated frequently and at random.</td>
     </tr>
     <tr>
       <td>Works effectively with reading of big amount of consistent data.</td>
@@ -98,7 +98,7 @@
       <td>Data is stored as-is. More space is needed for storage then source data.</td>
     </tr>
     <tr>
-      <td>Column tables are defined by by key <code class="highlighter-rouge">CLUSTERED COLUMNSTORE</code>.</td>
+      <td>Column tables are defined by key <code class="highlighter-rouge">CLUSTERED COLUMNSTORE</code>.</td>
       <td> </td>
     </tr>
   </tbody>
@@ -106,11 +106,11 @@
 
 <h2 id="architecture">Architecture</h2>
 
-<p>MemSQL can work with a huge amount of data. But there isn’t RAM that can store more than a few hundred gigabytes. Therefore MemSQL cluster consists of a few parts - aggregators and leafs.</p>
+<p>MemSQL can work with a huge amount of data. But there isn’t RAM that can store more than a few hundred gigabytes. Therefore MemSQL cluster consists of a few parts - aggregators and leaves.</p>
 
 <p><img src="/assets/content/2020-02-09-memsql-overview/memsql_architecture.jpg" alt="Architecture of  MemSQL" /></p>
 
-<p>Aggregator stores information about leafs in a cluster. It takes sql request and sends it to the leaves where necessary information is stored. Then it combines requested data from the leaves and returns it to the client.</p>
+<p>Aggregator stores information about leaves in a cluster. It takes a sql request and sends it to the leaves where necessary information is stored. Then it combines requested data from the leaves and returns it to the client.</p>
 
 <p>Leaves are used for storing data. All calculations take place here. MemSQL shares data across leaves automatically based on Shard key.</p>
 
@@ -120,7 +120,7 @@
 
 <p>Can we rely on the database that stores data in memory? Don’t we lose data after server reboot?</p>
 
-<p>MemSQL developers insist that this database is absolutely reliable and data isn’t lost. Transactions are added to the transaction log on the disk, compressed and saved to the database. System can be absolutely durable when all transactions are saved on the disk immediately. But performance can be increased at the expense of reliability and set transaction buffer that will be used to store transaction prior to sending to the disc. In this case latest transaction can be lost but we will get better performance due to less number of disk request.</p>
+<p>MemSQL developers insist that this database is absolutely reliable and data isn’t lost. Transactions are added to the transaction log on the disk, compressed and saved to the database. System can be absolutely durable when all transactions are saved on the disk immediately. But performance can be increased at the expense of reliability and set transaction buffer that will be used to store transaction prior to sending to the disc. In this case the latest transaction can be lost but we will get better performance due to less number of disk requests.</p>
 
 <p>Data is loaded from the disk and is merged with transactions from transaction log after server loads. It takes some time due to the performance of the file system.</p>
 
@@ -132,7 +132,7 @@
 
 <h2 id="is-it-payable">Is it payable?</h2>
 
-<p>MemSQL is a commercial database. But it can be used for free. Company is used concept “unit” to calculate price. Unit is a combination of memory and computing on the server. One unit is 8 vCPU and 32GB RAM. Four units cluster can be used for free.</p>
+<p>MemSQL is a commercial database. But it can be used for free. Company uses concept “unit” to calculate price. Unit is a combination of memory and computing on the server. One unit is 8 vCPU and 32GB RAM. Four units cluster can be used for free.</p>
 
 <p><strong>Links:</strong></p>
 
