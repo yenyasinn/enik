@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Drupal and MemSQL. Overview"
+title:  "MemSQL. Overview"
 date: 2020-02-09 10:00:00 +0000
-categories: Drupal memsql
-canonical_url: https://www.enik.io/drupal/memsql/2020/02/09/memsql-overview.html
+categories: memsql
+canonical_url: https://www.enik.io/memsql/2020/02/09/memsql-overview.html
 ---
 What do we optimise first of all when we are talking about performance? That part that works with data storage. We can use key-value storage in RAM (Memcache or Redis) for some data but main data we keep in SQL database. Velocity of receiving data from memory much bigger than from the disk. It would be great to keep all data in RAM, wouldn't it?  
 

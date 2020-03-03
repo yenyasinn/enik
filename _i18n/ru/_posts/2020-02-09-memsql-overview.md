@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Drupal и MemSQL. Обзор"
+title:  "MemSQL. Обзор"
 date: 2020-02-09 10:00:00 +0000
-categories: ru Drupal memsql
-canonical_url: https://www.enik.io/ru/drupal/memsql/2020/02/09/memsql-overview.html
+categories: ru memsql
+canonical_url: https://www.enik.io/ru/memsql/2020/02/09/memsql-overview.html
 ---
 Что мы оптимизируем в первую очередь когда речь заходит о производительности Drupal? Ту часть, которая работает с хранилищем данных. Мы можем использовать key-value хранилище в ОЗУ (Memcache или Redis) для некоторых данных, но основные данные нам приходится хранить в SQL базе данных. Скорость получения данных из базы данных, которая находится на жестком диске, намного меньше, чем из базы, которая находится в памяти. Было бы здорово, чтобы все данные были бы в оперативной памяти, не правда ли?
 

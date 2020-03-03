@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>MySQL and MemSQL performance comparison.</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="MySQL and MemSQL performance comparison." />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Recently I’ve reviewed DBMS MemSQL, that can store data by row and by column. MemSQL creators say that their solution works super fast. It was interesting to check it and comprehend how fast it is in comparison with MySQL (it was chosen because I use MySQL everyday) and what the difference is between rowstore and columnstore tables." />
+<meta property="og:description" content="Recently I’ve reviewed DBMS MemSQL, that can store data by row and by column. MemSQL creators say that their solution works super fast. It was interesting to check it and comprehend how fast it is in comparison with MySQL (it was chosen because I use MySQL everyday) and what the difference is between rowstore and columnstore tables." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-02-29T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"Recently I’ve reviewed DBMS MemSQL, that can store data by row and by column. MemSQL creators say that their solution works super fast. It was interesting to check it and comprehend how fast it is in comparison with MySQL (it was chosen because I use MySQL everyday) and what the difference is between rowstore and columnstore tables.","@type":"BlogPosting","url":"https://www.enik.io/memsql/2020/02/29/memsql-mysql-performance-comparison.html","headline":"MySQL and MemSQL performance comparison.","dateModified":"2020-02-29T13:00:00+03:00","datePublished":"2020-02-29T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/memsql/2020/02/29/memsql-mysql-performance-comparison.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<h2>Evgenii Nikitin</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html" title="Русский">Русский</a>
+			  <a href="/memsql/2020/02/29/memsql-mysql-performance-comparison.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/memsql/2020/02/29/memsql-mysql-performance-comparison.html">
+	<h2 class="post-title">MySQL and MemSQL performance comparison.</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>memsql</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Feb 29, 2020</div>
+</div>
+<div class="post">
+	<p>Recently I’ve reviewed <a href="/memsql/2020/02/09/memsql-overview.html">DBMS MemSQL</a>, that can store data by row and by column. MemSQL creators say that their solution works super fast. It was interesting to check it and comprehend how fast it is in comparison with MySQL (it was chosen because I use MySQL everyday) and what the difference is between rowstore and columnstore tables.</p>
+
+<h2 id="environment">Environment</h2>
+
+<p>I have used 6 CPU, 16 GB RAM with SSD hard drive virtual server for testing. Operational system - Ubuntu 18.04. MySQL version is 5.7.29, the storage engine is InnoDB. Default database settings have been used except cases when it was defined separately.</p>
+
+<p>As a source of data for testing I have used information about taxi rides in New York in January of 2016. Links on the source files can be found in the repository <a href="https://github.com/toddwschneider/nyc-taxi-data">https://github.com/toddwschneider/nyc-taxi-data</a>, that includes statistics of all taxi rides in New York for few years. All tests have been run by shell or PHP scripts (<a href="https://github.com/yenyasinn/memsql_test/">repository with these scripts</a>) for convenient usage and identical repeatability. All measurements have been made in milliseconds.</p>
+
+<p>I was curious to know about different aspects of working with databases - data import, reading, updating, removing of data. So different tests have been written to cover various use cases.</p>
+
+<p>Two different databases have been used in MemSQL to test rowstore and columnstore tables. In MySQL one specific database has been created for testing.</p>
+
+<p><strong>Rowstore tables in MySQL and MemSQL:</strong></p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* Rowstore */</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">yellow_tripdata_staging</span> <span class="p">(</span>
+ <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+ <span class="n">vendor_id</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">tpep_pickup_datetime</span> <span class="nb">datetime</span><span class="p">,</span>
+ <span class="n">tpep_dropoff_datetime</span> <span class="nb">datetime</span><span class="p">,</span>
+ <span class="n">passenger_count</span> <span class="nb">smallint</span><span class="p">,</span>
+ <span class="n">trip_distance</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">pickup_longitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">pickup_latitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">rate_code_id</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">store_and_fwd_flag</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+ <span class="n">dropoff_longitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">dropoff_latitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">payment_type</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">fare_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">extra</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">mta_tax</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">tip_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">tolls_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">improvement_surcharge</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">total_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">pickup_location_id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">dropoff_location_id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">congestion_surcharge</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">junk1</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">junk2</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">)</span>
+ <span class="cm">/* INDEX (`rate_code_id`), */</span>
+ <span class="cm">/* INDEX (`payment_type`) */</span>
+<span class="p">);</span>
+
+<span class="cm">/* Rate code */</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">rate_code</span> <span class="p">(</span>
+ <span class="n">rate_code_id</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`rate_code_id`</span><span class="p">)</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rate_code</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Standard rate'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'JFK'</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'Newark'</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'Nassau or Westchester'</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Negotiated fare'</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">'Group ride'</span><span class="p">);</span>
+
+<span class="cm">/* Payment type */</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">payment_type</span> <span class="p">(</span>
+ <span class="n">payment_type</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`payment_type`</span><span class="p">)</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">payment_type</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Credit card'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'Cash'</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'No charge'</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'Dispute'</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Unknown'</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">'Voided trip'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><strong>Columnstore tables in MemSQL:</strong></p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/* MemSQL columnstore */</span>
+
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">EXISTS</span> <span class="n">yellow_tripdata_staging</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">yellow_tripdata_staging</span> <span class="p">(</span>
+ <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+ <span class="n">vendor_id</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">tpep_pickup_datetime</span> <span class="nb">datetime</span><span class="p">,</span>
+ <span class="n">tpep_dropoff_datetime</span> <span class="nb">datetime</span><span class="p">,</span>
+ <span class="n">passenger_count</span> <span class="nb">smallint</span><span class="p">,</span>
+ <span class="n">trip_distance</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">pickup_longitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">pickup_latitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">rate_code_id</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">store_and_fwd_flag</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+ <span class="n">dropoff_longitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">dropoff_latitude</span> <span class="nb">double</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span>
+ <span class="n">payment_type</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">fare_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">extra</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">mta_tax</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">tip_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">tolls_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">improvement_surcharge</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">total_amount</span> <span class="nb">float</span><span class="p">,</span>
+ <span class="n">pickup_location_id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">dropoff_location_id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">congestion_surcharge</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">junk1</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="n">junk2</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">)</span> <span class="k">USING</span> <span class="n">CLUSTERED</span> <span class="n">COLUMNSTORE</span>
+<span class="p">);</span>
+
+<span class="cm">/* Rate code */</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">rate_code</span> <span class="p">(</span>
+ <span class="n">rate_code_id</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="k">KEY</span> <span class="p">(</span><span class="nv">`rate_code_id`</span><span class="p">)</span> <span class="k">USING</span> <span class="n">CLUSTERED</span> <span class="n">COLUMNSTORE</span>
+<span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">rate_code</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Standard rate'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'JFK'</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'Newark'</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'Nassau or Westchester'</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Negotiated fare'</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">'Group ride'</span><span class="p">);</span>
+
+<span class="cm">/* Payment type */</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">payment_type</span> <span class="p">(</span>
+ <span class="n">payment_type</span> <span class="nb">tinyint</span><span class="p">,</span>
+ <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+ <span class="k">KEY</span> <span class="p">(</span><span class="nv">`payment_type`</span><span class="p">)</span> <span class="k">USING</span> <span class="n">CLUSTERED</span> <span class="n">COLUMNSTORE</span>
+<span class="p">);</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">payment_type</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'Credit card'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'Cash'</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'No charge'</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'Dispute'</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'Unknown'</span><span class="p">),</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">'Voided trip'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Main table with data - <code class="highlighter-rouge">yellow_tripdata_staging</code>. Tables <code class="highlighter-rouge">rate_code</code> and <code class="highlighter-rouge">payment_type</code> are used to store additional data.</p>
+
+<h2 id="loading-of-data-from-the-file">Loading of data from the file.</h2>
+
+<p>MemSQL as MySQL supports importing data from files using command <code class="highlighter-rouge">LOAD DATA INFILE</code>. CSV file has been used for testing. File size is 1.5 GB and contains 10 906 859 lines.</p>
+
+<iframe width="100%" height="600px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCMdONS93B-lhyn7aOG9Q3TigjNn55hDdQp4-lkdm5LIGLwnFjGVI-3uHuLzDYeAaY72H400ADNDbq/pubhtml?gid=662724928&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+<p>Results of the test show that the data is imported faster to the columnstore table.</p>
+
+<p>After importing columnstore database has size 3.2GB, rowstore database - 4.8GB.</p>
+
+<h2 id="data-reading">Data reading.</h2>
+
+<p>Different SQL queries have been made up to check how databases work in different situations.</p>
+
+<table width="100%">
+ <tr>
+   <td colspan="2"><strong>Search by primary key.</strong></td>
+ </tr>
+ <tr>
+   <td>S1:</td>
+   <td>SELECT * FROM yellow_tripdata_staging WHERE id = 50</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Search by parameter.</strong></td>
+ </tr>
+ <tr>
+   <td>S2:</td>
+   <td>SELECT * FROM yellow_tripdata_staging WHERE payment_type = 2</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Search by range.</strong></td>
+ </tr>
+ <tr>
+   <td>S3:</td>
+   <td>SELECT * FROM yellow_tripdata_staging WHERE fare_amount &gt;= 10 AND fare_amount &lt;= 20</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Calculation of average value.</strong></td>
+ </tr>
+ <tr>
+   <td>S4:</td>
+   <td>SELECT avg(fare_amount) FROM yellow_tripdata_staging WHERE payment_type = 2</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Calculation of amount of items.</strong></td>
+ </tr>
+ <tr>
+   <td>S5:</td>
+   <td>SELECT count(*) FROM yellow_tripdata_staging WHERE payment_type = 2</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Search of the string.</strong></td>
+ </tr>
+ <tr>
+   <td>S6:</td>
+   <td>SELECT * FROM yellow_tripdata_staging WHERE store_and_fwd_flag LIKE 'Y%'</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Using a small limit.</strong></td>
+ </tr>
+ <tr>
+   <td>S7:</td>
+   <td>SELECT payment_type, pickup_longitude, pickup_latitude FROM yellow_tripdata_staging WHERE payment_type &gt; 3 LIMIT 100</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Using a big limit.</strong></td>
+ </tr>
+ <tr>
+   <td>S8:</td>
+   <td>SELECT payment_type, pickup_longitude, pickup_latitude FROM yellow_tripdata_staging WHERE payment_type &gt; 3 LIMIT 100000</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Using limit with offset.</strong></td>
+ </tr>
+ <tr>
+   <td>S9:</td>
+   <td>SELECT * FROM yellow_tripdata_staging LIMIT 100 OFFSET 100</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Search of dates in a range with sorting.</strong></td>
+ </tr>
+ <tr>
+   <td>S10:</td>
+   <td>SELECT tpep_pickup_datetime, tpep_dropoff_datetime FROM yellow_tripdata_staging WHERE tpep_pickup_datetime &gt;= '2016-01-01 00:00:00' AND tpep_pickup_datetime &lt;= '2016-01-01 01:00:00' ORDER BY tpep_pickup_datetime DESC</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Calculation of amount of items with grouping.</strong></td>
+ </tr>
+ <tr>
+   <td>S11:</td>
+   <td>SELECT COUNT(tip_amount), payment_type FROM yellow_tripdata_staging GROUP BY payment_type;</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>One inner join.</strong></td>
+ </tr>
+ <tr>
+   <td>S12:</td>
+   <td>SELECT pickup_longitude, pickup_latitude, r.name FROM yellow_tripdata_staging as t INNER JOIN rate_code as r ON t.rate_code_id = r.rate_code_id</td>
+ </tr>
+ <tr>
+   <td colspan="2"><strong>Two inner joins.</strong></td>
+ </tr>
+ <tr>
+   <td>S13:</td>
+   <td>SELECT pickup_longitude, pickup_latitude, r.name, p.name FROM yellow_tripdata_staging as t INNER JOIN rate_code as r ON t.rate_code_id = r.rate_code_id INNER JOIN payment_type as p ON t.payment_type = p.payment_type</td>
+ </tr>
+</table>
+
+<p>For rowstore tables two different tests have been run. In the first one only primary key on the field <code class="highlighter-rouge">id</code> has been used. Such tests are marked as <strong>“MySQL”</strong> and <strong>“MemSQL”</strong>. Second test has been run with indexes on the fields <code class="highlighter-rouge">rate_code_id</code> and <code class="highlighter-rouge">payment_type</code>. These tests are marked as <strong>“MySQL (index)”</strong> and <strong>“MemSQL (index)”</strong> and exist if fields with index have been used in query. MySQL parameter <code class="highlighter-rouge">innodb_buffer_pool_size</code> is ~2.5 GB in tests with indexes. With the default parameter of  <code class="highlighter-rouge">innodb_buffer_pool_size</code> results were two times worse.</p>
+
+<p>MemSQL columnstore tables can have one index only, so only one variant has been tested.</p>
+
+<p>Tests have been run on the table <code class="highlighter-rouge">yellow_tripdata_staging</code> with ~11 millions, 1 million, 50 thousands  and 1 thousand rows to check the relation between performance of databases and size of tables.</p>
+
+<p>Each test has been executed 3 times. Tests that show less time are considered as better. The best test from the first run is marked green.</p>
+
+<p>Results of the tests you can find below:</p>
+
+<iframe width="100%" height="1200px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCMdONS93B-lhyn7aOG9Q3TigjNn55hDdQp4-lkdm5LIGLwnFjGVI-3uHuLzDYeAaY72H400ADNDbq/pubhtml?gid=1689700170&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+<p>First, what we see is that MySQL loses almost all tests with large amount of data (more than one million rows). In some cases adding indexes helps performance (tests S5, S7), but in other cases requests are run slower (test S11, S12, S13).</p>
+
+<p>The test where MySQL wins is search by primary key (test S1). Also MySQL gets data well from the short limits (tests S7 and S9). But on the big limit performance falls dramatically (test S8).</p>
+
+<p>MySQL competes with MemSQL on the tables with 50 thousand rows. Added indexes begin to show efficiency. I think that by fine tuning parameters MySQL can show results better on such a volume of data and show data comparable to MemSQL.</p>
+
+<p>I was very surprised due to test results on the table with 1000 rows - MySQL works faster than MemSQL! Differences are a few milliseconds but if you need to execute thousands of requests then total time of execution can be seconds and difference in performance of the whole application will be visible.</p>
+
+<p>MemSQL works better on the large amount of data. And the more data we have, the more the superiority of MemSQL over MySQL looks like. Columnstore works very well to acquire large amounts of data in specific range (tests S3, S8, S10). I have not had the opportunity to check but I assume that columnstore will show greater advantage over rowstore on the larger amount of data. Rowstore searches faster by strings (test S6) и and works better with  JOIN.</p>
+
+<p>Using JOIN affects performance in all queries and databases (tests S12, S13). Therefore if we work with big data then it’s better to prepare data in advance and store processed data or  process data after receiving from the database to avoid joins in queries.</p>
+
+<h2 id="data-updating">Data updating</h2>
+
+<p>In the update tests I have reviewed two cases - updating of 10 000 records consistently (U1 - <code class="highlighter-rouge">UPDATE yellow_tripdata_staging SET tip_amount = 0, tolls_amount = 0 WHERE id = %d</code>) and updating of records using range (U2 - <code class="highlighter-rouge">UPDATE yellow_tripdata_staging SET tip_amount = 0, tolls_amount = 0 WHERE id &gt;= 1 AND id &lt;= 10000</code>). Tests have been run two times one right after another.</p>
+
+<iframe width="100%" height="520px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCMdONS93B-lhyn7aOG9Q3TigjNn55hDdQp4-lkdm5LIGLwnFjGVI-3uHuLzDYeAaY72H400ADNDbq/pubhtml?gid=1483495826&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+<p>From the results we see that MemSQL columnstore updates single rows very slow. It was expected as we know from the theory that column oriented tables aren’t intended for frequent updates.</p>
+
+<p>Updating the range is expectedly faster than updating single records because it is one transaction only.</p>
+
+<p>Updating rows in the first run happens faster in MemSQL rowstore. As we already saw in the reading tests MySQL works very well with primary key. So updating rows in the second run works faster in MySQL.</p>
+
+<h2 id="data-adding">Data adding</h2>
+
+<p>Adding data was tested twice. In the first test 10 000 lines have been added consistently. In the second test 10 queries by 1000 lines in each have been run.</p>
+
+<iframe width="100%" height="520px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCMdONS93B-lhyn7aOG9Q3TigjNn55hDdQp4-lkdm5LIGLwnFjGVI-3uHuLzDYeAaY72H400ADNDbq/pubhtml?gid=2086513471&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+<p>As anticipated, it is much more effective to add data by big chunks in any database. When we add data by lines then MemSQL does it faster.</p>
+
+<h2 id="data-removing">Data removing</h2>
+
+<p>In this test three cases have been considered:</p>
+
+<ul>
+  <li><strong>Test D1</strong> - deletion of 10 000 random rows;</li>
+  <li><strong>Test D2</strong> - deletion of 10 000 rows using range by primary key.</li>
+  <li><strong>Test D3</strong> - deletion of 10 000 000 rows.</li>
+</ul>
+
+<iframe width="100%" height="650px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCMdONS93B-lhyn7aOG9Q3TigjNn55hDdQp4-lkdm5LIGLwnFjGVI-3uHuLzDYeAaY72H400ADNDbq/pubhtml?gid=1003358391&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+<p>As we already saw, it is faster to update and remove lines by big groups.</p>
+
+<p>MemSQL columnstore is slowest in removing of 10 000 lines (tests D1, D2) but it is fastest in removing of 10 000 000 rows.</p>
+
+<p>In the test D1 (removing of 10 000 rows) the best performance showed MemSQL rowstore. But I think that if in MySQL primary keys were indexed then it would win.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>After tests are done we can conclude that difference in performance MySQL and MemSQL depends on the size of tables highly. MySQL is better suited for tables up to a few dozen thousand rows especially when indexes are used. Given that MemSQL is quite demanding on the minimum server resources, I think that using it on such data volumes is not practical.</p>
+
+<p>MemSQL shows results much better than MySQL when number of rows above million.  It is the scope of MemSQL - big data. Looks like it is a reason why MemSQL is free in usage on the clusters with limited resources - you can’t store more than one hundred gigabytes in the rowstore table on the free plan (but it can be enough for many applications). I have not had a chance to check but I suppose that on the very large amount of information (hundreds of gigabytes, terabytes) columnstore will be more effective than rowstore in the reading and writing information especially if you don’t need to update data frequently.</p>
+
+<p><strong>I would characterise scope of application of these databases as:</strong></p>
+
+<ul>
+  <li>Tables up to a few dozen thousands rows - MySQL.</li>
+  <li>Tables with more than a million rows with frequent updates - MemSQL rowstore.</li>
+  <li>Tables with more than a million rows with rare updates - MemSQL columnstore.</li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/memsql/2020/02/29/memsql-mysql-performance-comparison.html';
+      this.page.identifier = 'https://www.enik.io/memsql/2020/02/29/memsql-mysql-performance-comparison.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
