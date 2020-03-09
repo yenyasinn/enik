@@ -23,7 +23,7 @@ MemSQL allows to store data by row and by column, moreover in the same database.
 | Data is rarely updated. Main operation is reading. | Data is updated frequently and at random.|
 | Works effectively with reading of big amount of consistent data. | Fast search of arbitrary data.|
 | One index per table. | Few indexes are possible. |
-| Data is compressed. Less amount of storage is needed then source data especially with pre-sorting. | Data is stored as-is. More space is needed for storage then source data.|
+| Data is compressed. Less amount of storage is needed than source data especially with pre-sorting. | Data is stored as-is. More space is needed for storage than source data.|
 | Column tables are defined by key `CLUSTERED COLUMNSTORE`.||
 
 ## Architecture
