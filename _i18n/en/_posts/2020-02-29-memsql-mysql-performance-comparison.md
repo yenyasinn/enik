@@ -126,7 +126,7 @@ INSERT INTO payment_type VALUES (1, 'Credit card'), (2, 'Cash'), (3, 'No charge'
 
 Main table with data - `yellow_tripdata_staging`. Tables `rate_code` and `payment_type` are used to store additional data.
 
-## Loading of data from the file.
+## Loading data from the file.
 
 MemSQL as MySQL supports importing data from files using command `LOAD DATA INFILE`. CSV file has been used for testing. File size is 1.5 GB and contains 10 906 859 lines.
 
@@ -136,7 +136,7 @@ Results of the test show that the data is imported faster to the columnstore tab
 
 After importing columnstore database has size 3.2GB, rowstore database - 4.8GB.
 
-## Data reading.
+## Reading data.
 
 Different SQL queries have been made up to check how databases work in different situations.
 
@@ -259,7 +259,7 @@ MemSQL works better on the large amount of data. And the more data we have, the 
 
 Using JOIN affects performance in all queries and databases (tests S12, S13). Therefore if we work with big data then it’s better to prepare data in advance and store processed data or  process data after receiving from the database to avoid joins in queries.
 
-## Data updating
+## Updating data
 
 In the update tests I have reviewed two cases - updating of 10 000 records consistently (U1 - `UPDATE yellow_tripdata_staging SET tip_amount = 0, tolls_amount = 0 WHERE id = %d`) and updating of records using range (U2 - `UPDATE yellow_tripdata_staging SET tip_amount = 0, tolls_amount = 0 WHERE id >= 1 AND id <= 10000`). Tests have been run two times one right after another.
 
@@ -271,7 +271,7 @@ Updating the range is expectedly faster than updating single records because it 
 
 Updating rows in the first run happens faster in MemSQL rowstore. As we already saw in the reading tests MySQL works very well with primary key. So updating rows in the second run works faster in MySQL.
 
-## Data adding
+## Adding data
 
 Adding data was tested twice. In the first test 10 000 lines have been added consistently. In the second test 10 queries by 1000 lines in each have been run.
 
@@ -279,7 +279,7 @@ Adding data was tested twice. In the first test 10 000 lines have been added con
 
 As anticipated, it is much more effective to add data by big chunks in any database. When we add data by lines then MemSQL does it faster.
 
-## Data removing
+## Removing data
 
 In this test three cases have been considered:
 

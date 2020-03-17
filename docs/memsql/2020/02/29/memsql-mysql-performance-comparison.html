@@ -176,7 +176,7 @@
 
 <p>Main table with data - <code class="highlighter-rouge">yellow_tripdata_staging</code>. Tables <code class="highlighter-rouge">rate_code</code> and <code class="highlighter-rouge">payment_type</code> are used to store additional data.</p>
 
-<h2 id="loading-of-data-from-the-file">Loading of data from the file.</h2>
+<h2 id="loading-data-from-the-file">Loading data from the file.</h2>
 
 <p>MemSQL as MySQL supports importing data from files using command <code class="highlighter-rouge">LOAD DATA INFILE</code>. CSV file has been used for testing. File size is 1.5 GB and contains 10 906 859 lines.</p>
 
@@ -186,7 +186,7 @@
 
 <p>After importing columnstore database has size 3.2GB, rowstore database - 4.8GB.</p>
 
-<h2 id="data-reading">Data reading.</h2>
+<h2 id="reading-data">Reading data.</h2>
 
 <p>Different SQL queries have been made up to check how databases work in different situations.</p>
 
@@ -308,7 +308,7 @@
 
 <p>Using JOIN affects performance in all queries and databases (tests S12, S13). Therefore if we work with big data then it’s better to prepare data in advance and store processed data or  process data after receiving from the database to avoid joins in queries.</p>
 
-<h2 id="data-updating">Data updating</h2>
+<h2 id="updating-data">Updating data</h2>
 
 <p>In the update tests I have reviewed two cases - updating of 10 000 records consistently (U1 - <code class="highlighter-rouge">UPDATE yellow_tripdata_staging SET tip_amount = 0, tolls_amount = 0 WHERE id = %d</code>) and updating of records using range (U2 - <code class="highlighter-rouge">UPDATE yellow_tripdata_staging SET tip_amount = 0, tolls_amount = 0 WHERE id &gt;= 1 AND id &lt;= 10000</code>). Tests have been run two times one right after another.</p>
 
@@ -320,7 +320,7 @@
 
 <p>Updating rows in the first run happens faster in MemSQL rowstore. As we already saw in the reading tests MySQL works very well with primary key. So updating rows in the second run works faster in MySQL.</p>
 
-<h2 id="data-adding">Data adding</h2>
+<h2 id="adding-data">Adding data</h2>
 
 <p>Adding data was tested twice. In the first test 10 000 lines have been added consistently. In the second test 10 queries by 1000 lines in each have been run.</p>
 
@@ -328,7 +328,7 @@
 
 <p>As anticipated, it is much more effective to add data by big chunks in any database. When we add data by lines then MemSQL does it faster.</p>
 
-<h2 id="data-removing">Data removing</h2>
+<h2 id="removing-data">Removing data</h2>
 
 <p>In this test three cases have been considered:</p>
 

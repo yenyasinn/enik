@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Интеграция MemSQL c Drupal.</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Интеграция MemSQL c Drupal." />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по обзору MemSQL. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье “Cравнение производительности MySQL и MemSQL”. В этой статье я опишу как интегрировать MemSQL с Drupal." />
+<meta property="og:description" content="Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по обзору MemSQL. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье “Cравнение производительности MySQL и MemSQL”. В этой статье я опишу как интегрировать MemSQL с Drupal." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-16T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по обзору MemSQL. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье “Cравнение производительности MySQL и MemSQL”. В этой статье я опишу как интегрировать MemSQL с Drupal.","@type":"BlogPosting","url":"https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html","headline":"Интеграция MemSQL c Drupal.","dateModified":"2020-03-16T13:00:00+03:00","datePublished":"2020-03-16T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html" title="Русский">Русский</a>
+			  <a href="/drupal/memsql/2020/03/16/memsql-drupal-integration.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html">
+	<h2 class="post-title">Интеграция MemSQL c Drupal.</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>drupal</li><li>memsql</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Mar 16, 2020</div>
+</div>
+<div class="post">
+	<p>Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по <a href="/ru/memsql/2020/02/09/memsql-overview.html">обзору MemSQL</a>. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье <a href="/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html">“Cравнение производительности MySQL и MemSQL”</a>. В этой статье я опишу как интегрировать MemSQL с Drupal.</p>
+
+<h2 id="установка-memsql">Установка MemSQL</h2>
+
+<p>Для начала, нужно установить MemSQL на ваш сервер. Можно установить базу данных из пакетов на Linux или использовать Docker (в этом случае можно будет использовать MemSQL и на Windows). Перед установкой удостоверьтесь, что вы предоставляете минимально требуемые ресурсы - 4 ядра CPU и 8 ГБ ОЗУ. Если вы используете Vagrant, то в config.yml нужно добавить</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">vagrant_memory</span><span class="pi">:</span> <span class="m">8192</span>
+<span class="na">vagrant_cpus</span><span class="pi">:</span> <span class="m">4</span>
+</code></pre></div></div>
+
+<p>Шаги по установке MemSQL с подробным описанием вы можете найти на официальном сайте <a href="https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/">https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/</a>.</p>
+
+<p>В случае, когда вам нужно иметь одновременно MySQL и MemSQL на сервере, я рекомендую поменять порт MySQL на, например, 3308. Для этого установите это значение в параметре <code class="highlighter-rouge">port</code> в файле mysqld.cnf. MemSQL будет использовать порты 3306 и 3307 при установке по шагам из ссылки выше. MemSQL может работать на любых портах, но в таком случае кластер придется настраивать вручную, что потребует больше времени на изучение и установку.</p>
+
+<h2 id="настройка-php">Настройка PHP</h2>
+
+<p>MemSQL совместима с клиентским программным обеспечением для MySQL. Она представляется MySQL версией 5.5.8. Это значит, что вы можете подключиться к ней используя Sequel Pro, PHP MySQLi и  PHP PDO_MySQL драйвер и клиент будет считать, что работает с MySQL. Т.е. вы можете использовать все те инструменты к которым привыкли.</p>
+
+<p>Если PHP PDO_MySQL драйвер не установлен, то установите его. Например, команда для Debian или Ubuntu для установки драйвера для PHP 7.3
+ <code class="highlighter-rouge">apt-get install php7.3-mysql</code></p>
+
+<h2 id="установка-драйвера-memsql-в-drupal">Установка драйвера MemSQL в Drupal.</h2>
+
+<p>Чтобы работать с MemSQL в Drupal нужно установить драйвер базы данных. Для этого используйте Drupal модуль <a href="https://www.drupal.org/project/memsql">MemSQL</a>.</p>
+
+<p>Установка происходит как обычно - <code class="highlighter-rouge">composer require drupal/memsql</code>.</p>
+
+<p>Рекомендуется использовать composer для инсталляции. В этом случае поддержка Drush подключится сразу.</p>
+
+<p>После того, как модуль установился, необходимо скопировать папку <strong>memsql/drivers</strong> в <strong>[docroot]/drivers</strong> - основная папка, где находится ваш сайт, там, где index.php. Drupal использует это путь для поиска дополнительных драйверов.</p>
+
+<p><img src="/assets/content/2020-03-16-memsql-drupal-integration/drupal_driver_folder_structure.png" alt="Путь до драйвера MemSQL в Drupal" width="300px" /></p>
+
+<p>Чтобы не пришлось обновлять драйвер каждый раз вручную, можно добавить в composer.json скрипт для обновления папки с драйвером каждый раз после обновления модулей:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"</span><span class="s">post-update-cmd"</span><span class="pi">:</span> <span class="pi">[</span>
+    <span class="s2">"</span><span class="s">cp</span><span class="nv"> </span><span class="s">-r</span><span class="nv"> </span><span class="s">web/modules/contrib/memsql/drivers</span><span class="nv"> </span><span class="s">web/"</span>
+<span class="pi">]</span>
+</code></pre></div></div>
+<p>В данном примере <code class="highlighter-rouge">web</code> это название docroot папки. У вас она может отличаться.</p>
+
+<p>Если все сделано правильно, то в процессе установки Drupal на шаге “Set up database”  в поле “Database type” появится опция “MemSQL”. Выберите её и введите название базы данных, логин и пароль.</p>
+
+<p><img src="/assets/content/2020-03-16-memsql-drupal-integration/drupal_install_db_type.png" alt="Database configuration" /></p>
+
+<p>Если вы устанавливаете сайт из консоли, то добавьте настройки базы в settings.php:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$databases</span><span class="p">[</span><span class="s1">'default'</span><span class="p">][</span><span class="s1">'default'</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span> <span class="p">(</span>
+  <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="s1">'drupal'</span><span class="p">,</span>
+  <span class="s1">'username'</span> <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
+  <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="s1">'prefix'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>
+  <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="s1">'127.0.0.1'</span><span class="p">,</span>
+  <span class="s1">'port'</span> <span class="o">=&gt;</span> <span class="s1">'3306'</span><span class="p">,</span>
+  <span class="s1">'namespace'</span> <span class="o">=&gt;</span> <span class="s1">'Drupal\\Driver\\Database\\memsql'</span><span class="p">,</span>
+  <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'memsql'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="различия-реализации-драйвера-memsql-и-mysql">Различия реализации драйвера MemSQL и MySQL.</h2>
+
+<p>Драйвер базы данных MemSQL расширяет драйвер MySQL, который реализован в ядре Drupal. Хоть и MemSQL похожа на MySQL, но в реализации есть небольшие отличия:</p>
+
+<ul>
+  <li><strong>SHARD KEY</strong>.  MemSQL использует <code class="highlighter-rouge">SHARD KEY</code> для указания колонок, которые используются для вычисления хэша. Данные сохраняются на leaf согласно этому хэшу. Shard key должен включать в себя <code class="highlighter-rouge">PRIMARY KEY</code> и задается в <code class="highlighter-rouge">CREATE TABLE</code> sql запросе. Если <code class="highlighter-rouge">SHARD KEY</code> не указан, то для вычисления хеша  используется <code class="highlighter-rouge">PRIMARY KEY</code>.</li>
+  <li><strong>UNIQUE index</strong>. MemSQL требует чтобы колонки из <code class="highlighter-rouge">UNIQUE</code> индекса были частью <code class="highlighter-rouge">SHARD KEY</code>.</li>
+  <li><strong>Сортировка по-умолчанию</strong>. MySQL по-умолчанию отдает данные отсортированные по <code class="highlighter-rouge">PRIMARY KEY</code>. SQL стандарт не гарантирует такое поведение. MemSQL возвращает данные согласно своей логике, если <code class="highlighter-rouge">ORDER BY</code> не указан. Поэтому если вам нужно получить данные в отсортированном виде в MemSQL всегда используйте <code class="highlighter-rouge">ORDER BY</code>.</li>
+  <li>MemSQL не поддерживает <strong>сортировку в UNION запросах</strong>. Подробнее тут - <a href="https://www.drupal.org/project/memsql/issues/3112865">сортировка в UNION запросе</a>.</li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+      this.page.identifier = 'https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

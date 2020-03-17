@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Integration MemSQL and Drupal.</title>
+<meta name="generator" content="Jekyll v3.8.6" />
+<meta property="og:title" content="Integration MemSQL and Drupal." />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="If you don’t know what DBMS MemSQL is you can read the article with MemSQL overview. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the “MySQL and MemSQL performance comparison.”. In this article I describe how to integrate MemSQL with Drupal." />
+<meta property="og:description" content="If you don’t know what DBMS MemSQL is you can read the article with MemSQL overview. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the “MySQL and MemSQL performance comparison.”. In this article I describe how to integrate MemSQL with Drupal." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-16T13:00:00+03:00" />
+<script type="application/ld+json">
+{"description":"If you don’t know what DBMS MemSQL is you can read the article with MemSQL overview. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the “MySQL and MemSQL performance comparison.”. In this article I describe how to integrate MemSQL with Drupal.","@type":"BlogPosting","url":"https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html","headline":"Integration MemSQL and Drupal.","dateModified":"2020-03-16T13:00:00+03:00","datePublished":"2020-03-16T13:00:00+03:00","author":{"@type":"Person","name":"Evgenii Nikitin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<h2>Evgenii Nikitin</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html" title="Русский">Русский</a>
+			  <a href="/drupal/memsql/2020/03/16/memsql-drupal-integration.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/drupal/memsql/2020/03/16/memsql-drupal-integration.html">
+	<h2 class="post-title">Integration MemSQL and Drupal.</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>drupal</li><li>memsql</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Mar 16, 2020</div>
+</div>
+<div class="post">
+	<p>If you don’t know what DBMS MemSQL is you can read the article with <a href="/memsql/2020/02/09/memsql-overview.html">MemSQL overview</a>. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the <a href="/memsql/2020/02/29/memsql-mysql-performance-comparison.html">“MySQL and MemSQL performance comparison.”</a>. In this article I describe how to integrate MemSQL with Drupal.</p>
+
+<h2 id="memsql-installation">MemSQL installation</h2>
+
+<p>First of all, you have to install MemSQL on the server. MemSQL can be installed from the packages on Linux or Docker container can be used (in this case MemSQL will be available on Windows). You should ensure that the server satisfies minimal resource requirements for MemSQL - 4 vCPU and 8 GB RAM. If you install MemSQL on the virtual machine and Vagrant is used, then need to add to the config.yml:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">vagrant_memory</span><span class="pi">:</span> <span class="m">8192</span>
+<span class="na">vagrant_cpus</span><span class="pi">:</span> <span class="m">4</span>
+</code></pre></div></div>
+
+<p>All required steps for MemSQL installation with detailed description you can find on the official site <a href="https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/">https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/</a>.</p>
+
+<p>In case you need MySQL and MemSQL on the same server, I would recommend to change MySQL port and to set it, for example, 3308. You should set such value in the <code class="highlighter-rouge">port</code> configuration in the <strong>mysqld.cnf</strong> file. MemSQL uses ports 3306 (for aggregator) and 3307 (for leaves) if you install it as described in the installation guide. MemSQL can work on any ports but such configuration requires manual setup that is longer and complex for newcomers.</p>
+
+<h2 id="php-configuration">PHP configuration</h2>
+
+<p>MemSQL is compatible with MySQL’s client softwares. MemSQL says to the clients that it is MySQL version 5.5.8. It means that you can connect to MemSQL using any MySQL clients: Sequel Pro, PHP MySQLi, PHP PDO_MySQL etc. So you can use the same tools and libraries that you know well in the familiar LAMP stack.</p>
+
+<p>You should install PHP PDO_MySQL driver if it is absent on the server. Command for Debian or Ubuntu that installs database driver for PHP 7.3:</p>
+
+<p><code class="highlighter-rouge">apt-get install php7.3-mysql</code></p>
+
+<h2 id="memsql-driver-installation-on-drupal">MemSQL driver installation on Drupal.</h2>
+
+<p>MemSQL database driver has to be installed to work with this database in Drupal. Use the Drupal module <a href="https://www.drupal.org/project/memsql">MemSQL</a> for it.</p>
+
+<p>Install module as usual -  <code class="highlighter-rouge">composer require drupal/memsql</code>.</p>
+
+<p>I recommend to use composer for installation. In this case Drush support will be enabled automatically.</p>
+
+<p>After module installation please copy folder <strong>memsql/drivers</strong> to <strong>[docroot]/drivers</strong> - main folder of the site where index.php is placed. This path is used by Drupal to find custom database drivers.</p>
+
+<p><img src="/assets/content/2020-03-16-memsql-drupal-integration/drupal_driver_folder_structure.png" alt="Path with MemSQL driver in Drupal" width="300px" /></p>
+
+<p>If you want to avoid updating driver manually each time after update, you can add a script to the composer.json file to copy driver each time when modules are updated:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"</span><span class="s">post-update-cmd"</span><span class="pi">:</span> <span class="pi">[</span>
+   <span class="s2">"</span><span class="s">cp</span><span class="nv"> </span><span class="s">-r</span><span class="nv"> </span><span class="s">web/modules/contrib/memsql/drivers</span><span class="nv"> </span><span class="s">web/"</span>
+<span class="pi">]</span>
+</code></pre></div></div>
+<p>In this example <code class="highlighter-rouge">web</code> it is name of the docroot folder. It can be different on your system.</p>
+
+<p>If everything has been done correctly you will see option “MemSQL” on the step “Set up database” in the field “Database type”. Choose it and enter database credentials.</p>
+
+<p><img src="/assets/content/2020-03-16-memsql-drupal-integration/drupal_install_db_type.png" alt="Database configuration" /></p>
+
+<p>If you install Drupal from the console then add database settings to the settings.php:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$databases</span><span class="p">[</span><span class="s1">'default'</span><span class="p">][</span><span class="s1">'default'</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span> <span class="p">(</span>
+ <span class="s1">'database'</span> <span class="o">=&gt;</span> <span class="s1">'drupal'</span><span class="p">,</span>
+ <span class="s1">'username'</span> <span class="o">=&gt;</span> <span class="s1">'root'</span><span class="p">,</span>
+ <span class="s1">'password'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>
+ <span class="s1">'prefix'</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>
+ <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="s1">'127.0.0.1'</span><span class="p">,</span>
+ <span class="s1">'port'</span> <span class="o">=&gt;</span> <span class="s1">'3306'</span><span class="p">,</span>
+ <span class="s1">'namespace'</span> <span class="o">=&gt;</span> <span class="s1">'Drupal\\Driver\\Database\\memsql'</span><span class="p">,</span>
+ <span class="s1">'driver'</span> <span class="o">=&gt;</span> <span class="s1">'memsql'</span><span class="p">,</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="differences-in-memsql-and-mysql-drivers-implementation">Differences in MemSQL and MySQL drivers implementation.</h2>
+
+<p>MemSQL driver extends Drupal core MySQL driver. Though MemSQL is compatible with MySQL there are little differences:</p>
+
+<ul>
+  <li><strong>SHARD KEY</strong>.  MemSQL uses <code class="highlighter-rouge">SHARD KEY</code> to set columns that are used for hash calculation. This hash is used to define on what leaf row has to be saved. Shard key has to include <code class="highlighter-rouge">PRIMARY KEY</code> and is defined in <code class="highlighter-rouge">CREATE TABLE</code> sql query. If <code class="highlighter-rouge">SHARD KEY</code> isn’t set then <code class="highlighter-rouge">PRIMARY KEY</code> is used for hash calculation.</li>
+  <li><strong>UNIQUE index</strong>. MemSQL requires columns from the <code class="highlighter-rouge">UNIQUE</code> index have to be a part of  <code class="highlighter-rouge">SHARD KEY</code>.</li>
+  <li><strong>Default sorting</strong>. MySQL returns data sorted by <code class="highlighter-rouge">PRIMARY KEY</code> by default. SQL standard doesn’t guarantee such behaviour. MemSQL returns data unordered if <code class="highlighter-rouge">ORDER BY</code> isn’t set. Therefore if you need to get sorted data you have to use <code class="highlighter-rouge">ORDER BY</code>.</li>
+  <li>MemSQL doesn’t support <strong>sorting in UNION requests</strong>. More details here - <a href="https://www.drupal.org/project/memsql/issues/3112865">sorting in UNION request</a>.</li>
+</ul>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+      this.page.identifier = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
