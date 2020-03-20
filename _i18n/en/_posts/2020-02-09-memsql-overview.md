@@ -5,11 +5,19 @@ date: 2020-02-09 10:00:00 +0000
 categories: memsql
 canonical_url: https://www.enik.io/memsql/2020/02/09/memsql-overview.html
 ---
-What do we optimise first of all when we are talking about performance? That part that works with data storage. We can use key-value storage in RAM (Memcache or Redis) for some data but main data we keep in SQL database. Velocity of receiving data from memory much bigger than from the disk. It would be great to keep all data in RAM, wouldn't it?  
+What do we optimise first of all when we are talking about performance? That part that works with data storage. We can use key-value storage in RAM (Memcache or Redis) for some data but main data we keep in SQL database. Time of receiving data from memory is less than from the disk. It would be great to keep all data in RAM, wouldn't it?  
 
 Fortunately there is such database - **[MemSQL](https://www.memsql.com)**.
 
 MemSQL works with data in RAM and is a MySQL compatible database. It promises great speed in familiar LAMP stack. Is it so wonderful to be true? Let’s understand how it can be integrated with Drupal and when it can be used effectively.
+
+## Expectations and reality.
+
+When we hear "in-memory database" (IMDB) we expect that disks aren’t used as data storage and data can be lost after server reboot. Also we think that it has to work super fast as data is in the memory.
+
+In reality disks are used to store data and we can be calm for the data safety if database is rebooted.
+
+In-memory databases are a new trend in keeping data as memory becomes cheaper every year. They are fitted very well to modern hardware. For example, IMDB writes data to the disks consistently using all advantages of SSD disks. All modern in-memory databases use distributed architecture therefore it is easy to build and scale clusters with lots of servers. Unfortunately IMDBs don’t resolve all issues with performance. Bottlenecks moved from the disk storage to other parts of a system. 
 
 ## Storage methods
 
@@ -30,11 +38,17 @@ MemSQL allows to store data by row and by column, moreover in the same database.
 
 MemSQL can work with a huge amount of data. But there isn’t RAM that can store more than a few hundred gigabytes. Therefore MemSQL cluster consists of a few parts - aggregators and leaves.
 
-![Architecture of  MemSQL](/assets/content/2020-02-09-memsql-overview/memsql_architecture.jpg)
+![Architecture of  MemSQL](/assets/content/2020-02-09-memsql-overview/memsql_architecture.jpg){:width="600px"}
 
-Aggregator stores information about leaves in a cluster. It takes a sql request and sends it to the leaves where necessary information is stored. Then it combines requested data from the leaves and returns it to the client.
+Aggregator stores information about leaves in a cluster. Leaves are used for storing data. All calculations take place here. MemSQL shares data across leaves automatically based on the `Shard key`.
 
-Leaves are used for storing data. All calculations take place here. MemSQL shares data across leaves automatically based on Shard key.
+Aggregator calculates hash value of the `Shard key` index and sends row to store on the leave based on this hash value.
+
+![Data saving to the MemSQL cluster](/assets/content/2020-02-09-memsql-overview/memsql_leaf_write.png){:width="600px"}
+
+In the read operation aggregator sends request to the leaves. Then it combines requested data from the leaves and returns it to the client.
+
+![Reading from MemSQL cluster](/assets/content/2020-02-09-memsql-overview/memsql_leaf_read.png){:width="600px"}
 
 It’s quite simple to add aggregators and leaves and, thus, scale data storage.
 
@@ -46,7 +60,7 @@ MemSQL developers insist that this database is absolutely reliable and data isn�
 
 Data is loaded from the disk and is merged with transactions from transaction log after server loads. It takes some time due to the performance of the file system.
 
-![Schema of saving transactions in  MemSQL](/assets/content/2020-02-09-memsql-overview/memsql_durability.png)
+![Schema of saving transactions in  MemSQL](/assets/content/2020-02-09-memsql-overview/memsql_durability.png){:width="600px"}
 
 ## System requirements
 
