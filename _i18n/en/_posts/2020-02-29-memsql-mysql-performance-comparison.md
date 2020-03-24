@@ -306,3 +306,27 @@ MemSQL shows results much better than MySQL when number of rows above million.  
 * Tables up to a few dozen thousands rows - MySQL.
 * Tables with more than a million rows with frequent updates - MemSQL rowstore.
 * Tables with more than a million rows with rare updates - MemSQL columnstore.
+
+## What is about Drupal?
+
+Drupal is well constructed and uses effectively the advantages of traditional databases like MySQL and PostgreSQL. Let’s have a look on the typical requests in Drupal on the example of two sites with 10 and 500 000 nodes:
+
+<iframe width="100%" height="520px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCMdONS93B-lhyn7aOG9Q3TigjNn55hDdQp4-lkdm5LIGLwnFjGVI-3uHuLzDYeAaY72H400ADNDbq/pubhtml?gid=108804055&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+As you see Drupal uses search by primary key and MySQL works fine in this case. But there is also writing cache data where MemSQL is more performant. In reality we often use key-value storages such as Redis or Memcache to decrease load on the database and in this case writing to the DB is rare.
+
+I’ve decided to measure output of 10 nodes with enabled and disabled Memcache on the sites with 50, 50 000 and 500 000 nodes to understand what is more effective for Drupal - MySQL or MemSQL. You can find results below: 
+
+<iframe width="100%" height="520px" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSCMdONS93B-lhyn7aOG9Q3TigjNn55hDdQp4-lkdm5LIGLwnFjGVI-3uHuLzDYeAaY72H400ADNDbq/pubhtml?gid=491586049&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+In the first run with “cold” cache Drupal + MemSQL is a little bit faster, but if the page is cached then Drupal + MySQL + Memcache shows better performance. But the difference isn’t significant.
+
+If you use Drupal to store content then, highly likely, you won’t see a big difference between MemSQL and MySQL. In this case better to [use reverse proxy for caching](/drupal/performance/2019/10/06/reverse-proxy-caching.html), especially considering that MemSQL requires a high performance server.
+
+**MemSQL can be used effectively if Drupal is used as:**
+
+* Real-time analytical platform.
+* Dashboard.
+* Search system by parameters (for example, search by hotels or flights).
+* System with frequent data updates.
+* Storage of huge amount of data (hundreds of gigabytes).
