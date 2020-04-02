@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "MemSQL. Overview"
+title:  "Overview of MemSQL"
 date: 2020-02-09 10:00:00 +0000
 categories: memsql
 canonical_url: https://www.enik.io/memsql/2020/02/09/memsql-overview.html
