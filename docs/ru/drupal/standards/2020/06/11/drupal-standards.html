@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Стандарты в Drupal проекте</title>
+<meta name="generator" content="Jekyll v3.8.7" />
+<meta property="og:title" content="Стандарты в Drupal проекте" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Перед разработкой Drupal проекта, особенно большого, важно определиться со стандартами, которые будут использоваться на проекте. Таким образом все участвующие в проекте будут понимать каким правилам следовать во время разработки и поддержки проекта." />
+<meta property="og:description" content="Перед разработкой Drupal проекта, особенно большого, важно определиться со стандартами, которые будут использоваться на проекте. Таким образом все участвующие в проекте будут понимать каким правилам следовать во время разработки и поддержки проекта." />
+<link rel="canonical" href="https://www.enik.io/ru/drupal/standards/2020/06/11/drupal-standards.html" />
+<meta property="og:url" content="https://www.enik.io/ru/drupal/standards/2020/06/11/drupal-standards.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-11T09:00:00+03:00" />
+<script type="application/ld+json">
+{"datePublished":"2020-06-11T09:00:00+03:00","dateModified":"2020-06-11T09:00:00+03:00","url":"https://www.enik.io/ru/drupal/standards/2020/06/11/drupal-standards.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/standards/2020/06/11/drupal-standards.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Перед разработкой Drupal проекта, особенно большого, важно определиться со стандартами, которые будут использоваться на проекте. Таким образом все участвующие в проекте будут понимать каким правилам следовать во время разработки и поддержки проекта.","@type":"BlogPosting","headline":"Стандарты в Drupal проекте","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/standards/2020/06/11/drupal-standards.html" title="Русский">Русский</a>
+			  <a href="/drupal/standards/2020/06/11/drupal-standards.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/ru/drupal/standards/2020/06/11/drupal-standards.html">
+	<h2 class="post-title">Стандарты в Drupal проекте</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>drupal</li><li>standards</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Jun 11, 2020</div>
+</div>
+<div class="post">
+	<p>Перед разработкой Drupal проекта, особенно большого, важно определиться со стандартами, которые будут использоваться на проекте. Таким образом все участвующие в проекте будут понимать каким правилам следовать во время разработки и поддержки проекта.</p>
+
+<p>Это нужно чтобы:</p>
+<ul>
+  <li>Облегчить поддержку проекта, т.к. в нем будет легче разобраться.</li>
+  <li>Облегчить вход для новых разработчиков - они будут понимать что и как нужно делать благодаря описанным требованиям</li>
+  <li>Уменьшить риски возникновения проблем совместимости.</li>
+  <li>Избежать проблем в коммуницировании между членами команды.</li>
+</ul>
+
+<h2 id="договариваемся-о-нумерации-релизов-проекта">Договариваемся о нумерации релизов проекта.</h2>
+
+<p>Работа над проектом, обычно, происходит итерациями. Используется система релизов, каждый из которых включает в себя определенный функционал. Для начала нам нужно навести порядок в наименовании релизов.</p>
+
+<p>Вы можете внедрить любые правила, какие вам хочется, но, вы можете использовать стандарт <a href="https://semver.org/">Semantic Versioning</a>. Этот стандарт был придуман одним из создателей GitHub и используется на многих проектах. Ппрофессиональные разработчики знакомы с этим стандартом поэтому вам будет легко внедрять его на своих проектах.</p>
+
+<p>Drupal использовал свое собственное соглашение о именовании релизов модулей вида 7.x-*, 8.x-*. Но с выходом Drupal 8 и постепенной миграции на Drupal 9 сообщество решило перейти на Semantic Versioning (<a href="https://www.drupal.org/contribute/release-naming-conventions">более подробно об этом</a>).</p>
+
+<h2 id="стандарты-кодирования-drupal">Стандарты кодирования Drupal</h2>
+
+<p>Думаю, что большинство Drupal разработчиков слышало о <a href="https://www.drupal.org/docs/develop/standards">стандартах кодирования Drupal</a>. Эти стандарты описывают  форматирование кода, наименование и расположение файлов, архитектурные паттерны. Для Drupal проектов эти стандарты являются обязательными, особенно если вы разрабатываете модули для сообщества.</p>
+
+<p>Здесь я хотел бы отметить, что стандарты кодирования Drupal не распространяются на composer.json файлы где используются отступы в 4 пробела вместо обычных для Drupal 2х,</p>
+
+<p>Для проверки стандартов кодирования обычно используют библиотеку <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP CodeSniffer</a> с установленными правилами для Drupal. Инструкцию по установке можно найти <a href="https://www.drupal.org/docs/8/modules/code-review-module/installing-coder-sniffer">здесь</a>. Многие <a href="/ru/drupal/boilerplate/2019/08/30/drupal-boilerplates.html">Drupal boilerplate</a> проекты уже имеют эту библиотеку установленной.</p>
+
+<p>Вы можете использовать continuous integration систему для проверки вашего кода используя PHP CodeSniffer.</p>
+
+<p>Также можно внедрить проверку кода при срабатывании git хуков используя <a href="https://github.com/phpro/grumphp">GrumPHP</a>. Эта библиотека не позволит добавить в репозиторий невалидный код.</p>
+
+<h2 id="php-стандарты">PHP стандарты</h2>
+
+<p>При разработке Drupal проектов вы также используете сторонние PHP библиотеки (например, описанные выше PHP CodeSniffer или GrumPHP). При проектировании и создании PHP библиотек рекомендуется использовать “<a href="https://www.php-fig.org/psr/">PHP Standard Recommendations (PSR)</a>”. Эти рекомендации позволят вам легко внедрить стороннюю библиотеку в ваш проект или разработать библиотеку, которую можно будет переиспользовать. Например, внедрение стандарта <a href="https://www.php-fig.org/psr/psr-4">PSR-4</a> позволило сделать composer и облегчило создание и  установку PHP пакетов.</p>
+
+<h2 id="css-стандарты">CSS стандарты</h2>
+
+<p>CSS в Drupal проекте должно удовлетворять <a href="https://www.drupal.org/docs/develop/standards/css">стандартам кодирования Drupal</a>.</p>
+
+<p>Как указано в <a href="https://www.drupal.org/docs/develop/standards/css/css-architecture-for-drupal-8#s-component-smacss-module">документации</a> Drupal использует архитектурный паттерн “<a href="http://smacss.com/">Scalable and Modular Architecture for CSS (SMACSS)</a>” для организации CSS. К сожалению, он не всегда удобен и при построении тем все большее распространения получает методология <a href="https://ru.bem.info/methodology/">BEM</a> (Block, Element, Modifier). BEM использует идею создания <a href="/ru/drupal/theme/2019/06/10/component-based-theming.html">темы на основе компонентов</a> и отлично подходит для создания библиотеки компонентов, которые могут быть использованы в вашей теме. Если вы не используете компоненты, то можно использовать методологию BEM просто для определения классов для элементов страниц.</p>
+
+<h2 id="javascript-стандарты">Javascript стандарты</h2>
+
+<p>Для Javascript также определены <a href="https://www.drupal.org/docs/develop/standards/javascript">стандарты Drupal</a>. Но кроме этого нужно определить какую версию Javascript использовать на проекте.</p>
+
+<p>Ядро Drupal использует Javascript стандарта ES6 (EcmaScript 2015). В папке <code class="highlighter-rouge">core/misc</code> вы найдете файлы <code class="highlighter-rouge">*.es6.js</code> и <code class="highlighter-rouge">*.js</code>. Предполагается, что разработчики работают с файлами <code class="highlighter-rouge">*.es6.js</code>, а <code class="highlighter-rouge">*.js</code> файлы, которые загружаются браузером, генерируются Javascript компилятором <a href="https://babeljs.io/">Babel</a> для совместимости с браузерами, которые не поддерживают ES6 стандарт.</p>
+
+<p>Какую версию Javascript использовать на проекте решать вам, но чем раньше вы это сделаете тем лучше. Можете использовать стандарт ES5 знакомый по Drupal 6 и 7, или ES6 + Babel если вам нужно поддерживать старые браузеры. Если вам не нужно их поддерживать то можете использовать просто ES6 в своей теме. Он поддерживается всеми браузерами вышедшими после 2013 года. Или же можете взять ES7 или ES8 + Babel если знаете, что проект будет поддерживаться долго и хотите использовать все нововведения Javascript.</p>
+
+<h2 id="можно-ли-стандартизировать-качество-кода">Можно ли стандартизировать качество кода?</h2>
+
+<p>Насколько я знаю нет отраслевых стандартов которые бы задавали качество кода. Но мы можем сами оценивать качество по определенным параметрам, например:</p>
+<ul>
+  <li>Покрытие тестами.</li>
+  <li>Наличие дубликатов кода.</li>
+  <li>Наличие комментариев.</li>
+  <li>Сложность кода.</li>
+</ul>
+
+<p>Данные параметры могут быть проверены используя <a href="http://phpmd.org">PHP MessDetector</a> или <a href="https://www.sonarqube.org/">SonarQube</a> для которых вы можете определить собственные правила. Дубликаты кода могут быть найдены с помощью библиотеки <a href="https://github.com/sebastianbergmann/phpcpd">PHP Copy/Paste Detector</a>.</p>
+
+<p>При проведении ревью кода можно руководствоваться принципами <a href="https://ru.wikipedia.org/wiki/SOLID_(%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BD%D0%BE-%D0%BE%D1%80%D0%B8%D0%B5%D0%BD%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5)">SOLID</a>:</p>
+<ul>
+  <li>Single-responsibility principle - класс должен быть ответственен лишь за что-то одно</li>
+  <li>Open–closed principle - программные сущности (классы, модули, функции) должны быть открыты для расширения, но не для модификации.</li>
+  <li>Liskov substitution principle - необходимо, чтобы подклассы могли бы служить заменой для своих суперклассов.</li>
+  <li>Interface segregation principle - узкоспециализированные интерфейсы, предназначенные для конкретного клиента лучше чем один многофункциональный интерфейс.</li>
+  <li>Dependency inversion principle - объектом зависимости должна быть абстракция, а не что-то конкретное.</li>
+</ul>
+
+<p>Данными принципами должны руководствоваться все программисты при разработке кода, но не всегда это происходит. Введение этих принципов в качестве стандарта прохождения ревью кода позволит определить четкие правила по которым код будет считаться качественным и сможет пройти проверку.</p>
+
+<h2 id="стандартное-окружение-для-всех-разработчиков">Стандартное окружение для всех разработчиков</h2>
+
+<p>На проектах часто возникают проблемы связанные с использованием разного окружения на локальных компьютерах разработчиков. Например, разные версии программного обеспечения могут вести себя по-разному или какие-то функции могут не работать на локальной машине и требуется время на установку и настройку специального ПО. Чтобы этого избежать, используйте стандартное окружение для всех разработчиков. Вы можете использовать Docker контейнеры или виртуальные машины и Vagrant для настройки единого окружения. Также вы можете взять готовые настройки окружения такие, как <a href="https://www.drupalvm.com/">DrupalVM</a>, <a href="https://docs.lando.dev/config/drupal8.html">Lando</a>, <a href="https://github.com/docksal/docksal">Docksal</a>.</p>
+
+<h2 id="итог">Итог</h2>
+
+<p>Как вы видите существуют множество различных стандартов, которые вы можете использовать в Drupal проектах. Можно также упомянуть стандарты <a href="https://www.drupal.org/patch/submit">наименования патчей</a> и веток в репозитарии, <a href="https://www.drupal.org/node/52287">сообщений комитов</a>. Вы сами решаете что вам нужно, а что нет. История программирования показывает, что введение стандартов помогает работать над проектами, особенно если над проектом работает несколько человек. Только хочу отметить что стоит подходить к этому вопросу обдуманно чтобы стандарты вам помогали, а не мешали в работе.</p>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/ru/drupal/standards/2020/06/11/drupal-standards.html';
+      this.page.identifier = 'https://www.enik.io/ru/drupal/standards/2020/06/11/drupal-standards.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

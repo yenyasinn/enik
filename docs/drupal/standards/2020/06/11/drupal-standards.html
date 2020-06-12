@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Standards in Drupal projects</title>
+<meta name="generator" content="Jekyll v3.8.7" />
+<meta property="og:title" content="Standards in Drupal projects" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="It’s important to define standards that will be used on the Drupal project prior to the start of the project especially if the project is big. Thus everyone involved in the project will understand which rules should be respected during development and maintenance of the project." />
+<meta property="og:description" content="It’s important to define standards that will be used on the Drupal project prior to the start of the project especially if the project is big. Thus everyone involved in the project will understand which rules should be respected during development and maintenance of the project." />
+<link rel="canonical" href="https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html" />
+<meta property="og:url" content="https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-11T09:00:00+03:00" />
+<script type="application/ld+json">
+{"datePublished":"2020-06-11T09:00:00+03:00","dateModified":"2020-06-11T09:00:00+03:00","url":"https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"It’s important to define standards that will be used on the Drupal project prior to the start of the project especially if the project is big. Thus everyone involved in the project will understand which rules should be respected during development and maintenance of the project.","@type":"BlogPosting","headline":"Standards in Drupal projects","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<h2>Evgenii Nikitin</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/standards/2020/06/11/drupal-standards.html" title="Русский">Русский</a>
+			  <a href="/drupal/standards/2020/06/11/drupal-standards.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/drupal/standards/2020/06/11/drupal-standards.html">
+	<h2 class="post-title">Standards in Drupal projects</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>drupal</li><li>standards</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Jun 11, 2020</div>
+</div>
+<div class="post">
+	<p>It’s important to define standards that will be used on the Drupal project prior to the start of the project especially if the project is big. Thus everyone involved in the project will understand which rules should be respected during development and maintenance of the project.</p>
+
+<p>It’s required for:</p>
+<ul>
+  <li>Simplify support of the project because it will be simpler to sort out in the project.</li>
+  <li>Facilitate entry for new developers - they will understand what and how to do due to described requirements.</li>
+  <li>Lower risks of appearance of compatibility issues.</li>
+  <li>Avoid problems in communications between team members.</li>
+</ul>
+
+<h2 id="release-naming-convention">Release naming convention.</h2>
+
+<p>Work on a project usually happens through iterations. System of releases is used. Each release contains specific functionality. In the beginning we should define naming convention for releases.</p>
+
+<p>You can introduce any rules for release naming convention but you also may use <a href="https://semver.org">Semantic Versioning</a> standard. It was created by one of the creators of GitHub and nowadays is used on many projects. Professional developers are familiar with this standard so it will be easy to introduce it on your projects.</p>
+
+<p>Drupal has used its own release naming convention for core and modules like 7.x-*, 8.x-* till Drupal 8 version. But then it was decided to switch to Semantic Versioning (<a href="https://www.drupal.org/contribute/release-naming-conventions">more details about it</a>).</p>
+
+<h2 id="drupal-coding-standards">Drupal coding standards</h2>
+
+<p>I think that most Drupal developers know about <a href="https://www.drupal.org/docs/develop/standards">Drupal coding standards</a>. These standards describe code formatting, naming and location of files, architectural patterns. These standards are mandatory for Drupal projects, especially if you develop modules for the community.</p>
+
+<p>Here I would like to note that Drupal coding standards don’t cover composer.json files that use 4 space indent instead of 2 in Drupal files.</p>
+
+<p><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP CodeSniffer</a> library with rules for Drupal is used to check coding standards. You can find instruction how to install it <a href="https://www.drupal.org/docs/8/modules/code-review-module/installing-coder-sniffer">here</a>. Lots of <a href="/drupal/boilerplate/2019/08/30/drupal-boilerplates.html">Drupal boilerplate</a> projects include this library.</p>
+
+<p>You can use a continuous integration system to validate your code using PHP CodeSniffer. Also <a href="https://github.com/phpro/grumphp">GrumPHP</a> can be used to disallow you commit wrong code to GIT.</p>
+
+<h2 id="php-standards">PHP standards</h2>
+
+<p>You use external PHP libraries during development of Drupal projects (for example, PHP CodeSniffer or GrumPHP that have been mentioned above). It’s recommended to use  “<a href="https://www.php-fig.org/psr/">PHP Standard Recommendations (PSR)</a>” in designing and development of PHP libraries . These recommendations allow you to embed PHP libraries easily or develop reusable libraries. For instance, standard <a href="https://www.php-fig.org/psr/psr-4">PSR-4</a> is a key point of Composer.</p>
+
+<h2 id="css-standards">CSS standards</h2>
+
+<p>CSS in Drupal project should satisfy <a href="https://www.drupal.org/docs/develop/standards/css">Drupal coding standards</a>.</p>
+
+<p>As mentioned in the <a href="https://www.drupal.org/docs/develop/standards/css/css-architecture-for-drupal-8#s-component-smacss-module">documentation</a> Drupal uses architectural pattern “<a href="http://smacss.com/">Scalable and Modular Architecture for CSS (SMACSS)</a>”. Unfortunately it isn’t convenient in all cases so <a href="https://en.bem.info/methodology/">BEM</a> (Block, Element, Modifier) methodology is becoming more widespread in theme development. BEM uses idea of <a href="/drupal/theme/2019/06/10/component-based-theming.html">building themes based on the components</a> and is suited best for creation of components library that can be used in your theme. If you don’t use components then BEM is acceptable for class naming of page elements.</p>
+
+<h2 id="javascript-standards">Javascript standards</h2>
+
+<p>There are <a href="https://www.drupal.org/docs/develop/standards/javascript">Drupal standards for Javascripts</a>. But besides it you should define what version of Javascript to use on the project.</p>
+
+<p>Drupal core uses Javascript of standard ES6 (EcmaScript 2015). There are <code class="highlighter-rouge">*.es6.js</code> и <code class="highlighter-rouge">*.js</code> files in the <code class="highlighter-rouge">core/misc</code> folder. Developers work with  <code class="highlighter-rouge">*.es6.js</code> files but <code class="highlighter-rouge">*.js</code> files, that are loaded by browsers, generated by Javascript compiler <a href="https://babeljs.io/">Babel</a>. Such code is fully compatible with old browsers that don’t support ES6 standard.</p>
+
+<p>You should decide what version of Javascript to use on the project but better to do it earlier. You can use the familiar standard ES5 that was used in Drupal 6 and 7 or ES6 + Babel if you need to support outdated browsers. If only modern browsers are supported by your project you can use standard ES6 that is supported by all browsers released after 2013. Also you can take ES7 or ES8 + Babel if you need all the advantages of the latest Javascript versions and it’s planned to support your project for long.</p>
+
+<h2 id="can-code-quality-be-standardised">Can code quality be standardised?</h2>
+
+<p>As I know, industry standards for code quality don’t exist. But we can measure quality by specific parameters, for example:</p>
+<ul>
+  <li>Test coverage.</li>
+  <li>Existing code duplication.</li>
+  <li>Whether comments exist or not.</li>
+  <li>Code complexity.</li>
+</ul>
+
+<p>Such parameters can be checked using tools <a href="http://phpmd.org">PHP MessDetector</a> or <a href="https://www.sonarqube.org/">SonarQube</a> for which you can set custom rules. Code duplication can be found using library <a href="https://github.com/sebastianbergmann/phpcpd">PHP Copy/Paste Detector</a>.</p>
+
+<p>When conducting a code review, you can be guided by the principles <a href="https://en.wikipedia.org/wiki/SOLID">SOLID</a>):</p>
+<ul>
+  <li>Single-responsibility principle - A class should only have a single responsibility, that is, only changes to one part of the software’s specification should be able to affect the specification of the class.</li>
+  <li>Open–closed principle - “Software entities … should be open for extension, but closed for modification.”</li>
+  <li>Liskov substitution principle - “Objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program.”</li>
+  <li>Interface segregation principle - “Many client-specific interfaces are better than one general-purpose interface.”</li>
+  <li>Dependency inversion principle - One should “depend upon abstractions, not concretions.”</li>
+</ul>
+
+<p>All computer programmers should use these principles in code development but this is not always happening. Introducing these principles as a standard of passing code review allows us to determine clear rules of qualitative code.</p>
+
+<h2 id="standard-environment-for-all-developers">Standard environment for all developers</h2>
+
+<p>Projects often have problems associated with using different environments on the local computers of developers. For example, different versions of software can behave differently or some functions may not work on the local machine and need to spend time on the system configuration. To avoid such issues, use a standard environment for all developers in your team.</p>
+
+<p>Docker containers of virtual machines with Vagrant can be used to set up a unified environment. Also pre-configured environments such as  <a href="https://www.drupalvm.com/">DrupalVM</a>, <a href="https://docs.lando.dev/config/drupal8.html">Lando</a>, <a href="https://github.com/docksal/docksal">Docksal</a> may be used to build your environment.</p>
+
+<h2 id="resume">Resume</h2>
+
+<p>As you see there are lots of various standards that you should use in the Drupal projects. Also such standards can be mentioned: <a href="https://www.drupal.org/patch/submit">patch naming</a>, git branches naming, <a href="https://www.drupal.org/node/52287">commit messages convention</a>, You decide what you need and what not. The history of programming shows that the introduction of standards helps to work on projects, especially when lots of people involved. I just want to note that it is worth approaching this issue thoughtfully so that standards help you, and not interfere with your work.</p>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html';
+      this.page.identifier = 'https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
