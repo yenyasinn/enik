@@ -59,7 +59,7 @@
 	<div class="post-date"><i class="icon-calendar"></i>Jan 10, 2021</div>
 </div>
 <div class="post">
-	<p>Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent on the interviews.</p>
+	<p>Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent during interviews.</p>
 
 <h2 id="creational-patterns">Creational patterns</h2>
 
@@ -67,7 +67,7 @@
 
 <p><strong>“Singleton”</strong> - it is, probably, the most famous design pattern. Its purpose is to create a single instance of the class and provide a single point of access to the object.</p>
 
-<p>Access to site settings is implemented in Drupal using the “Singleton” template. It shown on the schema below how it works:</p>
+<p>Access to site settings is implemented in Drupal using the “Singleton” template. The schema below demonstrates how it works:</p>
 
 <p><img src="/assets/content/2021-01-10-patterns/singleton.png" alt="Schema of Singleton pattern in Drupal on the example of access to the site settings" /></p>
 
@@ -77,17 +77,18 @@
 
 <p><strong>“Factory method”</strong> defines common interface for object creation. Type of the object can be changed based on the settings.</p>
 
-<p>“Factory method” is used in Drupal to get the object to work with cache. Different cache types require their own implementation, so there are classes that implement interface  <code class="highlighter-rouge">CacheBackendInterface</code> such as <code class="highlighter-rouge">DatabaseBackend</code>, <code class="highlighter-rouge">PhpBackend</code>, <code class="highlighter-rouge">MemoryBackend</code> etc. to work with different kinds of cache types. Also different caches can be used in different subsystems. Therefore interface <code class="highlighter-rouge">CacheFactoryInterface</code> has been defined and its implementations <code class="highlighter-rouge">DatabaseBackendFactory</code>, <code class="highlighter-rouge">PhpBackendFactory</code>, <code class="highlighter-rouge">MemoryBackendFactory</code> etc., which create objects to work with cache of specific type. There are a factories implements <code class="highlighter-rouge">CacheFactoryInterface</code> for each class that implements <code class="highlighter-rouge">CacheBackendInterface</code>.
-Which specifically factory will be used is defined in the class <code class="highlighter-rouge">\Drupal\Core\Cache\CacheFactory</code> - factories are used based on the site settings. So, we simply have to execute <code class="highlighter-rouge">\Drupal::service(‘cache_factory’)-&gt;get(‘render’)</code> to get an object to work with rendering cache. You can set in the <code class="highlighter-rouge">settings.php</code></p>
+<p>“Factory method” is used in Drupal to get the object to work with cache. Different cache types require their own implementation, so there are classes that implement interface  <code class="highlighter-rouge">CacheBackendInterface</code> such as <code class="highlighter-rouge">DatabaseBackend</code>, <code class="highlighter-rouge">PhpBackend</code>, <code class="highlighter-rouge">MemoryBackend</code> etc. to work with different kinds of cache types. Also different caches can be used in different subsystems. Therefore interface <code class="highlighter-rouge">CacheFactoryInterface</code> has been defined and its implementations <code class="highlighter-rouge">DatabaseBackendFactory</code>, <code class="highlighter-rouge">PhpBackendFactory</code>, <code class="highlighter-rouge">MemoryBackendFactory</code> etc., create objects to work with cache of specific type. There are factories implementing <code class="highlighter-rouge">CacheFactoryInterface</code> for each class that implements <code class="highlighter-rouge">CacheBackendInterface</code>.</p>
+
+<p>Which specific factory will be used is defined in the class <code class="highlighter-rouge">\Drupal\Core\Cache\CacheFactory</code> - factories to be used are based on the site settings. So, we simply have to execute <code class="highlighter-rouge">\Drupal::service(‘cache_factory’)-&gt;get(‘render’)</code> to get an object to work with rendering cache. You can set in the <code class="highlighter-rouge">settings.php</code></p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">settings</span><span class="p">[</span><span class="s1">'cache'</span><span class="p">][</span><span class="s1">'bins'</span><span class="p">][</span><span class="s1">'render'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'cache.backend.database'</span><span class="p">;</span>
 </code></pre></div></div>
 <p>or</p>
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">settings</span><span class="p">[</span><span class="s1">'cache'</span><span class="p">][</span><span class="s1">'bins'</span><span class="p">][</span><span class="s1">'render'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'cache.backend.memcache'</span><span class="p">;</span>
 </code></pre></div></div>
-<p>and the factory will return objects of the class <code class="highlighter-rouge">DatabaseBackend</code> or <code class="highlighter-rouge">MemcacheBackend</code> based on this configuration.</p>
+<p>and the factory will return objects of the classes <code class="highlighter-rouge">DatabaseBackend</code> or <code class="highlighter-rouge">MemcacheBackend</code> based on this configuration.</p>
 
-<p>Also one more advantage of “Factory method” is it can return already created objects. It will help to save system resources (example  <code class="highlighter-rouge">\Drupal\Core\Cache\MemoryBackendFactory</code>).</p>
+<p>Also one more advantage of “Factory method” is that it can return created earlier objects. It will help to save system resources (example  <code class="highlighter-rouge">\Drupal\Core\Cache\MemoryBackendFactory</code>).</p>
 
 <p><img src="/assets/content/2021-01-10-patterns/factory.png" alt="CacheFactory in Drupal as example of Factory method pattern" /></p>
 
