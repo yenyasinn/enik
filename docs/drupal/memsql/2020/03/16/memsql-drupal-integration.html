@@ -16,20 +16,20 @@
 </script>
 
 
-<!-- Begin Jekyll SEO tag v2.6.1 -->
+<!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Integration MemSQL and Drupal.</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Integration MemSQL and Drupal." />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="en" />
 <meta name="description" content="If you don’t know what DBMS MemSQL is you can read the article with MemSQL overview. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the “MySQL and MemSQL performance comparison.”. In this article I describe how to integrate MemSQL with Drupal." />
 <meta property="og:description" content="If you don’t know what DBMS MemSQL is you can read the article with MemSQL overview. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the “MySQL and MemSQL performance comparison.”. In this article I describe how to integrate MemSQL with Drupal." />
-<link rel="canonical" href="https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html" />
-<meta property="og:url" content="https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-16T13:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Integration MemSQL and Drupal." />
 <script type="application/ld+json">
-{"datePublished":"2020-03-16T13:00:00+03:00","dateModified":"2020-03-16T13:00:00+03:00","url":"https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"If you don’t know what DBMS MemSQL is you can read the article with MemSQL overview. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the “MySQL and MemSQL performance comparison.”. In this article I describe how to integrate MemSQL with Drupal.","@type":"BlogPosting","headline":"Integration MemSQL and Drupal.","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Evgenii Nikitin"},"url":"https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html","@type":"BlogPosting","description":"If you don’t know what DBMS MemSQL is you can read the article with MemSQL overview. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the “MySQL and MemSQL performance comparison.”. In this article I describe how to integrate MemSQL with Drupal.","headline":"Integration MemSQL and Drupal.","dateModified":"2020-03-16T13:00:00+03:00","datePublished":"2020-03-16T13:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -55,7 +55,7 @@
 	<h2 class="post-title">Integration MemSQL and Drupal.</h2>
 </a>
 <div class="post-meta">
-	<ul class="post-categories"><li>drupal</li><li>memsql</li></ul>
+	<ul class="post-categories"><li>Drupal</li><li>memsql</li></ul>
 	<div class="post-date"><i class="icon-calendar"></i>Mar 16, 2020</div>
 </div>
 <div class="post">
@@ -71,7 +71,7 @@
 
 <p>All required steps for MemSQL installation with detailed description you can find on the official site <a href="https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/">https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/</a>.</p>
 
-<p>In case you need MySQL and MemSQL on the same server, I would recommend to change MySQL port and to set it, for example, 3308. You should set such value in the <code class="highlighter-rouge">port</code> configuration in the <strong>mysqld.cnf</strong> file. MemSQL uses ports 3306 (for aggregator) and 3307 (for leaves) if you install it as described in the installation guide. MemSQL can work on any ports but such configuration requires manual setup that is longer and complex for newcomers.</p>
+<p>In case you need MySQL and MemSQL on the same server, I would recommend to change MySQL port and to set it, for example, 3308. You should set such value in the <code class="language-plaintext highlighter-rouge">port</code> configuration in the <strong>mysqld.cnf</strong> file. MemSQL uses ports 3306 (for aggregator) and 3307 (for leaves) if you install it as described in the installation guide. MemSQL can work on any ports but such configuration requires manual setup that is longer and complex for newcomers.</p>
 
 <h2 id="php-configuration">PHP configuration</h2>
 
@@ -79,13 +79,13 @@
 
 <p>You should install PHP PDO_MySQL driver if it is absent on the server. Command for Debian or Ubuntu that installs database driver for PHP 7.3:</p>
 
-<p><code class="highlighter-rouge">apt-get install php7.3-mysql</code></p>
+<p><code class="language-plaintext highlighter-rouge">apt-get install php7.3-mysql</code></p>
 
 <h2 id="memsql-driver-installation-on-drupal">MemSQL driver installation on Drupal.</h2>
 
 <p>MemSQL database driver has to be installed to work with this database in Drupal. Use the Drupal module <a href="https://www.drupal.org/project/memsql">MemSQL</a> for it.</p>
 
-<p>Install module as usual -  <code class="highlighter-rouge">composer require drupal/memsql</code>.</p>
+<p>Install module as usual -  <code class="language-plaintext highlighter-rouge">composer require drupal/memsql</code>.</p>
 
 <p>I recommend to use composer for installation. In this case Drush support will be enabled automatically.</p>
 
@@ -99,7 +99,7 @@
    <span class="s2">"</span><span class="s">cp</span><span class="nv"> </span><span class="s">-r</span><span class="nv"> </span><span class="s">web/modules/contrib/memsql/drivers</span><span class="nv"> </span><span class="s">web/"</span>
 <span class="pi">]</span>
 </code></pre></div></div>
-<p>In this example <code class="highlighter-rouge">web</code> it is name of the docroot folder. It can be different on your system.</p>
+<p>In this example <code class="language-plaintext highlighter-rouge">web</code> it is name of the docroot folder. It can be different on your system.</p>
 
 <p>If everything has been done correctly you will see option “MemSQL” on the step “Set up database” in the field “Database type”. Choose it and enter database credentials.</p>
 
@@ -124,9 +124,9 @@
 <p>MemSQL driver extends Drupal core MySQL driver. Though MemSQL is compatible with MySQL there are little differences:</p>
 
 <ul>
-  <li><strong>SHARD KEY</strong>.  MemSQL uses <code class="highlighter-rouge">SHARD KEY</code> to set columns that are used for hash calculation. This hash is used to define on what leaf row has to be saved. Shard key has to include <code class="highlighter-rouge">PRIMARY KEY</code> and is defined in <code class="highlighter-rouge">CREATE TABLE</code> sql query. If <code class="highlighter-rouge">SHARD KEY</code> isn’t set then <code class="highlighter-rouge">PRIMARY KEY</code> is used for hash calculation.</li>
-  <li><strong>UNIQUE index</strong>. MemSQL requires columns from the <code class="highlighter-rouge">UNIQUE</code> index have to be a part of  <code class="highlighter-rouge">SHARD KEY</code>.</li>
-  <li><strong>Default sorting</strong>. MySQL returns data sorted by <code class="highlighter-rouge">PRIMARY KEY</code> by default. SQL standard doesn’t guarantee such behaviour. MemSQL returns data unordered if <code class="highlighter-rouge">ORDER BY</code> isn’t set. Therefore if you need to get sorted data you have to use <code class="highlighter-rouge">ORDER BY</code>.</li>
+  <li><strong>SHARD KEY</strong>.  MemSQL uses <code class="language-plaintext highlighter-rouge">SHARD KEY</code> to set columns that are used for hash calculation. This hash is used to define on what leaf row has to be saved. Shard key has to include <code class="language-plaintext highlighter-rouge">PRIMARY KEY</code> and is defined in <code class="language-plaintext highlighter-rouge">CREATE TABLE</code> sql query. If <code class="language-plaintext highlighter-rouge">SHARD KEY</code> isn’t set then <code class="language-plaintext highlighter-rouge">PRIMARY KEY</code> is used for hash calculation.</li>
+  <li><strong>UNIQUE index</strong>. MemSQL requires columns from the <code class="language-plaintext highlighter-rouge">UNIQUE</code> index have to be a part of  <code class="language-plaintext highlighter-rouge">SHARD KEY</code>.</li>
+  <li><strong>Default sorting</strong>. MySQL returns data sorted by <code class="language-plaintext highlighter-rouge">PRIMARY KEY</code> by default. SQL standard doesn’t guarantee such behaviour. MemSQL returns data unordered if <code class="language-plaintext highlighter-rouge">ORDER BY</code> isn’t set. Therefore if you need to get sorted data you have to use <code class="language-plaintext highlighter-rouge">ORDER BY</code>.</li>
   <li>MemSQL doesn’t support <strong>sorting in UNION requests</strong>. More details here - <a href="https://www.drupal.org/project/memsql/issues/3112865">sorting in UNION request</a>.</li>
 </ul>
 

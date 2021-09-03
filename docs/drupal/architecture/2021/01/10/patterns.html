@@ -16,20 +16,20 @@
 </script>
 
 
-<!-- Begin Jekyll SEO tag v2.6.1 -->
+<!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Design patterns in Drupal 9</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Design patterns in Drupal 9" />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent on the interviews." />
-<meta property="og:description" content="Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent on the interviews." />
-<link rel="canonical" href="https://www.enik.io/drupal/architecture/2021/01/10/patterns.html" />
-<meta property="og:url" content="https://www.enik.io/drupal/architecture/2021/01/10/patterns.html" />
+<meta name="description" content="Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent during interviews." />
+<meta property="og:description" content="Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent during interviews." />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-01-10T09:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Design patterns in Drupal 9" />
 <script type="application/ld+json">
-{"datePublished":"2021-01-10T09:00:00+03:00","dateModified":"2021-01-10T09:00:00+03:00","url":"https://www.enik.io/drupal/architecture/2021/01/10/patterns.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/architecture/2021/01/10/patterns.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent on the interviews.","@type":"BlogPosting","headline":"Design patterns in Drupal 9","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Evgenii Nikitin"},"url":"https://www.enik.io/drupal/architecture/2021/01/10/patterns.html","@type":"BlogPosting","description":"Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent during interviews.","headline":"Design patterns in Drupal 9","dateModified":"2021-01-10T09:00:00+03:00","datePublished":"2021-01-10T09:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/architecture/2021/01/10/patterns.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -55,7 +55,7 @@
 	<h2 class="post-title">Design patterns in Drupal 9</h2>
 </a>
 <div class="post-meta">
-	<ul class="post-categories"><li>drupal</li><li>architecture</li></ul>
+	<ul class="post-categories"><li>Drupal</li><li>architecture</li></ul>
 	<div class="post-date"><i class="icon-calendar"></i>Jan 10, 2021</div>
 </div>
 <div class="post">
@@ -71,24 +71,24 @@
 
 <p><img src="/assets/content/2021-01-10-patterns/singleton.png" alt="Schema of Singleton pattern in Drupal on the example of access to the site settings" /></p>
 
-<p>Drupal initializes settings during bootstrap using <code class="highlighter-rouge">Settings::initialize()</code>. After that, the instance of the class is set to the protected variable where it is taken from in future. Site settings are common resources, so pattern “Singleton” allows Drupal read settings just once during initialization.</p>
+<p>Drupal initializes settings during bootstrap using <code class="language-plaintext highlighter-rouge">Settings::initialize()</code>. After that, the instance of the class is set to the protected variable where it is taken from in future. Site settings are common resources, so pattern “Singleton” allows Drupal read settings just once during initialization.</p>
 
 <h3 id="factory-method">Factory method</h3>
 
 <p><strong>“Factory method”</strong> defines common interface for object creation. Type of the object can be changed based on the settings.</p>
 
-<p>“Factory method” is used in Drupal to get the object to work with cache. Different cache types require their own implementation, so there are classes that implement interface  <code class="highlighter-rouge">CacheBackendInterface</code> such as <code class="highlighter-rouge">DatabaseBackend</code>, <code class="highlighter-rouge">PhpBackend</code>, <code class="highlighter-rouge">MemoryBackend</code> etc. to work with different kinds of cache types. Also different caches can be used in different subsystems. Therefore interface <code class="highlighter-rouge">CacheFactoryInterface</code> has been defined and its implementations <code class="highlighter-rouge">DatabaseBackendFactory</code>, <code class="highlighter-rouge">PhpBackendFactory</code>, <code class="highlighter-rouge">MemoryBackendFactory</code> etc., create objects to work with cache of specific type. There are factories implementing <code class="highlighter-rouge">CacheFactoryInterface</code> for each class that implements <code class="highlighter-rouge">CacheBackendInterface</code>.</p>
+<p>“Factory method” is used in Drupal to get the object to work with cache. Different cache types require their own implementation, so there are classes that implement interface  <code class="language-plaintext highlighter-rouge">CacheBackendInterface</code> such as <code class="language-plaintext highlighter-rouge">DatabaseBackend</code>, <code class="language-plaintext highlighter-rouge">PhpBackend</code>, <code class="language-plaintext highlighter-rouge">MemoryBackend</code> etc. to work with different kinds of cache types. Also different caches can be used in different subsystems. Therefore interface <code class="language-plaintext highlighter-rouge">CacheFactoryInterface</code> has been defined and its implementations <code class="language-plaintext highlighter-rouge">DatabaseBackendFactory</code>, <code class="language-plaintext highlighter-rouge">PhpBackendFactory</code>, <code class="language-plaintext highlighter-rouge">MemoryBackendFactory</code> etc., create objects to work with cache of specific type. There are factories implementing <code class="language-plaintext highlighter-rouge">CacheFactoryInterface</code> for each class that implements <code class="language-plaintext highlighter-rouge">CacheBackendInterface</code>.</p>
 
-<p>Which specific factory will be used is defined in the class <code class="highlighter-rouge">\Drupal\Core\Cache\CacheFactory</code> - factories to be used are based on the site settings. So, we simply have to execute <code class="highlighter-rouge">\Drupal::service(‘cache_factory’)-&gt;get(‘render’)</code> to get an object to work with rendering cache. You can set in the <code class="highlighter-rouge">settings.php</code></p>
+<p>Which specific factory will be used is defined in the class <code class="language-plaintext highlighter-rouge">\Drupal\Core\Cache\CacheFactory</code> - factories to be used are based on the site settings. So, we simply have to execute <code class="language-plaintext highlighter-rouge">\Drupal::service(‘cache_factory’)-&gt;get(‘render’)</code> to get an object to work with rendering cache. You can set in the <code class="language-plaintext highlighter-rouge">settings.php</code></p>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">settings</span><span class="p">[</span><span class="s1">'cache'</span><span class="p">][</span><span class="s1">'bins'</span><span class="p">][</span><span class="s1">'render'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'cache.backend.database'</span><span class="p">;</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">settings</span><span class="p">[</span><span class="s1">'cache'</span><span class="p">][</span><span class="s1">'bins'</span><span class="p">][</span><span class="s1">'render'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'cache.backend.database'</span><span class="p">;</span>
 </code></pre></div></div>
 <p>or</p>
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">settings</span><span class="p">[</span><span class="s1">'cache'</span><span class="p">][</span><span class="s1">'bins'</span><span class="p">][</span><span class="s1">'render'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'cache.backend.memcache'</span><span class="p">;</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">settings</span><span class="p">[</span><span class="s1">'cache'</span><span class="p">][</span><span class="s1">'bins'</span><span class="p">][</span><span class="s1">'render'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'cache.backend.memcache'</span><span class="p">;</span>
 </code></pre></div></div>
-<p>and the factory will return objects of the classes <code class="highlighter-rouge">DatabaseBackend</code> or <code class="highlighter-rouge">MemcacheBackend</code> based on this configuration.</p>
+<p>and the factory will return objects of the classes <code class="language-plaintext highlighter-rouge">DatabaseBackend</code> or <code class="language-plaintext highlighter-rouge">MemcacheBackend</code> based on this configuration.</p>
 
-<p>Also one more advantage of “Factory method” is that it can return created earlier objects. It will help to save system resources (example  <code class="highlighter-rouge">\Drupal\Core\Cache\MemoryBackendFactory</code>).</p>
+<p>Also one more advantage of “Factory method” is that it can return created earlier objects. It will help to save system resources (example  <code class="language-plaintext highlighter-rouge">\Drupal\Core\Cache\MemoryBackendFactory</code>).</p>
 
 <p><img src="/assets/content/2021-01-10-patterns/factory.png" alt="CacheFactory in Drupal as example of Factory method pattern" /></p>
 
@@ -99,14 +99,14 @@
 <p>We define objects-services in Drupal that are responsible for specific functions. When these services are required in our classes we:</p>
 
 <ul>
-  <li>set dependencies as arguments in the definition of services in <code class="highlighter-rouge">*.services.yml</code>. These dependencies will be passed to the <code class="highlighter-rouge">__construct()</code> method.</li>
-  <li>use interface <code class="highlighter-rouge">ContainerFactoryPluginInterface</code> for plugins.</li>
-  <li>use interface <code class="highlighter-rouge">ContainerInjectionInterface</code> for other objects (but not everywhere, for example Entity doesn’t support dependency injection).</li>
+  <li>set dependencies as arguments in the definition of services in <code class="language-plaintext highlighter-rouge">*.services.yml</code>. These dependencies will be passed to the <code class="language-plaintext highlighter-rouge">__construct()</code> method.</li>
+  <li>use interface <code class="language-plaintext highlighter-rouge">ContainerFactoryPluginInterface</code> for plugins.</li>
+  <li>use interface <code class="language-plaintext highlighter-rouge">ContainerInjectionInterface</code> for other objects (but not everywhere, for example Entity doesn’t support dependency injection).</li>
 </ul>
 
 <p><img src="/assets/content/2021-01-10-patterns/dependency_injection.png" alt="Example of work of Dependency injection pattern in Drupal" /></p>
 
-<p>Schema describes how services “config_factory”, “alias_manager”, “path_validator”, “request_context” are added to the class <code class="highlighter-rouge">SiteInformationForm</code>. Services are taken during form creation and saved to internal class variables - dependencies have been injected.</p>
+<p>Schema describes how services “config_factory”, “alias_manager”, “path_validator”, “request_context” are added to the class <code class="language-plaintext highlighter-rouge">SiteInformationForm</code>. Services are taken during form creation and saved to internal class variables - dependencies have been injected.</p>
 
 <p>This template lets distribute responsibility between classes. Furthermore, we are not dependent on the specific implementation of the dependency. All that we should know is an interface that it implements. Therefore, in the future we can pass to our object another implementation of dependency without adjusting the object itself.</p>
 
@@ -118,11 +118,11 @@
 
 <p>You will be amazed but the “Mediator” pattern is a base of the main feature of Drupal - hooks system. There is a key element - mediator, that provides a single interface which is used for communication by different parts of the system. Components-receivers don’t know who sent the request, also components-senders don’t know who will process its request.</p>
 
-<p>Schema below describes how hooks work. In the example, when component-sender <code class="highlighter-rouge">EntityStorageBase</code> wants to notify about some event (it can be presave, create, insert, update, delete, revision_delete, predelete), it calls mediator  <code class="highlighter-rouge">ModuleHandler</code> and passes him name of the event/hook and parameters. <code class="highlighter-rouge">ModuleHandler</code> contains links to all hooks in the system in the parameter <code class="highlighter-rouge">implementations</code>. Then it calls appropriate methods-hook with passed parameters.</p>
+<p>Schema below describes how hooks work. In the example, when component-sender <code class="language-plaintext highlighter-rouge">EntityStorageBase</code> wants to notify about some event (it can be presave, create, insert, update, delete, revision_delete, predelete), it calls mediator  <code class="language-plaintext highlighter-rouge">ModuleHandler</code> and passes him name of the event/hook and parameters. <code class="language-plaintext highlighter-rouge">ModuleHandler</code> contains links to all hooks in the system in the parameter <code class="language-plaintext highlighter-rouge">implementations</code>. Then it calls appropriate methods-hook with passed parameters.</p>
 
 <p><img src="/assets/content/2021-01-10-patterns/mediator_hooks.png" alt="Schema of hooks in Drupal in the Mediator template" /></p>
 
-<p>Also the “Mediator” pattern is used in the event system that is built on the base of <a href="https://symfony.com/components/EventDispatcher">Symfony EventDispatcher</a>. Mediator here is  <code class="highlighter-rouge">ContainerAwareEventDispatcher</code>. Components-senders (in our example it is  <code class="highlighter-rouge">\Drupal\Core\Config</code>) notify the mediator about the event. Mediator’s variable <code class="highlighter-rouge">listeners</code> contains links to all components-subscribers (implement <code class="highlighter-rouge">EventSubscriberInterface</code>). When the mediator receives notification about the event it calls subscribers that are subscribed on the called event.</p>
+<p>Also the “Mediator” pattern is used in the event system that is built on the base of <a href="https://symfony.com/components/EventDispatcher">Symfony EventDispatcher</a>. Mediator here is  <code class="language-plaintext highlighter-rouge">ContainerAwareEventDispatcher</code>. Components-senders (in our example it is  <code class="language-plaintext highlighter-rouge">\Drupal\Core\Config</code>) notify the mediator about the event. Mediator’s variable <code class="language-plaintext highlighter-rouge">listeners</code> contains links to all components-subscribers (implement <code class="language-plaintext highlighter-rouge">EventSubscriberInterface</code>). When the mediator receives notification about the event it calls subscribers that are subscribed on the called event.</p>
 
 <p><img src="/assets/content/2021-01-10-patterns/mediator_events.png" alt="Event system in the Mediator pattern" /></p>
 
@@ -134,9 +134,9 @@
 
 <p><img src="/assets/content/2021-01-10-patterns/visitor.png" alt="Visitor pattern in Drupal" /></p>
 
-<p>As you can see on the schema, different objects-visitors (<code class="highlighter-rouge">EscaperNodeVisitor</code>, <code class="highlighter-rouge">TwigNodeVisitor</code>, <code class="highlighter-rouge">SelfAnalysisNodeVisitor</code>) are used in Twig. If we need to process the element somehow else, we just add an additional visitor without changing the element class.</p>
+<p>As you can see on the schema, different objects-visitors (<code class="language-plaintext highlighter-rouge">EscaperNodeVisitor</code>, <code class="language-plaintext highlighter-rouge">TwigNodeVisitor</code>, <code class="language-plaintext highlighter-rouge">SelfAnalysisNodeVisitor</code>) are used in Twig. If we need to process the element somehow else, we just add an additional visitor without changing the element class.</p>
 
-<p>If elements have to be processed differently then visitor implements these variants itself (look at the example <code class="highlighter-rouge">SelfAnalysisNodeVisitor</code> - each element has its own implementation of the algorithm). This pattern is well suited when processed elements are changed rarely. If implementation of the element is updated, adjustment of the visitors can be required.</p>
+<p>If elements have to be processed differently then visitor implements these variants itself (look at the example <code class="language-plaintext highlighter-rouge">SelfAnalysisNodeVisitor</code> - each element has its own implementation of the algorithm). This pattern is well suited when processed elements are changed rarely. If implementation of the element is updated, adjustment of the visitors can be required.</p>
 
 <h2 id="structural-patterns">Structural patterns</h2>
 
@@ -144,7 +144,7 @@
 
 <p><strong>“Proxy”</strong> pattern can be applied when instead of real objects we need to use proxy objects. These proxy objects allow code execution before or after calls of original objects methods. Also we can manage access to the original object using this pattern.</p>
 
-<p>We can find “Proxy” pattern in the Drupal in the class <code class="highlighter-rouge">\Drupal\Core\Session\AccountProxy</code> of the service “current_user”. <code class="highlighter-rouge">AccountProxy</code> is a proxy of <code class="highlighter-rouge">\Drupal\Core\Session\UserSession</code> class and implements all its methods. In this way, we can work with objects of the <code class="highlighter-rouge">AccountProxy</code> class as with objects of the <code class="highlighter-rouge">UserSession</code> class. Such approach allows set and change current user without re-initialisation of “current_user” service. Furthemore, this service is used by all services as a single entry point to the current user session.</p>
+<p>We can find “Proxy” pattern in the Drupal in the class <code class="language-plaintext highlighter-rouge">\Drupal\Core\Session\AccountProxy</code> of the service “current_user”. <code class="language-plaintext highlighter-rouge">AccountProxy</code> is a proxy of <code class="language-plaintext highlighter-rouge">\Drupal\Core\Session\UserSession</code> class and implements all its methods. In this way, we can work with objects of the <code class="language-plaintext highlighter-rouge">AccountProxy</code> class as with objects of the <code class="language-plaintext highlighter-rouge">UserSession</code> class. Such approach allows set and change current user without re-initialisation of “current_user” service. Furthemore, this service is used by all services as a single entry point to the current user session.</p>
 
 <p><img src="/assets/content/2021-01-10-patterns/proxy.png" alt="Visitor pattern in Drupal on the example of AccountProxy" /></p>
 

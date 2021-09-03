@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Drupal related articles from Evgenii Nikitin</title>
+        <description>Planet Drupal feed</description>
+        <link>https://www.enik.io</link>
+        <lastBuildDate>Sun, 10 Jan 2021 09:00:00 +0300</lastBuildDate>
+        
+        
+        <item>
+            <title>Design patterns in Drupal 9</title>
+            
+            <description>&lt;p&gt;Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent during interviews.&lt;/p&gt;
+</description>
+            
+            <pubDate>Sun, 10 Jan 2021 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/architecture/2021/01/10/patterns.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/architecture/2021/01/10/patterns.html</guid>
+        </item>
+        
+        <item>
+            <title>Standards in Drupal projects</title>
+            
+            <description>&lt;p&gt;It’s important to define standards that will be used on the Drupal project prior to the start of the project especially if the project is big. Thus everyone involved in the project will understand which rules should be respected during development and maintenance of the project.&lt;/p&gt;
+</description>
+            
+            <pubDate>Thu, 11 Jun 2020 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html</guid>
+        </item>
+        
+        <item>
+            <title>In memory database MemSQL. When and how to use with Drupal. Presentation from DrupalCamp London 2020</title>
+            
+            <description>&lt;p&gt;Video from the speech “In memory database MemSQL. When and how to use with Drupal” from DrupalCamp London 2020.&lt;/p&gt;
+</description>
+            
+            <pubDate>Tue, 31 Mar 2020 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/memsql/2020/03/31/memsql-presentation.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/memsql/2020/03/31/memsql-presentation.html</guid>
+        </item>
+        
+        <item>
+            <title>Integration MemSQL and Drupal.</title>
+            
+            <description>&lt;p&gt;If you don’t know what DBMS MemSQL is you can read the article with &lt;a href=&quot;/memsql/2020/02/09/memsql-overview.html&quot;&gt;MemSQL overview&lt;/a&gt;. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the &lt;a href=&quot;/memsql/2020/02/29/memsql-mysql-performance-comparison.html&quot;&gt;“MySQL and MemSQL performance comparison.”&lt;/a&gt;. In this article I describe how to integrate MemSQL with Drupal.&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 16 Mar 2020 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html</guid>
+        </item>
+        
+        <item>
+            <title>Performance of Views in Drupal 8</title>
+            
+            <description>&lt;p&gt;Module Views is one of the most popular modules on the Drupal sites. I think it is enabled on all sites built on Drupal. In this article I would like to describe issues with performance of Views that I’ve faced using this module and ways for optimisation.&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 06 Jan 2020 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/performance/2020/01/06/views-performance.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/performance/2020/01/06/views-performance.html</guid>
+        </item>
+        
+        <item>
+            <title>Antibot vs Honeypot. What spam protector to prefer in Drupal</title>
+            
+            <description>&lt;p&gt;If there are forms for anonymous users on your site then sooner or later you will think about how to protect them against bots. It is tiringly to remove spam comments or irrelevant webform submissions manually.&lt;/p&gt;
+</description>
+            
+            <pubDate>Sun, 15 Dec 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html</guid>
+        </item>
+        
+        <item>
+            <title>Acquia Cloud Site Factory post site clone hook</title>
+            
+            <description>&lt;p&gt;We have faced with interesting issue during our work on the site factory on the Drupal 8 based on Acquia Cloud Site Factory (ACSF) platform.&lt;/p&gt;
+</description>
+            
+            <pubDate>Wed, 20 Nov 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</guid>
+        </item>
+        
+        <item>
+            <title>Analyze of event system in Drupal 8</title>
+            
+            <description>&lt;h2 id=&quot;how-events-are-used&quot;&gt;How events are used&lt;/h2&gt;
+</description>
+            
+            <pubDate>Mon, 04 Nov 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html</guid>
+        </item>
+        
+        <item>
+            <title>Drupal certification from Acquia</title>
+            
+            <description>&lt;p&gt;Program of certification from Acquia is an attempt to determine standards of knowledge and experience of working with Drupal. Based on passed exams by developer, employers can understand his level. Clients can be sure that they work with professionals. Computer programmers can compare own level with level of colleagues. And Acquia checks the number of certified developers in the agencies when they want to be their partners.&lt;/p&gt;
+</description>
+            
+            <pubDate>Wed, 16 Oct 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</guid>
+        </item>
+        
+        <item>
+            <title>High performance caching of Drupal 8 using reverse proxy and CDN</title>
+            
+            <description>&lt;p&gt;As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.&lt;/p&gt;
+</description>
+            
+            <pubDate>Sun, 06 Oct 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</guid>
+        </item>
+        
+    </channel>
+</rss>

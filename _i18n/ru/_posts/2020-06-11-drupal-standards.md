@@ -2,7 +2,7 @@
 layout: post
 title: "Стандарты в Drupal проекте"
 date: 2020-06-11 06:00:00 +0000
-categories: ru drupal standards
+categories: ru Drupal standards
 canonical_url: https://www.enik.io/ru/drupal/standards/2020/06/11/drupal-standards.html
 ---
 Перед разработкой Drupal проекта, особенно большого, важно определиться со стандартами, которые будут использоваться на проекте. Таким образом все участвующие в проекте будут понимать каким правилам следовать во время разработки и поддержки проекта.

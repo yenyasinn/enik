@@ -30,7 +30,7 @@ Everyone, who passed Acquia Certified Developer, Acquia Certified Front End Spec
 It’s possible to pass the exam without preparation if only you work with Drupal quite a long time and know it very well. In any case would be better to prepare for the exam in advance.
 
 **What can help you in the preparation:**
-* [Study guides for each exam from Acquia](https://training.acquia.com/study-guides).
+* [Study guides for each exam from Acquia](https://docs.acquia.com/certification/study-guides/).
 * [Study guides from community](https://github.com/WidgetsBurritos/d8-studyguide).
 * [Acquia Youtube channel with educational materials](https://www.youtube.com/user/AcquiaTV/playlists).
 * [Drupal 8 user guide](https://www.drupal.org/docs/user_guide/en/index.html).

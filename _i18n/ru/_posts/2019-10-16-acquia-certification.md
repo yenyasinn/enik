@@ -30,7 +30,7 @@ canonical_url: https://www.enik.io/ru/drupal/certification/2019/10/16/acquia-cer
 Сдать экзамены без подготовки возможно, только если вы очень долго работали с Drupal и знаете в нем все вдоль и поперек. В любом случае не помешает в начале подготовиться к экзамену.
 
 **Что вам поможет в подготовке:**
-* [Учебные пособия по каждому из экзаменов от Acquia](https://training.acquia.com/study-guides).
+* [Учебные пособия по каждому из экзаменов от Acquia](https://docs.acquia.com/certification/study-guides/).
 * [Учебные материалы для подготовки от сообщества](https://github.com/WidgetsBurritos/d8-studyguide).
 * [Youtube канал Acquia c образовательными материалами](https://www.youtube.com/user/AcquiaTV/playlists).
 * [Drupal 8 руководство пользователя](https://www.drupal.org/docs/user_guide/en/index.html).

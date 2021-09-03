@@ -2,7 +2,7 @@
 layout: post
 title: "Standards in Drupal projects"
 date: 2020-06-11 06:00:00 +0000
-categories: drupal standards
+categories: Drupal standards
 canonical_url: https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html
 ---
 It’s important to define standards that will be used on the Drupal project prior to the start of the project especially if the project is big. Thus everyone involved in the project will understand which rules should be respected during development and maintenance of the project.

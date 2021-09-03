@@ -16,20 +16,20 @@
 </script>
 
 
-<!-- Begin Jekyll SEO tag v2.6.1 -->
+<!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Analyze of event system in Drupal 8</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Analyze of event system in Drupal 8" />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="en" />
 <meta name="description" content="How events are used" />
 <meta property="og:description" content="How events are used" />
-<link rel="canonical" href="https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html" />
-<meta property="og:url" content="https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-11-04T13:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Analyze of event system in Drupal 8" />
 <script type="application/ld+json">
-{"datePublished":"2019-11-04T13:00:00+03:00","dateModified":"2019-11-04T13:00:00+03:00","url":"https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"How events are used","@type":"BlogPosting","headline":"Analyze of event system in Drupal 8","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Evgenii Nikitin"},"url":"https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html","@type":"BlogPosting","description":"How events are used","headline":"Analyze of event system in Drupal 8","dateModified":"2019-11-04T13:00:00+03:00","datePublished":"2019-11-04T13:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -73,7 +73,7 @@
 
 <p>As you can see Drupal 7 hooks are the implementation of this pattern using procedural programming paradigm. Drupal 8 uses hooks and events both but Drupal 9 will get rid of hooks in favor of events that use object-oriented programming paradigm. You can start to use events now instead of hooks using <a href="https://www.drupal.org/project/hook_event_dispatcher">Hook Event Dispatcher</a> module that implements events for hooks from the core.</p>
 
-<p>There are some hook analogs for events, for example <code class="highlighter-rouge">EntityTypeEvents::CREATE</code> and <code class="highlighter-rouge">hook_ENTITY_TYPE_create()</code> (<code class="highlighter-rouge">hook_node_type_create</code> or <code class="highlighter-rouge">hook_comment_type_create</code>), but I would say that it is an exception.</p>
+<p>There are some hook analogs for events, for example <code class="language-plaintext highlighter-rouge">EntityTypeEvents::CREATE</code> and <code class="language-plaintext highlighter-rouge">hook_ENTITY_TYPE_create()</code> (<code class="language-plaintext highlighter-rouge">hook_node_type_create</code> or <code class="language-plaintext highlighter-rouge">hook_comment_type_create</code>), but I would say that it is an exception.</p>
 
 <h2 id="event-types">Event types</h2>
 
@@ -100,9 +100,9 @@
 <p>Events system in Drupal 8 consist of 3 parts:</p>
 
 <ul>
-  <li><strong>Event Dispatcher</strong> - Event registry. It stores information about all events in the system sorted by priority. Is used to run events. Is invoked through <code class="highlighter-rouge">\Drupal::service('event_dispatcher')</code> (see implementation in <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Component/EventDispatcher/ContainerAwareEventDispatcher.php">core/lib/Drupal/Component/EventDispatcher/ContainerAwareEventDispatcher.php</a>).</li>
+  <li><strong>Event Dispatcher</strong> - Event registry. It stores information about all events in the system sorted by priority. Is used to run events. Is invoked through <code class="language-plaintext highlighter-rouge">\Drupal::service('event_dispatcher')</code> (see implementation in <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Component/EventDispatcher/ContainerAwareEventDispatcher.php">core/lib/Drupal/Component/EventDispatcher/ContainerAwareEventDispatcher.php</a>).</li>
   <li><strong>Event Subscribers</strong> – Each subscriber defines listeners which are run when event is triggered.</li>
-  <li><strong>Events</strong> - Event is a special class that extend <code class="highlighter-rouge">\Symfony\Component\EventDispatcher\Event</code> and is used as a storage of data for next processing in listeners.</li>
+  <li><strong>Events</strong> - Event is a special class that extend <code class="language-plaintext highlighter-rouge">\Symfony\Component\EventDispatcher\Event</code> and is used as a storage of data for next processing in listeners.</li>
 </ul>
 
 <h2 id="event-subscribers">Event subscribers</h2>
@@ -126,19 +126,19 @@ Example from core/modules/user/user.services.yml:</p>
 <p>Implementation of event subscriber in <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/modules/user/src/EventSubscriber/MaintenanceModeSubscriber.php">core/modules/user/src/EventSubscriber/MaintenanceModeSubscriber.php</a></p>
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\user\EventSubscriber</span><span class="p">;</span>
 
-<span class="kn">use</span> <span class="nn">Drupal\Core\Routing\RouteMatch</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Drupal\Core\Session\AccountInterface</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Drupal\Core\Site\MaintenanceModeInterface</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Drupal\Core\Url</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Symfony\Component\HttpFoundation\RedirectResponse</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Symfony\Component\HttpKernel\Event\GetResponseEvent</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Symfony\Component\HttpKernel\KernelEvents</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Drupal\Core\Routing\RouteMatch</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Drupal\Core\Session\AccountInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Drupal\Core\Site\MaintenanceModeInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Drupal\Core\Url</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\HttpFoundation\RedirectResponse</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\HttpKernel\Event\GetResponseEvent</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\HttpKernel\KernelEvents</span><span class="p">;</span>
 
 <span class="cd">/**
 * Maintenance mode subscriber to log out users.
 */</span>
-<span class="kd">class</span> <span class="nc">MaintenanceModeSubscriber</span> <span class="k">implements</span> <span class="nx">EventSubscriberInterface</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="nc">MaintenanceModeSubscriber</span> <span class="kd">implements</span> <span class="nc">EventSubscriberInterface</span> <span class="p">{</span>
 
 <span class="cd">/**
  * The maintenance mode.
@@ -153,37 +153,37 @@ Example from core/modules/user/user.services.yml:</p>
 <span class="cd">/**
  * Constructs a new MaintenanceModeSubscriber.
  */</span>
-<span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">MaintenanceModeInterface</span> <span class="nv">$maintenance_mode</span><span class="p">,</span> <span class="nx">AccountInterface</span> <span class="nv">$account</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">MaintenanceModeInterface</span> <span class="nv">$maintenance_mode</span><span class="p">,</span> <span class="kt">AccountInterface</span> <span class="nv">$account</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// We use services that are defined in the services definition in user.services.yml</span>
-  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">maintenanceMode</span> <span class="o">=</span> <span class="nv">$maintenance_mode</span><span class="p">;</span>
-  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">account</span> <span class="o">=</span> <span class="nv">$account</span><span class="p">;</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">maintenanceMode</span> <span class="o">=</span> <span class="nv">$maintenance_mode</span><span class="p">;</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">account</span> <span class="o">=</span> <span class="nv">$account</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="cd">/**
  * Method getSubscribedEvents() is required and is used for describing listeners.
  */</span>
-<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span> <span class="p">{</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="n">getSubscribedEvents</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// Subscribe to the event KernelEvents::REQUEST.</span>
   <span class="c1">// When this event occurs, method listener onKernelRequestMaintenance will be triggered.</span>
   <span class="c1">// 31 - priority of the listener.  </span>
-  <span class="nv">$events</span><span class="p">[</span><span class="nx">KernelEvents</span><span class="o">::</span><span class="na">REQUEST</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onKernelRequestMaintenance'</span><span class="p">,</span> <span class="mi">31</span><span class="p">];</span>
+  <span class="nv">$events</span><span class="p">[</span><span class="nc">KernelEvents</span><span class="o">::</span><span class="no">REQUEST</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onKernelRequestMaintenance'</span><span class="p">,</span> <span class="mi">31</span><span class="p">];</span>
   <span class="k">return</span> <span class="nv">$events</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="cd">/**
  * Logout users if site is in maintenance mode.
  */</span>
-<span class="k">public</span> <span class="k">function</span> <span class="nf">onKernelRequestMaintenance</span><span class="p">(</span><span class="nx">GetResponseEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">onKernelRequestMaintenance</span><span class="p">(</span><span class="kt">GetResponseEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Listener implementation.</span>
-  <span class="nv">$request</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">();</span>
-  <span class="nv">$route_match</span> <span class="o">=</span> <span class="nx">RouteMatch</span><span class="o">::</span><span class="na">createFromRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">maintenanceMode</span><span class="o">-&gt;</span><span class="na">applies</span><span class="p">(</span><span class="nv">$route_match</span><span class="p">))</span> <span class="p">{</span>
+  <span class="nv">$request</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getRequest</span><span class="p">();</span>
+  <span class="nv">$route_match</span> <span class="o">=</span> <span class="nc">RouteMatch</span><span class="o">::</span><span class="nf">createFromRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">maintenanceMode</span><span class="o">-&gt;</span><span class="nf">applies</span><span class="p">(</span><span class="nv">$route_match</span><span class="p">))</span> <span class="p">{</span>
     <span class="c1">// If the site is offline, log out unprivileged users.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">account</span><span class="o">-&gt;</span><span class="na">isAuthenticated</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">maintenanceMode</span><span class="o">-&gt;</span><span class="na">exempt</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">account</span><span class="p">))</span> <span class="p">{</span>
-      <span class="nx">user_logout</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">account</span><span class="o">-&gt;</span><span class="nf">isAuthenticated</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">maintenanceMode</span><span class="o">-&gt;</span><span class="nf">exempt</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="n">account</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nf">user_logout</span><span class="p">();</span>
       <span class="c1">// Redirect to homepage.</span>
-      <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">setResponse</span><span class="p">(</span>
-        <span class="k">new</span> <span class="nx">RedirectResponse</span><span class="p">(</span><span class="nx">Url</span><span class="o">::</span><span class="na">fromRoute</span><span class="p">(</span><span class="s1">'&lt;front&gt;'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">toString</span><span class="p">())</span>
+      <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">setResponse</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nc">RedirectResponse</span><span class="p">(</span><span class="nc">Url</span><span class="o">::</span><span class="nf">fromRoute</span><span class="p">(</span><span class="s1">'&lt;front&gt;'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">toString</span><span class="p">())</span>
       <span class="p">);</span>
     <span class="p">}</span>
   <span class="p">}</span>
@@ -195,16 +195,16 @@ Example from core/modules/user/user.services.yml:</p>
 
 <p>Listeners are called one by one. Order is defined by priority. Listeners with higher priority are called earlier. You have to be careful and don’t mix up priority with term “weight” that works vice-versa.</p>
 
-<p>Calling of listeners can be interrupted. Method <code class="highlighter-rouge">Symfony\Component\EventDispatcher\Event::stopPropagation()</code> can be used for it. If it is called by one of some listeners then next listeners won’t be called.</p>
+<p>Calling of listeners can be interrupted. Method <code class="language-plaintext highlighter-rouge">Symfony\Component\EventDispatcher\Event::stopPropagation()</code> can be used for it. If it is called by one of some listeners then next listeners won’t be called.</p>
 
 <p>Example from <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/modules/system/src/SystemConfigSubscriber.php">core/modules/system/src/SystemConfigSubscriber.php</a>:</p>
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
 * Listeners initialisation.
 */</span>
-<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span> <span class="p">{</span>
-<span class="nv">$events</span><span class="p">[</span><span class="nx">ConfigEvents</span><span class="o">::</span><span class="na">SAVE</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onConfigSave'</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
+<span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="n">getSubscribedEvents</span><span class="p">()</span> <span class="p">{</span>
+<span class="nv">$events</span><span class="p">[</span><span class="nc">ConfigEvents</span><span class="o">::</span><span class="no">SAVE</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onConfigSave'</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
 <span class="c1">// Empty value check has high priority to stop further processing if configuration is empty.</span>
-<span class="nv">$events</span><span class="p">[</span><span class="nx">ConfigEvents</span><span class="o">::</span><span class="na">IMPORT_VALIDATE</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onConfigImporterValidateNotEmpty'</span><span class="p">,</span> <span class="mi">512</span><span class="p">];</span>
+<span class="nv">$events</span><span class="p">[</span><span class="nc">ConfigEvents</span><span class="o">::</span><span class="no">IMPORT_VALIDATE</span><span class="p">][]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'onConfigImporterValidateNotEmpty'</span><span class="p">,</span> <span class="mi">512</span><span class="p">];</span>
 <span class="k">return</span> <span class="nv">$events</span><span class="p">;</span>
 <span class="p">}</span>
 
@@ -212,11 +212,11 @@ Example from core/modules/user/user.services.yml:</p>
 * No need to import configuration if it is empty. Otherwise import will remove active configuration.
 * Stop process on this step.
 */</span>
-<span class="k">public</span> <span class="k">function</span> <span class="nf">onConfigImporterValidateNotEmpty</span><span class="p">(</span><span class="nx">ConfigImporterEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
-<span class="nv">$importList</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getStorageComparer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getSourceStorage</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listAll</span><span class="p">();</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">onConfigImporterValidateNotEmpty</span><span class="p">(</span><span class="kt">ConfigImporterEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$importList</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">getStorageComparer</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">getSourceStorage</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">listAll</span><span class="p">();</span>
 <span class="k">if</span> <span class="p">(</span><span class="nb">empty</span><span class="p">(</span><span class="nv">$importList</span><span class="p">))</span> <span class="p">{</span>
-  <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">logError</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">t</span><span class="p">(</span><span class="s1">'This import is empty and if applied would delete all of your configuration, so has been rejected.'</span><span class="p">));</span>
-  <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">stopPropagation</span><span class="p">();</span>
+  <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">logError</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">t</span><span class="p">(</span><span class="s1">'This import is empty and if applied would delete all of your configuration, so has been rejected.'</span><span class="p">));</span>
+  <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">stopPropagation</span><span class="p">();</span>
 <span class="p">}</span>
 <span class="p">}</span>
 
@@ -225,16 +225,16 @@ Example from core/modules/user/user.services.yml:</p>
 <h3 id="dynamic-listeners-definitions">Dynamic listeners definitions.</h3>
 <p>Listeners can be defined “on the fly”. Let’s check the example from the <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Core/Action/Plugin/Action/GotoAction.php">core/lib/Drupal/Core/Action/Plugin/Action/GotoAction.php</a>:</p>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RedirectResponse</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RedirectResponse</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
 <span class="c1">// Listener of the event that is defined dynamically.</span>
-<span class="nv">$listener</span> <span class="o">=</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$event</span><span class="p">)</span> <span class="nx">use</span> <span class="p">(</span><span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">setResponse</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
+<span class="nv">$listener</span> <span class="o">=</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$event</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">setResponse</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
 <span class="p">};</span>
 <span class="c1">// Listener is added to the event registry using “event_dispatcher” service.</span>
-<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="nx">KernelEvents</span><span class="o">::</span><span class="na">RESPONSE</span><span class="p">,</span> <span class="nv">$listener</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="n">dispatcher</span><span class="o">-&gt;</span><span class="nf">addListener</span><span class="p">(</span><span class="nc">KernelEvents</span><span class="o">::</span><span class="no">RESPONSE</span><span class="p">,</span> <span class="nv">$listener</span><span class="p">);</span>
 </code></pre></div></div>
 
-<p>When event  <code class="highlighter-rouge">KernelEvents::RESPONSE</code> occurs (site response had been created but has not been sent yet) response is changed by redirect to another page. As you see listener has been created dynamically and it will be executed during this request only.</p>
+<p>When event  <code class="language-plaintext highlighter-rouge">KernelEvents::RESPONSE</code> occurs (site response had been created but has not been sent yet) response is changed by redirect to another page. As you see listener has been created dynamically and it will be executed during this request only.</p>
 
 <h2 id="events-definition">Events definition</h2>
 
@@ -270,13 +270,13 @@ Example from core/modules/user/user.services.yml:</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\Core\Routing</span><span class="p">;</span>
 
-<span class="kn">use</span> <span class="nn">Symfony\Component\EventDispatcher\Event</span><span class="p">;</span>
-<span class="kn">use</span> <span class="nn">Symfony\Component\Routing\RouteCollection</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\EventDispatcher\Event</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nc">Symfony\Component\Routing\RouteCollection</span><span class="p">;</span>
 
 <span class="cd">/**
 * Represents route building information as event.
 */</span>
-<span class="kd">class</span> <span class="nc">RouteBuildEvent</span> <span class="k">extends</span> <span class="nx">Event</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="nc">RouteBuildEvent</span> <span class="kd">extends</span> <span class="nc">Event</span> <span class="p">{</span>
 
 <span class="cd">/**
  * The route collection.
@@ -286,21 +286,21 @@ Example from core/modules/user/user.services.yml:</p>
 <span class="cd">/**
  * Constructs a RouteBuildEvent object.
  */</span>
-<span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">RouteCollection</span> <span class="nv">$route_collection</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">routeCollection</span> <span class="o">=</span> <span class="nv">$route_collection</span><span class="p">;</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">RouteCollection</span> <span class="nv">$route_collection</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">routeCollection</span> <span class="o">=</span> <span class="nv">$route_collection</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="cd">/**
  * Gets the route collection.
  */</span>
-<span class="k">public</span> <span class="k">function</span> <span class="nf">getRouteCollection</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">routeCollection</span><span class="p">;</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">getRouteCollection</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">routeCollection</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>How can we trigger an event? For this we should use service <code class="highlighter-rouge">event_dispatcher</code> and method <code class="highlighter-rouge">dispatch</code>:
-<code class="highlighter-rouge">\Drupal::service(“event_dispatcher”)-&gt;dispatch(Event::NAME, $event)</code></p>
+<p>How can we trigger an event? For this we should use service <code class="language-plaintext highlighter-rouge">event_dispatcher</code> and method <code class="language-plaintext highlighter-rouge">dispatch</code>:
+<code class="language-plaintext highlighter-rouge">\Drupal::service(“event_dispatcher”)-&gt;dispatch(Event::NAME, $event)</code></p>
 
 <p>Let’s look at an example <a href="https://git.drupalcode.org/project/drupal/blob/8.8.x/core/lib/Drupal/Core/Routing/RouteBuilder.php">core/lib/Drupal/Core/Routing/RouteBuilder.php</a></p>
 
@@ -309,7 +309,7 @@ Example from core/modules/user/user.services.yml:</p>
 <span class="cd">/**
 * Managing class for rebuilding the router table.
 */</span>
-<span class="kd">class</span> <span class="nc">RouteBuilder</span> <span class="k">implements</span> <span class="nx">RouteBuilderInterface</span><span class="p">,</span> <span class="nx">DestructableInterface</span> <span class="p">{</span>
+<span class="kd">class</span> <span class="nc">RouteBuilder</span> <span class="kd">implements</span> <span class="nc">RouteBuilderInterface</span><span class="p">,</span> <span class="nc">DestructableInterface</span> <span class="p">{</span>
 
 <span class="cd">/**
 * The event dispatcher to notify of routes.
@@ -318,21 +318,21 @@ Example from core/modules/user/user.services.yml:</p>
 */</span>
 <span class="k">protected</span> <span class="nv">$dispatcher</span><span class="p">;</span>
 
-<span class="o">...</span>
+<span class="mf">...</span>
 
-<span class="k">public</span> <span class="k">function</span> <span class="nf">rebuild</span><span class="p">()</span> <span class="p">{</span>
- <span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="n">rebuild</span><span class="p">()</span> <span class="p">{</span>
+ <span class="mf">...</span>
  <span class="c1">// DYNAMIC is supposed to be used to add new routes based upon all the</span>
  <span class="c1">// static defined ones.</span>
- <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span><span class="o">-&gt;</span><span class="na">dispatch</span><span class="p">(</span><span class="nx">RoutingEvents</span><span class="o">::</span><span class="na">DYNAMIC</span><span class="p">,</span> <span class="k">new</span> <span class="nx">RouteBuildEvent</span><span class="p">(</span><span class="nv">$collection</span><span class="p">));</span>
+ <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">dispatcher</span><span class="o">-&gt;</span><span class="nf">dispatch</span><span class="p">(</span><span class="nc">RoutingEvents</span><span class="o">::</span><span class="no">DYNAMIC</span><span class="p">,</span> <span class="k">new</span> <span class="nc">RouteBuildEvent</span><span class="p">(</span><span class="nv">$collection</span><span class="p">));</span>
 
  <span class="c1">// ALTER is the final step to alter all the existing routes. We cannot stop</span>
  <span class="c1">// people from adding new routes here, but we define two separate steps to</span>
  <span class="c1">// make it clear.</span>
- <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span><span class="o">-&gt;</span><span class="na">dispatch</span><span class="p">(</span><span class="nx">RoutingEvents</span><span class="o">::</span><span class="na">ALTER</span><span class="p">,</span> <span class="k">new</span> <span class="nx">RouteBuildEvent</span><span class="p">(</span><span class="nv">$collection</span><span class="p">));</span>
- <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">checkProvider</span><span class="o">-&gt;</span><span class="na">setChecks</span><span class="p">(</span><span class="nv">$collection</span><span class="p">);</span>
+ <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">dispatcher</span><span class="o">-&gt;</span><span class="nf">dispatch</span><span class="p">(</span><span class="nc">RoutingEvents</span><span class="o">::</span><span class="no">ALTER</span><span class="p">,</span> <span class="k">new</span> <span class="nc">RouteBuildEvent</span><span class="p">(</span><span class="nv">$collection</span><span class="p">));</span>
+ <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">checkProvider</span><span class="o">-&gt;</span><span class="nf">setChecks</span><span class="p">(</span><span class="nv">$collection</span><span class="p">);</span>
 
- <span class="o">...</span>
+ <span class="mf">...</span>
 <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>

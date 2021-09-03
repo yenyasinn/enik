@@ -16,20 +16,20 @@
 </script>
 
 
-<!-- Begin Jekyll SEO tag v2.6.1 -->
+<!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>High performance caching of Drupal 8 using reverse proxy and CDN</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="High performance caching of Drupal 8 using reverse proxy and CDN" />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="en" />
 <meta name="description" content="As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery." />
 <meta property="og:description" content="As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery." />
-<link rel="canonical" href="https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html" />
-<meta property="og:url" content="https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-10-06T13:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="High performance caching of Drupal 8 using reverse proxy and CDN" />
 <script type="application/ld+json">
-{"datePublished":"2019-10-06T13:00:00+03:00","dateModified":"2019-10-06T13:00:00+03:00","url":"https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.","@type":"BlogPosting","headline":"High performance caching of Drupal 8 using reverse proxy and CDN","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Evgenii Nikitin"},"url":"https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html","@type":"BlogPosting","description":"As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.","headline":"High performance caching of Drupal 8 using reverse proxy and CDN","dateModified":"2019-10-06T13:00:00+03:00","datePublished":"2019-10-06T13:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -104,7 +104,7 @@
 <ul>
   <li><strong>Queue</strong> - defines storage for the queue. Purge implements queue in database, file system and memory. It’s recommended to use database queue for the typical project. Such option provides necessary compromise between reliability and performance.</li>
   <li><strong>Queuer</strong> - defines handler that checks what have to cleared and add information about it to the queue. Module <strong>purge_queuer_coretags</strong> is used for flushing cache by tags.</li>
-  <li><strong>Processor</strong> - defines how purger will be started. You can use <strong>purge_processor_cron</strong> - it launches cleaning by cron, or <strong>purge_processor_lateruntime</strong> - cache is cleaned after each request to Drupal when response has been generated but isn’t sent. Also cleaning can be launched by drush command <code class="highlighter-rouge">drush p:queue-work</code>. Only a limited number of queue items can be processed during each processor run, so you can combine different processors based on your tasks or use them all together simultaneously.</li>
+  <li><strong>Processor</strong> - defines how purger will be started. You can use <strong>purge_processor_cron</strong> - it launches cleaning by cron, or <strong>purge_processor_lateruntime</strong> - cache is cleaned after each request to Drupal when response has been generated but isn’t sent. Also cleaning can be launched by drush command <code class="language-plaintext highlighter-rouge">drush p:queue-work</code>. Only a limited number of queue items can be processed during each processor run, so you can combine different processors based on your tasks or use them all together simultaneously.</li>
   <li><strong>Purger</strong> - implements communication with proxy server or CDN. List of supported servers you can find on the module’s page <a href="https://www.drupal.org/project/purge">Purge</a>.</li>
 </ul>
 

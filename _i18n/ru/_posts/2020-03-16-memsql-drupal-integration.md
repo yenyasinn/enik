@@ -2,7 +2,7 @@
 layout: post
 title: "Интеграция MemSQL c Drupal."
 date: 2020-03-16 10:00:00 +0000
-categories: ru drupal memsql
+categories: ru Drupal memsql
 canonical_url: https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html
 ---
 Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по [обзору MemSQL](/ru/memsql/2020/02/09/memsql-overview.html). В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье [“Cравнение производительности MySQL и MemSQL”](/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html). В этой статье я опишу как интегрировать MemSQL с Drupal.

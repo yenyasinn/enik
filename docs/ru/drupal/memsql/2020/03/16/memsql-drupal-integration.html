@@ -16,20 +16,20 @@
 </script>
 
 
-<!-- Begin Jekyll SEO tag v2.6.1 -->
+<!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Интеграция MemSQL c Drupal.</title>
-<meta name="generator" content="Jekyll v3.8.7" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Интеграция MemSQL c Drupal." />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="ru" />
 <meta name="description" content="Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по обзору MemSQL. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье “Cравнение производительности MySQL и MemSQL”. В этой статье я опишу как интегрировать MemSQL с Drupal." />
 <meta property="og:description" content="Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по обзору MemSQL. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье “Cравнение производительности MySQL и MemSQL”. В этой статье я опишу как интегрировать MemSQL с Drupal." />
-<link rel="canonical" href="https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html" />
-<meta property="og:url" content="https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-16T13:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Интеграция MemSQL c Drupal." />
 <script type="application/ld+json">
-{"datePublished":"2020-03-16T13:00:00+03:00","dateModified":"2020-03-16T13:00:00+03:00","url":"https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html"},"author":{"@type":"Person","name":"Evgenii Nikitin"},"description":"Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по обзору MemSQL. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье “Cравнение производительности MySQL и MemSQL”. В этой статье я опишу как интегрировать MemSQL с Drupal.","@type":"BlogPosting","headline":"Интеграция MemSQL c Drupal.","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Evgenii Nikitin"},"url":"https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html","@type":"BlogPosting","description":"Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по обзору MemSQL. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье “Cравнение производительности MySQL и MemSQL”. В этой статье я опишу как интегрировать MemSQL с Drupal.","headline":"Интеграция MemSQL c Drupal.","dateModified":"2020-03-16T13:00:00+03:00","datePublished":"2020-03-16T13:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -51,11 +51,11 @@
 		</section>
 		<section class="content">
 			<div class="post-container">
-<a class="post-link" href="/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html">
+<a class="post-link" href="/drupal/memsql/2020/03/16/memsql-drupal-integration.html">
 	<h2 class="post-title">Интеграция MemSQL c Drupal.</h2>
 </a>
 <div class="post-meta">
-	<ul class="post-categories"><li>drupal</li><li>memsql</li></ul>
+	<ul class="post-categories"><li>Drupal</li><li>memsql</li></ul>
 	<div class="post-date"><i class="icon-calendar"></i>Mar 16, 2020</div>
 </div>
 <div class="post">
@@ -71,20 +71,20 @@
 
 <p>Шаги по установке MemSQL с подробным описанием вы можете найти на официальном сайте <a href="https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/">https://docs.memsql.com/v7.0/guides/deploy-memsql/memsql-tools/deploy-cluster/step-1/</a>.</p>
 
-<p>В случае, когда вам нужно иметь одновременно MySQL и MemSQL на сервере, я рекомендую поменять порт MySQL на, например, 3308. Для этого установите это значение в параметре <code class="highlighter-rouge">port</code> в файле mysqld.cnf. MemSQL будет использовать порты 3306 и 3307 при установке по шагам из ссылки выше. MemSQL может работать на любых портах, но в таком случае кластер придется настраивать вручную, что потребует больше времени на изучение и установку.</p>
+<p>В случае, когда вам нужно иметь одновременно MySQL и MemSQL на сервере, я рекомендую поменять порт MySQL на, например, 3308. Для этого установите это значение в параметре <code class="language-plaintext highlighter-rouge">port</code> в файле mysqld.cnf. MemSQL будет использовать порты 3306 и 3307 при установке по шагам из ссылки выше. MemSQL может работать на любых портах, но в таком случае кластер придется настраивать вручную, что потребует больше времени на изучение и установку.</p>
 
 <h2 id="настройка-php">Настройка PHP</h2>
 
 <p>MemSQL совместима с клиентским программным обеспечением для MySQL. Она представляется MySQL версией 5.5.8. Это значит, что вы можете подключиться к ней используя Sequel Pro, PHP MySQLi и  PHP PDO_MySQL драйвер и клиент будет считать, что работает с MySQL. Т.е. вы можете использовать все те инструменты к которым привыкли.</p>
 
 <p>Если PHP PDO_MySQL драйвер не установлен, то установите его. Например, команда для Debian или Ubuntu для установки драйвера для PHP 7.3
- <code class="highlighter-rouge">apt-get install php7.3-mysql</code></p>
+ <code class="language-plaintext highlighter-rouge">apt-get install php7.3-mysql</code></p>
 
 <h2 id="установка-драйвера-memsql-в-drupal">Установка драйвера MemSQL в Drupal.</h2>
 
 <p>Чтобы работать с MemSQL в Drupal нужно установить драйвер базы данных. Для этого используйте Drupal модуль <a href="https://www.drupal.org/project/memsql">MemSQL</a>.</p>
 
-<p>Установка происходит как обычно - <code class="highlighter-rouge">composer require drupal/memsql</code>.</p>
+<p>Установка происходит как обычно - <code class="language-plaintext highlighter-rouge">composer require drupal/memsql</code>.</p>
 
 <p>Рекомендуется использовать composer для инсталляции. В этом случае поддержка Drush подключится сразу.</p>
 
@@ -98,7 +98,7 @@
     <span class="s2">"</span><span class="s">cp</span><span class="nv"> </span><span class="s">-r</span><span class="nv"> </span><span class="s">web/modules/contrib/memsql/drivers</span><span class="nv"> </span><span class="s">web/"</span>
 <span class="pi">]</span>
 </code></pre></div></div>
-<p>В данном примере <code class="highlighter-rouge">web</code> это название docroot папки. У вас она может отличаться.</p>
+<p>В данном примере <code class="language-plaintext highlighter-rouge">web</code> это название docroot папки. У вас она может отличаться.</p>
 
 <p>Если все сделано правильно, то в процессе установки Drupal на шаге “Set up database”  в поле “Database type” появится опция “MemSQL”. Выберите её и введите название базы данных, логин и пароль.</p>
 
@@ -123,9 +123,9 @@
 <p>Драйвер базы данных MemSQL расширяет драйвер MySQL, который реализован в ядре Drupal. Хоть и MemSQL похожа на MySQL, но в реализации есть небольшие отличия:</p>
 
 <ul>
-  <li><strong>SHARD KEY</strong>.  MemSQL использует <code class="highlighter-rouge">SHARD KEY</code> для указания колонок, которые используются для вычисления хэша. Данные сохраняются на leaf согласно этому хэшу. Shard key должен включать в себя <code class="highlighter-rouge">PRIMARY KEY</code> и задается в <code class="highlighter-rouge">CREATE TABLE</code> sql запросе. Если <code class="highlighter-rouge">SHARD KEY</code> не указан, то для вычисления хеша  используется <code class="highlighter-rouge">PRIMARY KEY</code>.</li>
-  <li><strong>UNIQUE index</strong>. MemSQL требует чтобы колонки из <code class="highlighter-rouge">UNIQUE</code> индекса были частью <code class="highlighter-rouge">SHARD KEY</code>.</li>
-  <li><strong>Сортировка по-умолчанию</strong>. MySQL по-умолчанию отдает данные отсортированные по <code class="highlighter-rouge">PRIMARY KEY</code>. SQL стандарт не гарантирует такое поведение. MemSQL возвращает данные согласно своей логике, если <code class="highlighter-rouge">ORDER BY</code> не указан. Поэтому если вам нужно получить данные в отсортированном виде в MemSQL всегда используйте <code class="highlighter-rouge">ORDER BY</code>.</li>
+  <li><strong>SHARD KEY</strong>.  MemSQL использует <code class="language-plaintext highlighter-rouge">SHARD KEY</code> для указания колонок, которые используются для вычисления хэша. Данные сохраняются на leaf согласно этому хэшу. Shard key должен включать в себя <code class="language-plaintext highlighter-rouge">PRIMARY KEY</code> и задается в <code class="language-plaintext highlighter-rouge">CREATE TABLE</code> sql запросе. Если <code class="language-plaintext highlighter-rouge">SHARD KEY</code> не указан, то для вычисления хеша  используется <code class="language-plaintext highlighter-rouge">PRIMARY KEY</code>.</li>
+  <li><strong>UNIQUE index</strong>. MemSQL требует чтобы колонки из <code class="language-plaintext highlighter-rouge">UNIQUE</code> индекса были частью <code class="language-plaintext highlighter-rouge">SHARD KEY</code>.</li>
+  <li><strong>Сортировка по-умолчанию</strong>. MySQL по-умолчанию отдает данные отсортированные по <code class="language-plaintext highlighter-rouge">PRIMARY KEY</code>. SQL стандарт не гарантирует такое поведение. MemSQL возвращает данные согласно своей логике, если <code class="language-plaintext highlighter-rouge">ORDER BY</code> не указан. Поэтому если вам нужно получить данные в отсортированном виде в MemSQL всегда используйте <code class="language-plaintext highlighter-rouge">ORDER BY</code>.</li>
   <li>MemSQL не поддерживает <strong>сортировку в UNION запросах</strong>. Подробнее тут - <a href="https://www.drupal.org/project/memsql/issues/3112865">сортировка в UNION запросе</a>.</li>
 </ul>
 
@@ -134,8 +134,8 @@
 <div id="disqus_thread" style="margin-top:25px"></div>
   <script>
     var disqus_config = function () {
-      this.page.url = 'https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
-      this.page.identifier = 'https://www.enik.io/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+      this.page.url = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+      this.page.identifier = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
     };
 		(function() {
 			var d = document, s = d.createElement('script');

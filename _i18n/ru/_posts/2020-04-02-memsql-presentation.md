@@ -2,7 +2,7 @@
 layout: post
 title: "База данных MemSQL. Когда и как использовать с Drupal. Презентация с DrupalCamp London 2020"
 date: 2020-03-31 06:00:00 +0000
-categories: ru drupal memsql
+categories: ru Drupal memsql
 canonical_url: https://www.enik.io/ru/drupal/memsql/2020/03/31/memsql-presentation.html
 ---
 Презентация и слайды доклада "База данных MemSQL. Когда и как использовать с Drupal" с DrupalCamp London 2020.

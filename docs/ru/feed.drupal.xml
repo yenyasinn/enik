@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Drupal related articles from Evgenii Nikitin</title>
+        <description>Planet Drupal feed</description>
+        <link>https://www.enik.io</link>
+        <lastBuildDate>Sun, 10 Jan 2021 09:00:00 +0300</lastBuildDate>
+        
+        
+        <item>
+            <title>Шаблоны проектирования в Drupal 9</title>
+            
+            <description>&lt;p&gt;Drupal разработчики редко имеют дело с паттернами проектирования объектов, т.к. в основном им приходится работать в уже сформированной среде. Мы используем шаблоны каждый день, но даже не задумываемся над этим. Имея представление о паттернах вам будет легче общаться с коллегами - достаточно сказать название паттерна и все понимают о чем идет речь. Вместо изобретения очередного велосипеда вы можете использовать уже отработанные эффективные решения. Паттерны проектирования одни и те же в разных языках программирования, отличается только реализация. Так что зная шаблоны вы всегда сможете найти им применение в своей карьере. Кстати, вопрос о паттернах проектирования один из самых частых при собеседованиях.&lt;/p&gt;
+</description>
+            
+            <pubDate>Sun, 10 Jan 2021 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/architecture/2021/01/10/patterns.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/architecture/2021/01/10/patterns.html</guid>
+        </item>
+        
+        <item>
+            <title>Стандарты в Drupal проекте</title>
+            
+            <description>&lt;p&gt;Перед разработкой Drupal проекта, особенно большого, важно определиться со стандартами, которые будут использоваться на проекте. Таким образом все участвующие в проекте будут понимать каким правилам следовать во время разработки и поддержки проекта.&lt;/p&gt;
+</description>
+            
+            <pubDate>Thu, 11 Jun 2020 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/standards/2020/06/11/drupal-standards.html</guid>
+        </item>
+        
+        <item>
+            <title>База данных MemSQL. Когда и как использовать с Drupal. Презентация с DrupalCamp London 2020</title>
+            
+            <description>&lt;p&gt;Презентация и слайды доклада “База данных MemSQL. Когда и как использовать с Drupal” с DrupalCamp London 2020.&lt;/p&gt;
+</description>
+            
+            <pubDate>Tue, 31 Mar 2020 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/memsql/2020/03/31/memsql-presentation.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/memsql/2020/03/31/memsql-presentation.html</guid>
+        </item>
+        
+        <item>
+            <title>Интеграция MemSQL c Drupal.</title>
+            
+            <description>&lt;p&gt;Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по &lt;a href=&quot;/ru/memsql/2020/02/09/memsql-overview.html&quot;&gt;обзору MemSQL&lt;/a&gt;. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье &lt;a href=&quot;/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html&quot;&gt;“Cравнение производительности MySQL и MemSQL”&lt;/a&gt;. В этой статье я опишу как интегрировать MemSQL с Drupal.&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 16 Mar 2020 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html</guid>
+        </item>
+        
+        <item>
+            <title>Производительность Views в Drupal 8</title>
+            
+            <description>&lt;p&gt;Модуль Views один из самых популярных модулей на Drupal сайтах. Думаю, он включен практически на всех сайтах построенных на Drupal. В этой статье я бы хотел описать проблемы с производительностью Views с которыми я столкнулся работая с этим модулем в Drupal 8 и способы оптимизации.&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 06 Jan 2020 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/performance/2020/01/06/views-performance.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/performance/2020/01/06/views-performance.html</guid>
+        </item>
+        
+        <item>
+            <title>Antibot против Honeypot. Какую защиту от ботов выбрать для Drupal</title>
+            
+            <description>&lt;p&gt;Если у вас на сайте есть формы для анонимных пользователей, то рано или поздно вы задумаетесь о том, как защитить их от ботов. Потому, что очищать комментарии или данные в веб формах от спама довольно утомительное занятие.
+Вы можете заставлять людей решать задачи используя &lt;a href=&quot;https://www.drupal.org/project/captcha&quot;&gt;Captcha&lt;/a&gt; модуль. Это работает неплохо, но  вашим пользователям может не понравится вводить капчу каждый раз, особенно если они вводят сообщения часто.&lt;/p&gt;
+</description>
+            
+            <pubDate>Sun, 15 Dec 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html</guid>
+        </item>
+        
+        <item>
+            <title>Выполняем код после клонирования сайта в Acquia Cloud Site Factory</title>
+            
+            <description>&lt;p&gt;Работая над фабрикой сайтов на Drupal 8 на платформе Acquia Cloud Site Factory (ACSF) мы столкнулись с интересной проблемой.&lt;/p&gt;
+</description>
+            
+            <pubDate>Wed, 20 Nov 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</guid>
+        </item>
+        
+        <item>
+            <title>Разбираем систему событий в Drupal 8</title>
+            
+            <description>&lt;h2 id=&quot;для-чего-нам-event-subscriber&quot;&gt;Для чего нам Event Subscriber&lt;/h2&gt;
+</description>
+            
+            <pubDate>Mon, 04 Nov 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html</guid>
+        </item>
+        
+        <item>
+            <title>Drupal сертификации от Acquia</title>
+            
+            <description>&lt;p&gt;Программа сертификации от Acquia это попытка установить стандарты знаний и опыта работы с Drupal. Работодателям теперь просто понять уровень разработчика зная, какие экзамены по сертификации он прошел. Клиенты могут быть уверены, что они работают с настоящими профессионалами. Программисты могут сравнить свой уровень с уровнем коллег. Ну а Acquia смотрит на количество сертифицированных специалистов при рассмотрении заявок от агентств на партнерство.&lt;/p&gt;
+</description>
+            
+            <pubDate>Wed, 16 Oct 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</guid>
+        </item>
+        
+        <item>
+            <title>Высокопроизводительное кеширование Drupal 8 с использованием прокси серверов и CDN</title>
+            
+            <description>&lt;p&gt;Как многие уже знают - не обязательно передавать все клиентские запросы напрямую в Drupal. Контент может быть закеширован и отдан прокси серверами, такими как, например, Varnish, или CDN серверами, например CloudFront, CloudFlare. Даже Nginx может быть настроен таким образом, чтобы отдавать закешированные запросы самостоятельно. Подобная практика позволяет в разы сократить нагрузку на сервер и увеличить скорость отдачи контента.&lt;/p&gt;
+</description>
+            
+            <pubDate>Sun, 06 Oct 2019 13:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</guid>
+        </item>
+        
+    </channel>
+</rss>
