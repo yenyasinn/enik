@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.io</link>
-        <lastBuildDate>Sun, 10 Jan 2021 09:00:00 +0300</lastBuildDate>
+        <lastBuildDate>Fri, 29 Oct 2021 09:00:00 +0300</lastBuildDate>
         
+        
+        <item>
+            <title>Never use patches based on merge/pull requests</title>
+            
+            <description>&lt;p&gt;There is a great feature that can be used after Drupal code migration into GitLab infrastructure - &lt;a href=&quot;https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests&quot;&gt;merge requests&lt;/a&gt;. It is more convenient than the old method when patches had to be created and uploaded on drupal.org to the task for a review. Everyone who already worked on GitHub with pull requests evaluated this approach.&lt;/p&gt;
+</description>
+            
+            <pubDate>Fri, 29 Oct 2021 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/security/2021/10/29/patches-requests.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/security/2021/10/29/patches-requests.html</guid>
+        </item>
         
         <item>
             <title>Design patterns in Drupal 9</title>
@@ -104,17 +115,6 @@
             <pubDate>Wed, 16 Oct 2019 13:00:00 +0300</pubDate>
             <link>https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</link>
             <guid isPermaLink="true">https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</guid>
-        </item>
-        
-        <item>
-            <title>High performance caching of Drupal 8 using reverse proxy and CDN</title>
-            
-            <description>&lt;p&gt;As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.&lt;/p&gt;
-</description>
-            
-            <pubDate>Sun, 06 Oct 2019 13:00:00 +0300</pubDate>
-            <link>https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</link>
-            <guid isPermaLink="true">https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</guid>
         </item>
         
     </channel>

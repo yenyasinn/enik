@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.io</link>
-        <lastBuildDate>Sun, 10 Jan 2021 09:00:00 +0300</lastBuildDate>
+        <lastBuildDate>Fri, 29 Oct 2021 09:00:00 +0300</lastBuildDate>
         
+        
+        <item>
+            <title>Не используйте патчи на основе реквестов из GitHub и GitLab</title>
+            
+            <description>&lt;p&gt;После миграции кода Drupal в GitLab, появилась отличная возможность создавать &lt;a href=&quot;https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests&quot;&gt;“мерж” реквесты&lt;/a&gt; для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов.&lt;/p&gt;
+</description>
+            
+            <pubDate>Fri, 29 Oct 2021 09:00:00 +0300</pubDate>
+            <link>https://www.enik.io/drupal/security/2021/10/29/patches-requests.html</link>
+            <guid isPermaLink="true">https://www.enik.io/drupal/security/2021/10/29/patches-requests.html</guid>
+        </item>
         
         <item>
             <title>Шаблоны проектирования в Drupal 9</title>
@@ -105,17 +116,6 @@
             <pubDate>Wed, 16 Oct 2019 13:00:00 +0300</pubDate>
             <link>https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</link>
             <guid isPermaLink="true">https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html</guid>
-        </item>
-        
-        <item>
-            <title>Высокопроизводительное кеширование Drupal 8 с использованием прокси серверов и CDN</title>
-            
-            <description>&lt;p&gt;Как многие уже знают - не обязательно передавать все клиентские запросы напрямую в Drupal. Контент может быть закеширован и отдан прокси серверами, такими как, например, Varnish, или CDN серверами, например CloudFront, CloudFlare. Даже Nginx может быть настроен таким образом, чтобы отдавать закешированные запросы самостоятельно. Подобная практика позволяет в разы сократить нагрузку на сервер и увеличить скорость отдачи контента.&lt;/p&gt;
-</description>
-            
-            <pubDate>Sun, 06 Oct 2019 13:00:00 +0300</pubDate>
-            <link>https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</link>
-            <guid isPermaLink="true">https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html</guid>
         </item>
         
     </channel>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Не используйте патчи на основе реквестов из GitHub и GitLab</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Не используйте патчи на основе реквестов из GitHub и GitLab" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="После миграции кода Drupal в GitLab, появилась отличная возможность создавать “мерж” реквесты для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов." />
+<meta property="og:description" content="После миграции кода Drupal в GitLab, появилась отличная возможность создавать “мерж” реквесты для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-29T09:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Не используйте патчи на основе реквестов из GitHub и GitLab" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Evgenii Nikitin"},"url":"https://www.enik.io/ru/drupal/security/2021/10/29/patches-requests.html","@type":"BlogPosting","description":"После миграции кода Drupal в GitLab, появилась отличная возможность создавать “мерж” реквесты для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов.","headline":"Не используйте патчи на основе реквестов из GitHub и GitLab","dateModified":"2021-10-29T09:00:00+03:00","datePublished":"2021-10-29T09:00:00+03:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.io/ru/drupal/security/2021/10/29/patches-requests.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<h2>Евгений Никитин</h2>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/security/2021/10/29/patches-requests.html" title="Русский">Русский</a>
+			  <a href="/drupal/security/2021/10/29/patches-requests.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+<a class="post-link" href="/drupal/security/2021/10/29/patches-requests.html">
+	<h2 class="post-title">Не используйте патчи на основе реквестов из GitHub и GitLab</h2>
+</a>
+<div class="post-meta">
+	<ul class="post-categories"><li>Drupal</li><li>security</li></ul>
+	<div class="post-date"><i class="icon-calendar"></i>Oct 29, 2021</div>
+</div>
+<div class="post">
+	<p>После миграции кода Drupal в GitLab, появилась отличная возможность создавать <a href="https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests">“мерж” реквесты</a> для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов.</p>
+
+<p>В данное время стандартом считается использование composer для управления модулями сайта. Если нужно внести изменения в код модуля с drupal.org или сторонюю библиотеку, обычно используется патчинг через composer используя cweagans/composer-patches:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">{</span>
+  <span class="s2">"</span><span class="s">require"</span><span class="pi">:</span> <span class="pi">{</span>
+    <span class="s2">"</span><span class="s">cweagans/composer-patches"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">~1.0"</span><span class="pi">,</span>
+    <span class="s2">"</span><span class="s">drupal/core-recommended"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">^9"</span><span class="pi">,</span>
+  <span class="pi">},</span>
+  <span class="s2">"</span><span class="s">extra"</span><span class="pi">:</span> <span class="pi">{</span>
+    <span class="s2">"</span><span class="s">patches"</span><span class="pi">:</span> <span class="pi">{</span>
+      <span class="s2">"</span><span class="s">drupal/core"</span><span class="pi">:</span> <span class="pi">{</span>
+        <span class="s2">"</span><span class="s">Add</span><span class="nv"> </span><span class="s">startup</span><span class="nv"> </span><span class="s">configuration</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">PHP</span><span class="nv"> </span><span class="s">server"</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://www.drupal.org/files/issues/add_a_startup-1543858-30.patch"</span>
+      <span class="pi">}</span>
+    <span class="pi">}</span>
+  <span class="pi">}</span>
+<span class="pi">}</span>
+</code></pre></div></div>
+
+<p>Реквесты с GitLab и GitHub можно вывести в виде патча, добавив .diff к URL реквеста, например, <code class="language-plaintext highlighter-rouge">https://gitlab.com/weitzman/drupal-test-traits/-/merge_requests/90.diff</code> или <code class="language-plaintext highlighter-rouge">https://patch-diff.githubusercontent.com/raw/drush-ops/drush/pull/4758.diff</code>.</p>
+
+<p>Такие адреса можно использовать в composer чтобы патчить модули, но к сожалению, это рискованно.</p>
+
+<p>Основная проблема в том, что <strong>реквесты могут быть изменены в любое время</strong>! Поэтому патч может оказаться сломанным в самый неподходящий момент или включать изменения, которые вы не планировали. Что еще хуже, <strong>в реквест могут быть добавлены изменения, через которые сайт может быть взломан</strong>!</p>
+
+<p>Поэтому нельзя использовать патчи на основе реквестов, особенно на “живых” сайтах. Лучше сгенерируйте патч файл и используйте его. Так безопаснее.</p>
+
+</div>
+
+<div id="disqus_thread" style="margin-top:25px"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
+      this.page.identifier = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
+    };
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

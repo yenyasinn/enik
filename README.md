@@ -34,3 +34,5 @@ bundle install
 
 DNS setup
 https://stackoverflow.com/questions/9082499/custom-domain-for-github-project-pages/9123911
+
+RSS feed - https://github.com/snaptortoise/jekyll-rss-feeds
