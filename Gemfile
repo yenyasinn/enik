@@ -19,7 +19,7 @@ gem "minima"
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
-  gem "jekyll-multiple-languages-plugin", "~>1.6.0"
+  gem "jekyll-multiple-languages-plugin", "~>1.7.0"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

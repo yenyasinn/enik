@@ -17,7 +17,7 @@ layout: default
 	{%- for post in site.posts -%}
 	<li>
 		{%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-		<a class="post-link" href="{{ post.url | relative_url }}">
+		<a class="post-link" href="{{ post.canonical_url }}">
 			<h2 class="post-title">{{ post.title | escape }}</h2>
 		</a>
 		<div class="post-meta">
@@ -34,9 +34,12 @@ layout: default
 	</li>
 	{%- endfor -%}
 </ul>
-
- <!-- <p class="feed-subscribe"><svg class="svg-icon orange">
+<!--
+<p class="feed-subscribe">
+	<svg class="svg-icon orange">
 		<use xlink:href="{{ '/assets/minima-social-icons.svg#rss' | relative_url }}"></use>
-	</svg><a href="{{ "/feed.xml" | relative_url }}">Subscribe</a></p> -->
-	{%- endif -%}
-
+	</svg>
+	<a href="{{ "/feed.drupal.xml" | relative_url }}">Subscribe</a>
+</p>
+-->
+{%- endif -%}
