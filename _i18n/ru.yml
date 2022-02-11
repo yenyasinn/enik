@@ -6,6 +6,7 @@ global:
   posts: Статьи
   name: Евгений Никитин
   main_page: Главная страница
+  about_me: О Евгении Никитине
 
 path:
   lang_prefix: ru/

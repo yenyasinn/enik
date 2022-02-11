@@ -15,7 +15,6 @@
   gtag('config', 'UA-2607843-20');
 </script>
 
-
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Never use patches based on merge/pull requests</title>
 <meta name="generator" content="Jekyll v4.2.1" />
@@ -39,7 +38,7 @@
 	<main class="container">
 		<section class="about">
 			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
-			<h2>Evgenii Nikitin</h2>
+			<a href="/about" title="About me" class="name">Evgenii Nikitin</a>
 			<p class="tagline"></p>
 			<ul class="social">
 				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
@@ -53,15 +52,14 @@
 		</section>
 		<section class="content">
 			<div class="post-container">
-<a class="post-link" href="/drupal/security/2021/10/29/patches-requests.html">
-	<h2 class="post-title">Never use patches based on merge/pull requests</h2>
-</a>
-<div class="post-meta">
-	<ul class="post-categories"><li>Drupal</li><li>security</li></ul>
-	<div class="post-date"><i class="icon-calendar"></i>Oct 29, 2021</div>
-</div>
-<div class="post">
-	<p>There is a great feature that can be used after Drupal code migration into GitLab infrastructure - <a href="https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests">merge requests</a>. It is more convenient than the old method when patches had to be created and uploaded on drupal.org to the task for a review. Everyone who already worked on GitHub with pull requests evaluated this approach.</p>
+	<h1>Never use patches based on merge/pull requests</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>security</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Oct 29, 2021</div>
+	</div>
+	<div class="post">
+		<p>There is a great feature that can be used after Drupal code migration into GitLab infrastructure - <a href="https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests">merge requests</a>. It is more convenient than the old method when patches had to be created and uploaded on drupal.org to the task for a review. Everyone who already worked on GitHub with pull requests evaluated this approach.</p>
 
 <p>Currently it’s a standard to use composer to manage site modules. If it’s required to add some changes to the module from drupal.org or external library we, usually, use composer to patch them using  cweagans/composer-patches plugin:</p>
 
@@ -87,22 +85,22 @@
 
 <p>Thus, do not use patches based on pull/merge requests, especially on the “live” sites. Generate a patch file and use it. It’s safer.</p>
 
-</div>
+	</div>
 
-<div id="disqus_thread" style="margin-top:25px"></div>
-  <script>
-    var disqus_config = function () {
-      this.page.url = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
-      this.page.identifier = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
-    };
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
+    		this.page.identifier = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
+    	};
 		(function() {
 			var d = document, s = d.createElement('script');
 			s.src = 'https://enik-io.disqus.com/embed.js';
 			s.setAttribute('data-timestamp', +new Date());
 			(d.head || d.body).appendChild(s);
 		})();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
 
 		</section>

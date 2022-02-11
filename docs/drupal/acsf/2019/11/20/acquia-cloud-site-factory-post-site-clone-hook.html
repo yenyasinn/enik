@@ -15,7 +15,6 @@
   gtag('config', 'UA-2607843-20');
 </script>
 
-
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Acquia Cloud Site Factory post site clone hook</title>
 <meta name="generator" content="Jekyll v4.2.1" />
@@ -39,7 +38,7 @@
 	<main class="container">
 		<section class="about">
 			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
-			<h2>Evgenii Nikitin</h2>
+			<a href="/about" title="About me" class="name">Evgenii Nikitin</a>
 			<p class="tagline"></p>
 			<ul class="social">
 				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
@@ -53,15 +52,14 @@
 		</section>
 		<section class="content">
 			<div class="post-container">
-<a class="post-link" href="/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html">
-	<h2 class="post-title">Acquia Cloud Site Factory post site clone hook</h2>
-</a>
-<div class="post-meta">
-	<ul class="post-categories"><li>Drupal</li><li>ACSF</li></ul>
-	<div class="post-date"><i class="icon-calendar"></i>Nov 20, 2019</div>
-</div>
-<div class="post">
-	<p>We have faced with interesting issue during our work on the site factory on the Drupal 8 based on Acquia Cloud Site Factory (ACSF) platform.</p>
+	<h1>Acquia Cloud Site Factory post site clone hook</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>ACSF</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Nov 20, 2019</div>
+	</div>
+	<div class="post">
+		<p>We have faced with interesting issue during our work on the site factory on the Drupal 8 based on Acquia Cloud Site Factory (ACSF) platform.</p>
 
 <p>There is a feature in ACSF that allows you to duplicate existing site and create a new one with the same content but with another URL. Issue was that cloned site has used the same SOLR index as the ancestor. Actually it is logical because as we had made full copy of the site, including configurations. This issue could be resolved by re-initializing SOLR settings for after site cloning.</p>
 
@@ -81,22 +79,22 @@
   <li><a href="https://git.drupalcode.org/project/acsf/tree/8.x-2.x">acsf module</a>.</li>
 </ul>
 
-</div>
+	</div>
 
-<div id="disqus_thread" style="margin-top:25px"></div>
-  <script>
-    var disqus_config = function () {
-      this.page.url = 'https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html';
-      this.page.identifier = 'https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html';
-    };
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html';
+    		this.page.identifier = 'https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html';
+    	};
 		(function() {
 			var d = document, s = d.createElement('script');
 			s.src = 'https://enik-io.disqus.com/embed.js';
 			s.setAttribute('data-timestamp', +new Date());
 			(d.head || d.body).appendChild(s);
 		})();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
 
 		</section>

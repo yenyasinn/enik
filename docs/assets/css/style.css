@@ -343,6 +343,8 @@ a { color: #000; transition: color 0.3s; }
 
 a:hover { color: #0A59B0; }
 
+h1 { line-height: 1em; }
+
 h2 { margin: 0.7em 0; }
 
 main { margin: 0 90px; display: flex; height: 100%; }
@@ -365,7 +367,7 @@ main .about { display: flex; height: 100vh; padding-bottom: 15vh; min-width: 220
 
 @media screen and (min-width: 769px) { main .about { position: fixed; } }
 
-main .about h2 { font-size: 22px; margin-top: 25px; margin-bottom: 0; color: #222222; font-weight: normal; }
+main .about .name { font-size: 22px; margin-top: 25px; margin-bottom: 0; color: #222222; font-weight: normal; }
 
 main .about .tagline { font-size: 22px; margin-top: 17px; color: #aaa; }
 

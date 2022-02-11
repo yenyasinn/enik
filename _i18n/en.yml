@@ -6,6 +6,7 @@ global:
   posts: Articles
   name: Evgenii Nikitin
   main_page: Main page
+  about_me: About Evgenii Nikitin
 
 path:
   lang_prefix: ''

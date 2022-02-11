@@ -15,7 +15,6 @@
   gtag('config', 'UA-2607843-20');
 </script>
 
-
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Не используйте патчи на основе реквестов из GitHub и GitLab</title>
 <meta name="generator" content="Jekyll v4.2.1" />
@@ -39,7 +38,7 @@
 	<main class="container">
 		<section class="about">
 			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
-			<h2>Евгений Никитин</h2>
+			<a href="/ru/about" title="Обо мне" class="name">Евгений Никитин</a>
 			<p class="tagline"></p>
 			<ul class="social">
 				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
@@ -53,15 +52,14 @@
 		</section>
 		<section class="content">
 			<div class="post-container">
-<a class="post-link" href="/drupal/security/2021/10/29/patches-requests.html">
-	<h2 class="post-title">Не используйте патчи на основе реквестов из GitHub и GitLab</h2>
-</a>
-<div class="post-meta">
-	<ul class="post-categories"><li>Drupal</li><li>security</li></ul>
-	<div class="post-date"><i class="icon-calendar"></i>Oct 29, 2021</div>
-</div>
-<div class="post">
-	<p>После миграции кода Drupal в GitLab, появилась отличная возможность создавать <a href="https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests">“мерж” реквесты</a> для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов.</p>
+	<h1>Не используйте патчи на основе реквестов из GitHub и GitLab</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>security</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Oct 29, 2021</div>
+	</div>
+	<div class="post">
+		<p>После миграции кода Drupal в GitLab, появилась отличная возможность создавать <a href="https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests">“мерж” реквесты</a> для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов.</p>
 
 <p>В данное время стандартом считается использование composer для управления модулями сайта. Если нужно внести изменения в код модуля с drupal.org или сторонюю библиотеку, обычно используется патчинг через composer используя cweagans/composer-patches:</p>
 
@@ -88,22 +86,22 @@
 
 <p>Поэтому нельзя использовать патчи на основе реквестов, особенно на “живых” сайтах. Лучше сгенерируйте патч файл и используйте его. Так безопаснее.</p>
 
-</div>
+	</div>
 
-<div id="disqus_thread" style="margin-top:25px"></div>
-  <script>
-    var disqus_config = function () {
-      this.page.url = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
-      this.page.identifier = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
-    };
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
+    		this.page.identifier = 'https://www.enik.io/drupal/security/2021/10/29/patches-requests.html';
+    	};
 		(function() {
 			var d = document, s = d.createElement('script');
 			s.src = 'https://enik-io.disqus.com/embed.js';
 			s.setAttribute('data-timestamp', +new Date());
 			(d.head || d.body).appendChild(s);
 		})();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
 
 		</section>

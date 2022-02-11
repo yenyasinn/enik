@@ -15,7 +15,6 @@
   gtag('config', 'UA-2607843-20');
 </script>
 
-
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>High performance caching of Drupal 8 using reverse proxy and CDN</title>
 <meta name="generator" content="Jekyll v4.2.1" />
@@ -39,7 +38,7 @@
 	<main class="container">
 		<section class="about">
 			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
-			<h2>Evgenii Nikitin</h2>
+			<a href="/about" title="About me" class="name">Evgenii Nikitin</a>
 			<p class="tagline"></p>
 			<ul class="social">
 				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
@@ -53,15 +52,14 @@
 		</section>
 		<section class="content">
 			<div class="post-container">
-<a class="post-link" href="/drupal/performance/2019/10/06/reverse-proxy-caching.html">
-	<h2 class="post-title">High performance caching of Drupal 8 using reverse proxy and CDN</h2>
-</a>
-<div class="post-meta">
-	<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
-	<div class="post-date"><i class="icon-calendar"></i>Oct 6, 2019</div>
-</div>
-<div class="post">
-	<p>As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.</p>
+	<h1>High performance caching of Drupal 8 using reverse proxy and CDN</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Oct 6, 2019</div>
+	</div>
+	<div class="post">
+		<p>As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.</p>
 
 <h2 id="cache-expiration">Cache expiration</h2>
 
@@ -129,22 +127,22 @@ drush p:queue-work <span class="c"># launches cleaning.</span>
   <li><a href="https://www.nginx.com/blog/nginx-caching-guide/">A Guide to Caching with NGINX and NGINX Plus</a></li>
 </ul>
 
-</div>
+	</div>
 
-<div id="disqus_thread" style="margin-top:25px"></div>
-  <script>
-    var disqus_config = function () {
-      this.page.url = 'https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html';
-      this.page.identifier = 'https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html';
-    };
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html';
+    		this.page.identifier = 'https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html';
+    	};
 		(function() {
 			var d = document, s = d.createElement('script');
 			s.src = 'https://enik-io.disqus.com/embed.js';
 			s.setAttribute('data-timestamp', +new Date());
 			(d.head || d.body).appendChild(s);
 		})();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
 
 		</section>

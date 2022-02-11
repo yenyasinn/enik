@@ -15,7 +15,6 @@
   gtag('config', 'UA-2607843-20');
 </script>
 
-
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Integration MemSQL and Drupal.</title>
 <meta name="generator" content="Jekyll v4.2.1" />
@@ -39,7 +38,7 @@
 	<main class="container">
 		<section class="about">
 			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
-			<h2>Evgenii Nikitin</h2>
+			<a href="/about" title="About me" class="name">Evgenii Nikitin</a>
 			<p class="tagline"></p>
 			<ul class="social">
 				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
@@ -53,15 +52,14 @@
 		</section>
 		<section class="content">
 			<div class="post-container">
-<a class="post-link" href="/drupal/memsql/2020/03/16/memsql-drupal-integration.html">
-	<h2 class="post-title">Integration MemSQL and Drupal.</h2>
-</a>
-<div class="post-meta">
-	<ul class="post-categories"><li>Drupal</li><li>memsql</li></ul>
-	<div class="post-date"><i class="icon-calendar"></i>Mar 16, 2020</div>
-</div>
-<div class="post">
-	<p>If you don’t know what DBMS MemSQL is you can read the article with <a href="/memsql/2020/02/09/memsql-overview.html">MemSQL overview</a>. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the <a href="/memsql/2020/02/29/memsql-mysql-performance-comparison.html">“MySQL and MemSQL performance comparison.”</a>. In this article I describe how to integrate MemSQL with Drupal.</p>
+	<h1>Integration MemSQL and Drupal.</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>memsql</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Mar 16, 2020</div>
+	</div>
+	<div class="post">
+		<p>If you don’t know what DBMS MemSQL is you can read the article with <a href="/memsql/2020/02/09/memsql-overview.html">MemSQL overview</a>. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the <a href="/memsql/2020/02/29/memsql-mysql-performance-comparison.html">“MySQL and MemSQL performance comparison.”</a>. In this article I describe how to integrate MemSQL with Drupal.</p>
 
 <h2 id="memsql-installation">MemSQL installation</h2>
 
@@ -132,22 +130,22 @@
   <li>MemSQL doesn’t support <strong>sorting in UNION requests</strong>. More details here - <a href="https://www.drupal.org/project/memsql/issues/3112865">sorting in UNION request</a>.</li>
 </ul>
 
-</div>
+	</div>
 
-<div id="disqus_thread" style="margin-top:25px"></div>
-  <script>
-    var disqus_config = function () {
-      this.page.url = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
-      this.page.identifier = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
-    };
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+    		this.page.identifier = 'https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html';
+    	};
 		(function() {
 			var d = document, s = d.createElement('script');
 			s.src = 'https://enik-io.disqus.com/embed.js';
 			s.setAttribute('data-timestamp', +new Date());
 			(d.head || d.body).appendChild(s);
 		})();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 </div>
 
 		</section>
