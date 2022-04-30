@@ -3,7 +3,7 @@ layout: post
 title:  "Antibot против Honeypot. Какую защиту от ботов выбрать для Drupal"
 date:   2019-12-15 10:00:00 +0000
 categories: ru Drupal modules
-canonical_url: https://www.enik.io/ru/drupal/modules/2019/12/15/antibot-vs-honeypot.html
+canonical_url: https://www.enik.pro/ru/drupal/modules/2019/12/15/antibot-vs-honeypot.html
 ---
 Если у вас на сайте есть формы для анонимных пользователей, то рано или поздно вы задумаетесь о том, как защитить их от ботов. Потому, что очищать комментарии или данные в веб формах от спама довольно утомительное занятие.
 Вы можете заставлять людей решать задачи используя [Captcha](https://www.drupal.org/project/captcha) модуль. Это работает неплохо, но  вашим пользователям может не понравится вводить капчу каждый раз, особенно если они вводят сообщения часто.

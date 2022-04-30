@@ -3,7 +3,7 @@ layout: post
 title:  "Производительность Views в Drupal 8"
 date: 2020-01-06 10:00:00 +0000
 categories: ru Drupal performance
-canonical_url: https://www.enik.io/ru/drupal/performance/2020/01/06/views-performance.html
+canonical_url: https://www.enik.pro/ru/drupal/performance/2020/01/06/views-performance.html
 ---
 Модуль Views один из самых популярных модулей на Drupal сайтах. Думаю, он включен практически на всех сайтах построенных на Drupal. В этой статье я бы хотел описать проблемы с производительностью Views с которыми я столкнулся работая с этим модулем в Drupal 8 и способы оптимизации.
 

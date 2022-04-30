@@ -3,7 +3,7 @@ layout: post
 title:  "Выполняем код после клонирования сайта в Acquia Cloud Site Factory"
 date:   2019-11-20 10:00:00 +0000
 categories: ru Drupal ACSF
-canonical_url: https://www.enik.io/ru/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html
+canonical_url: https://www.enik.pro/ru/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html
 ---
 Работая над фабрикой сайтов на Drupal 8 на платформе Acquia Cloud Site Factory (ACSF) мы столкнулись с интересной проблемой.
 

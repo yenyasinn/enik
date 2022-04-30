@@ -3,7 +3,7 @@ layout: post
 title:  "Choosing Drupal 8 boilerplate"
 date:   2019-08-30 10:00:00 +0000
 categories: en Drupal boilerplate
-canonical_url: https://www.enik.io/drupal/boilerplate/2019/08/30/drupal-boilerplates.html
+canonical_url: https://www.enik.pro/drupal/boilerplate/2019/08/30/drupal-boilerplates.html
 ---
 When a new project is started we always think what should we take as a base. If we are talking about Drupal development then many people can advise to take just Drupal. I would agree with this proposal if it is a small project where only one person is involved. If there are lots of developers on the project or size of the project is middle or big then we have to think about:
 * it has to be convenient for people to work with it;

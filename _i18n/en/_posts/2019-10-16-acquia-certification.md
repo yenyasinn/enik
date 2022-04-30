@@ -3,7 +3,7 @@ layout: post
 title:  "Drupal certification from Acquia"
 date:   2019-10-16 10:00:00 +0000
 categories: Drupal certification
-canonical_url: https://www.enik.io/drupal/certification/2019/10/16/acquia-certification.html
+canonical_url: https://www.enik.pro/drupal/certification/2019/10/16/acquia-certification.html
 ---
 Program of certification from Acquia is an attempt to determine standards of knowledge and experience of working with Drupal. Based on passed exams by developer, employers can understand his level. Clients can be sure that they work with professionals. Computer programmers can compare own level with level of colleagues. And Acquia checks the number of certified developers in the agencies when they want to be their partners.
 

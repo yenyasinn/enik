@@ -3,7 +3,7 @@ layout: post
 title: "Integration MemSQL and Drupal."
 date: 2020-03-16 10:00:00 +0000
 categories: Drupal memsql
-canonical_url: https://www.enik.io/drupal/memsql/2020/03/16/memsql-drupal-integration.html
+canonical_url: https://www.enik.pro/drupal/memsql/2020/03/16/memsql-drupal-integration.html
 ---
 If you don’t know what DBMS MemSQL is you can read the article with [MemSQL overview](/memsql/2020/02/09/memsql-overview.html). Difference in performance with MySQL and for what applications MemSQL is suitable is described in the [“MySQL and MemSQL performance comparison.”](/memsql/2020/02/29/memsql-mysql-performance-comparison.html). In this article I describe how to integrate MemSQL with Drupal.
 

@@ -3,7 +3,7 @@ layout: post
 title: "Выбираем основу для создания проекта на Drupal 8"
 date: 2019-08-30 10:00:00 +0000
 categories: ru Drupal boilerplate
-canonical_url: https://www.enik.io/ru/drupal/boilerplate/2019/08/30/drupal-boilerplates.html
+canonical_url: https://www.enik.pro/ru/drupal/boilerplate/2019/08/30/drupal-boilerplates.html
 ---
 Когда начинается новый проект всегда возникает вопрос - что взять за основу для проекта? Если мы говорим о разработке на Drupal, то, конечно, нужно взять просто Drupal подумают многие. Я бы согласился с этим если мы говорим о небольшом сайте, который делает один человек.
 Если над проектом работает несколько человек или проект среднего или крупного размера, то нам нужно задуматься о том, чтобы:

@@ -3,7 +3,7 @@ layout: post
 title:  "Component based approach in Drupal 8 theming"
 date:   2019-06-10 10:00:00 +0000
 categories: en Drupal theme
-canonical_url: https://www.enik.io/drupal/theme/2019/06/10/component-based-theming.html
+canonical_url: https://www.enik.pro/drupal/theme/2019/06/10/component-based-theming.html
 ---
 Video and presentation of my speech "Component based approach in Drupal 8 theming" from the DrupalCamp Belarus 2019.
 

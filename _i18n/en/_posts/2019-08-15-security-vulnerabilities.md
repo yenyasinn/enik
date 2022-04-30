@@ -3,7 +3,7 @@ layout: post
 title:  "Drupal 8 security vulnerabilities and ways to fix them"
 date:   2019-08-15 18:54:53 +0000
 categories: en Drupal security
-canonical_url: https://www.enik.io/drupal/security/2019/08/15/security-vulnerabilities.html
+canonical_url: https://www.enik.pro/drupal/security/2019/08/15/security-vulnerabilities.html
 ---
 Drupal site, as every complicated system, can have security vulnerabilities. It is important to know about them and be able to fix them to build secure information systems. I want to review in this article most frequent vulnerabilities and ways to prevent them.
 

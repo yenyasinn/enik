@@ -3,7 +3,7 @@ layout: post
 title:  "Acquia Cloud Site Factory post site clone hook"
 date:   2019-11-20 10:00:00 +0000
 categories: Drupal ACSF
-canonical_url: https://www.enik.io/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html
+canonical_url: https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html
 ---
 We have faced with interesting issue during our work on the site factory on the Drupal 8 based on Acquia Cloud Site Factory (ACSF) platform.
 

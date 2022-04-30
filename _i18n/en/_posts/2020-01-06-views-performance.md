@@ -3,7 +3,7 @@ layout: post
 title: "Performance of Views in Drupal 8"
 date: 2020-01-06 10:00:00 +0000
 categories: Drupal performance
-canonical_url: https://www.enik.io/drupal/performance/2020/01/06/views-performance.html
+canonical_url: https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html
 ---
 Module Views is one of the most popular modules on the Drupal sites. I think it is enabled on all sites built on Drupal. In this article I would like to describe issues with performance of Views that I’ve faced using this module and ways for optimisation.
 

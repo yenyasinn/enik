@@ -3,7 +3,7 @@ layout: post
 title:  "Git repository maintenance"
 date:   2019-09-13 10:00:00 +0000
 categories: tools
-canonical_url: https://www.enik.io/tools/2019/09/13/git-maintenance.html
+canonical_url: https://www.enik.pro/tools/2019/09/13/git-maintenance.html
 ---
 GIT repository size is increased during project lifetime due to it stores all files modifications.
 At some moment we realise that repository weights too much and it’s complicated to work with it. In this case it is proper time for GIT repository maintenance.

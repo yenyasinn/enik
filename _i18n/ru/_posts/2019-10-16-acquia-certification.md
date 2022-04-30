@@ -3,7 +3,7 @@ layout: post
 title:  "Drupal сертификации от Acquia"
 date:   2019-10-16 10:00:00 +0000
 categories: ru Drupal certification
-canonical_url: https://www.enik.io/ru/drupal/certification/2019/10/16/acquia-certification.html
+canonical_url: https://www.enik.pro/ru/drupal/certification/2019/10/16/acquia-certification.html
 ---
 Программа сертификации от Acquia это попытка установить стандарты знаний и опыта работы с Drupal. Работодателям теперь просто понять уровень разработчика зная, какие экзамены по сертификации он прошел. Клиенты могут быть уверены, что они работают с настоящими профессионалами. Программисты могут сравнить свой уровень с уровнем коллег. Ну а Acquia смотрит на количество сертифицированных специалистов при рассмотрении заявок от агентств на партнерство. 
 

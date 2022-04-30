@@ -3,7 +3,7 @@ layout: post
 title:  "Когда вам следует отправлять письма через очередь в Drupal"
 date:   2019-08-10 15:00:00 +0000
 categories: ru Drupal architecture
-canonical_url: https://www.enik.io/ru/drupal/architecture/2019/08/10/queue-mail.html
+canonical_url: https://www.enik.pro/ru/drupal/architecture/2019/08/10/queue-mail.html
 ---
 Для начала давайте разберемся, как сайт отправляет письма.
 

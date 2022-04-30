@@ -3,7 +3,7 @@ layout: post
 title:  "Создание темы на основе компонентов в Drupal 8"
 date:   2019-06-10 10:00:00 +0000
 categories: ru Drupal theme
-canonical_url: https://www.enik.io/ru/drupal/theme/2019/06/10/component-based-theming.html
+canonical_url: https://www.enik.pro/ru/drupal/theme/2019/06/10/component-based-theming.html
 ---
 Видео и презентация доклада "Создание темы на основе компонентов в Drupal 8" с конференции DrupalCamp Belarus 2019.
 

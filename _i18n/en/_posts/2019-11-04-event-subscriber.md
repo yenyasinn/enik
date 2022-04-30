@@ -3,7 +3,7 @@ layout: post
 title:  "Analyze of event system in Drupal 8"
 date:   2019-11-04 10:00:00 +0000
 categories: Drupal API
-canonical_url: https://www.enik.io/drupal/api/2019/11/04/event-subscriber.html
+canonical_url: https://www.enik.pro/drupal/api/2019/11/04/event-subscriber.html
 ---
 ## How events are used
 

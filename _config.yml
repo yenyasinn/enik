@@ -31,7 +31,7 @@ languages: ["en", "ru"]
 exclude_from_localizations: ["javascript", "images", "css", "assets"]
 
 # jekyll-seo-tag settings.
-canonical_url: 'https://www.enik.io'
+canonical_url: 'https://www.enik.pro'
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

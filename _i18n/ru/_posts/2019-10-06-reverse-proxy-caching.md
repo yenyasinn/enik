@@ -3,7 +3,7 @@ layout: post
 title:  "Высокопроизводительное кеширование Drupal 8 с использованием прокси серверов и CDN"
 date:   2019-10-06 10:00:00 +0000
 categories: ru Drupal performance
-canonical_url: https://www.enik.io/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html
+canonical_url: https://www.enik.pro/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html
 ---
 Как многие уже знают - не обязательно передавать все клиентские запросы напрямую в Drupal. Контент может быть закеширован и отдан прокси серверами, такими как, например, Varnish, или CDN серверами, например CloudFront, CloudFlare. Даже Nginx может быть настроен таким образом, чтобы отдавать закешированные запросы самостоятельно. Подобная практика позволяет в разы сократить нагрузку на сервер и увеличить скорость отдачи контента.
 

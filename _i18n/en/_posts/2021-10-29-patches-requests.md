@@ -3,7 +3,7 @@ layout: post
 title: "Never use patches based on merge/pull requests"
 date: 2021-10-29 06:00:00 +0000
 categories: Drupal security
-canonical_url: https://www.enik.io/drupal/security/2021/10/29/patches-requests.html
+canonical_url: https://www.enik.pro/drupal/security/2021/10/29/patches-requests.html
 ---
 There is a great feature that can be used after Drupal code migration into GitLab infrastructure - [merge requests](https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests). It is more convenient than the old method when patches had to be created and uploaded on drupal.org to the task for a review. Everyone who already worked on GitHub with pull requests evaluated this approach.
 

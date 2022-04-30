@@ -3,7 +3,7 @@ layout: post
 title:  "Antibot vs Honeypot. What spam protector to prefer in Drupal"
 date:   2019-12-15 10:00:00 +0000
 categories: Drupal modules
-canonical_url: https://www.enik.io/drupal/modules/2019/12/15/antibot-vs-honeypot.html
+canonical_url: https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html
 ---
 If there are forms for anonymous users on your site then sooner or later you will think about how to protect them against bots. It is tiringly to remove spam comments or irrelevant webform submissions manually.
 

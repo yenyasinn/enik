@@ -3,7 +3,7 @@ layout: post
 title:  "High performance caching of Drupal 8 using reverse proxy and CDN"
 date:   2019-10-06 10:00:00 +0000
 categories: Drupal performance
-canonical_url: https://www.enik.io/drupal/performance/2019/10/06/reverse-proxy-caching.html
+canonical_url: https://www.enik.pro/drupal/performance/2019/10/06/reverse-proxy-caching.html
 ---
 As you may already know - it isn’t necessary to pass all client’s request directly to Drupal. Content can be cached and be returned by proxy servers (for example Varnish) or by CDN servers (CloudFront, CloudFlare etc.). Even Nginx can be configured to return cached requests independently. Such practice allows decrease load on the server in a few times and rise velocity of content delivery.
 

@@ -3,7 +3,7 @@ layout: post
 title: "Не используйте патчи на основе реквестов из GitHub и GitLab"
 date: 2021-10-29 06:00:00 +0000
 categories: ru Drupal security
-canonical_url: https://www.enik.io/ru/drupal/security/2021/10/29/patches-requests.html
+canonical_url: https://www.enik.pro/ru/drupal/security/2021/10/29/patches-requests.html
 ---
 После миграции кода Drupal в GitLab, появилась отличная возможность создавать ["мерж" реквесты](https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests) для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов.
 

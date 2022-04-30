@@ -3,7 +3,7 @@ layout: post
 title:  "MySQL and MemSQL performance comparison."
 date: 2020-02-29 10:00:00 +0000
 categories: memsql
-canonical_url: https://www.enik.io/memsql/2020/02/29/memsql-mysql-performance-comparison.html
+canonical_url: https://www.enik.pro/memsql/2020/02/29/memsql-mysql-performance-comparison.html
 ---
 Recently I’ve reviewed [DBMS MemSQL](/memsql/2020/02/09/memsql-overview.html), that can store data by row and by column. MemSQL creators say that their solution works super fast. It was interesting to check it and comprehend how fast it is in comparison with MySQL (it was chosen because I use MySQL everyday) and what the difference is between rowstore and columnstore tables.
 

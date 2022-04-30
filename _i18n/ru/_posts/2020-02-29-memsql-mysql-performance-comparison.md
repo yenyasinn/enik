@@ -3,7 +3,7 @@ layout: post
 title:  "Сравнение производительности MySQL и MemSQL."
 date: 2020-02-29 10:00:00 +0000
 categories: ru memsql
-canonical_url: https://www.enik.io/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html
+canonical_url: https://www.enik.pro/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html
 ---
 Недавно я рассмотрел [базу данных MemSQL](/ru/memsql/2020/02/09/memsql-overview.html), которая может хранить данные как построчно, так и поколоночно. Создатели MemSQL утверждают, что их решение работает супер быстро. Было интересно проверить это и понять насколько быстро работает MemSQL в сравнении с MySQL, и в чем отличие работы колоночной и построчной систем хранения.
 

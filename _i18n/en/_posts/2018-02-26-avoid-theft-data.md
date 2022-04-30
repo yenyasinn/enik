@@ -3,7 +3,7 @@ layout: post
 title:  "How to avoid the theft of personal data, and content in development process in Drupal"
 date: 2018-02-26 10:00:00 +0000
 categories: Drupal modules
-canonical_url: https://www.enik.io/drupal/modules/2018/02/26/avoid-theft-data.html
+canonical_url: https://www.enik.pro/drupal/modules/2018/02/26/avoid-theft-data.html
 ---
 
 Workshop how to use [DB Sanitizer](https://www.drupal.org/project/db_sanitizer) module from the presentation 

@@ -3,7 +3,7 @@ layout: post
 title: "In memory database MemSQL. When and how to use with Drupal. Presentation from DrupalCamp London 2020"
 date: 2020-03-31 06:00:00 +0000
 categories: Drupal memsql
-canonical_url: https://www.enik.io/drupal/memsql/2020/03/31/memsql-presentation.html
+canonical_url: https://www.enik.pro/drupal/memsql/2020/03/31/memsql-presentation.html
 ---
 Video from the speech "In memory database MemSQL. When and how to use with Drupal" from DrupalCamp London 2020.
 
