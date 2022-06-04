@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Использование class resolver для внедрения зависимостей в Drupal 9</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Использование class resolver для внедрения зависимостей в Drupal 9" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Давайте разберем такой случай: у нас есть небольшой класс, который используется локально в модуле (например в хуке) в котором мы бы хотели использовать сервисы." />
+<meta property="og:description" content="Давайте разберем такой случай: у нас есть небольшой класс, который используется локально в модуле (например в хуке) в котором мы бы хотели использовать сервисы." />
+<link rel="canonical" href="https://www.enik.pro/ru/drupal/api/2022/06/04/class-resolver.html" />
+<meta property="og:url" content="https://www.enik.pro/ru/drupal/api/2022/06/04/class-resolver.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-06-04T12:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Использование class resolver для внедрения зависимостей в Drupal 9" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2022-06-04T12:00:00+02:00","datePublished":"2022-06-04T12:00:00+02:00","description":"Давайте разберем такой случай: у нас есть небольшой класс, который используется локально в модуле (например в хуке) в котором мы бы хотели использовать сервисы.","headline":"Использование class resolver для внедрения зависимостей в Drupal 9","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/api/2022/06/04/class-resolver.html"},"url":"https://www.enik.pro/ru/drupal/api/2022/06/04/class-resolver.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<a href="/ru/about" title="О Евгении Никитине" class="name">Евгений Никитин</a>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/api/2022/06/04/class-resolver.html" title="Русский">Русский</a>
+			  <a href="/drupal/api/2022/06/04/class-resolver.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+	<h1>Использование class resolver для внедрения зависимостей в Drupal 9</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>API</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Jun 4, 2022</div>
+	</div>
+	<div class="post">
+		<p>Давайте разберем такой случай: у нас есть небольшой класс, который используется локально в модуле (например в хуке) в котором мы бы хотели использовать сервисы.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">DemoClass</span> <span class="p">{</span>
+
+  <span class="k">protected</span> <span class="nv">$languageManager</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">LanguageManagerInterface</span> <span class="nv">$languageManager</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">languageManager</span> <span class="o">=</span> <span class="nv">$languageManager</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">function</span> <span class="n">foo</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Как мы можем использовать этот класс ведь нам нужно каким-то образом инициировать сервисы внутри этого класса? Первое что приходит на ум - это создание сервиса и внедрение зависимостей через контейнер сервисов:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+  <span class="na">demo_service</span><span class="pi">:</span>
+    <span class="na">class</span><span class="pi">:</span> <span class="s">Drupal\Example\DemoClass</span>
+    <span class="na">arguments</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">@language_manager'</span><span class="pi">]</span>
+</code></pre></div></div>
+
+<p>Теперь мы можем использовать наш класс вызывая его так <code class="language-plaintext highlighter-rouge">\Drupal::service('demo_service')-&gt;foo()</code>.</p>
+
+<p>Вроде бы все хорошо - это работает. Но давайте разберемся, что такое сервисы.</p>
+
+<p>Сервис - это объект, который находится в специальном объекте service container. Таким образом у нас появляется единый способ конструирования объектов сервисов, мы можем объединять сервисы в группы используя теги, заменять сервисы на свою реализацию.</p>
+
+<p>Как бы хорошо и быстро контейнер сервисов не работал, но добавление новых сервисов будет замедлять его работу. Ведь контейнеру сервисов нужно будет найти и <a href="https://www.drupal.org/docs/drupal-apis/services-and-dependency-injection/altering-existing-services-providing-dynamic#s-how-drupal-compiles-its-container">загрузить все сервисы</a>. Если у нас небольшой класс для локальной работы в модуле, который нет смысла потом переопределять или который не будет потом использоваться в других модулях, то и смысла использовать сервис для этого класса нет.</p>
+
+<p>Эффективнее будет использовать специальный сервис <code class="language-plaintext highlighter-rouge">class_resolver</code> дня внедрения зависимостей. Для этого реализуем ContainerInjectionInterface в нашем классе.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\Example</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Drupal\Core\DependencyInjection\ContainerInjectionInterface</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">DemoClass</span> <span class="kd">implements</span> <span class="nc">ContainerInjectionInterface</span> <span class="p">{</span>
+
+  <span class="k">protected</span> <span class="nv">$languageManager</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="k">function</span> <span class="n">__construct</span><span class="p">(</span><span class="kt">LanguageManagerInterface</span> <span class="nv">$languageManager</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">languageManager</span> <span class="o">=</span> <span class="nv">$languageManager</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">function</span> <span class="n">create</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">static</span><span class="p">(</span><span class="nv">$container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'language_manager'</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">function</span> <span class="n">foo</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Теперь мы можем создать экземпляр класса и вызвать метод.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="nc">Drupal\Example\DemoClass</span><span class="p">;</span>
+
+<span class="nv">$demo</span> <span class="o">=</span> <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">service</span><span class="p">(</span><span class="s1">'class_resolver'</span><span class="p">)</span>
+<span class="o">-&gt;</span><span class="nf">getInstanceFromDefinition</span><span class="p">(</span><span class="nc">DemoClass</span><span class="o">::</span><span class="n">class</span><span class="p">);</span>
+<span class="nv">$demo</span><span class="o">-&gt;</span><span class="nf">foo</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>На самом деле class_resolver используется в Drupal для внедрения зависимостей чаще, чем сервисы. Например, все формы реализуют <code class="language-plaintext highlighter-rouge">ContainerInjectionInterface</code> (посмотрите Drupal\Core\Form\FormBase) и создаются в Drupal\Core\Form\FormBuilder через class_resolver. Также многие объекты расширяющие <code class="language-plaintext highlighter-rouge">ConstraintValidator</code> реализуют <code class="language-plaintext highlighter-rouge">ContainerInjectionInterface</code>, а <code class="language-plaintext highlighter-rouge">Drupal\Core\Validation\ConstraintValidatorFactory</code> создает их экземпляры используя class_resolver. Также все экземпляры классов контроллеров создаются через class_resolver.</p>
+
+<p>Не следует создавать сервис каждый раз, когда вам нужно использовать внедрение зависимостей. Для использования класса внутри модуля сервис class_resolver будет куда более подходящим решением.</p>
+
+	</div>
+
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.pro/drupal/api/2022/06/04/class-resolver.html';
+    		this.page.identifier = 'https://www.enik.pro/drupal/api/2022/06/04/class-resolver.html';
+    	};
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

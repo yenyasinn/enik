@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Как избежать кражи персональных данных и контента в процессе разработки на Drupal"
+title: "Как избежать кражи персональных данных и контента в процессе разработки на Drupal"
 date: 2018-02-26 10:00:00 +0000
 categories: ru Drupal modules
 canonical_url: https://www.enik.pro/ru/drupal/modules/2018/02/26/avoid-theft-data.html

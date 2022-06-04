@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Отложенные вычисления и ассинхронная обработка данных в Drupal"
+title: "Отложенные вычисления и ассинхронная обработка данных в Drupal"
 date: 2014-12-26 10:00:00 +0000
 categories: ru Drupal architecture
 canonical_url: https://www.enik.pro/ru/drupal/architecture/2018/02/26/lazy-evaluation.html
