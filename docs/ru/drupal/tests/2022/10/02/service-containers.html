@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Особенности использования контейнера сервисов в тестах в Drupal 9</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Особенности использования контейнера сервисов в тестах в Drupal 9" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся." />
+<meta property="og:description" content="Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся." />
+<link rel="canonical" href="https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html" />
+<meta property="og:url" content="https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-02T12:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Особенности использования контейнера сервисов в тестах в Drupal 9" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2022-10-02T12:00:00+02:00","datePublished":"2022-10-02T12:00:00+02:00","description":"Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \\Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.","headline":"Особенности использования контейнера сервисов в тестах в Drupal 9","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html"},"url":"https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<a href="/ru/about" title="О Евгении Никитине" class="name">Евгений Никитин</a>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/tests/2022/10/02/service-containers.html" title="Русский">Русский</a>
+			  <a href="/drupal/tests/2022/10/02/service-containers.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+	<h1>Особенности использования контейнера сервисов в тестах в Drupal 9</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>tests</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Oct 2, 2022</div>
+	</div>
+	<div class="post">
+		<p>Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через <code class="language-plaintext highlighter-rouge">$this-&gt;container-&gt;get()</code> или через <code class="language-plaintext highlighter-rouge">\Drupal::service()</code>? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.</p>
+
+<h2 id="kernel-тесты">Kernel тесты</h2>
+
+<p>В Kernel тестах контейнер сервисов доступен через внутреннюю переменную <code class="language-plaintext highlighter-rouge">$this-&gt;container</code> и класс <code class="language-plaintext highlighter-rouge">\Drupal</code>.</p>
+
+<p>Класс <code class="language-plaintext highlighter-rouge">\Drupal</code> (находится в core/lib/Drupal.php) - оболочка статичного контейнера сервисов (Static Service Container wrapper). Он был создан, для того, чтобы была возможность достать сервисы из контейнера сервисов в процедурном коде, например в хуках. Если в классах мы можем (и должны) использовать внедрение зависимостей, то в процедурном коде по-другому не получится.</p>
+
+<p>Соответственно для загрузки сервисов мы можем использовать <code class="language-plaintext highlighter-rouge">$this-&gt;container-&gt;get()</code> и <code class="language-plaintext highlighter-rouge">\Drupal::service()</code>. Использование <code class="language-plaintext highlighter-rouge">\Drupal</code> в тестах считается антипатерном потому, что он создавался для использования в процедурном коде, а не в ООП.</p>
+
+<p><strong>Соответственно, в Kernel тестах предпочтительнее вызывать сервисы через $this-&gt;container-&gt;get().</strong></p>
+
+<h2 id="functional-тесты">Functional тесты</h2>
+
+<h3 id="пример-1">Пример 1</h3>
+
+<p>Давайте рассмотрим примеры функциональных тестов, где используются контейнеры сервисов <code class="language-plaintext highlighter-rouge">$this-&gt;container</code> и <code class="language-plaintext highlighter-rouge">\Drupal</code>, в которых нам нужно включить и использовать модуль <code class="language-plaintext highlighter-rouge">book</code> внутри теста:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\Tests\example\Functional</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Drupal\Tests\BrowserTestBase</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">ContainerFunctionalTest</span> <span class="kd">extends</span> <span class="nc">BrowserTestBase</span> <span class="p">{</span>
+
+  <span class="cd">/**
+   * Test is failed since 'book.manager' doesn't exist in $this-&gt;container service container.
+   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="n">testContainerFail</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'module_installer'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">install</span><span class="p">([</span><span class="s1">'book'</span><span class="p">]);</span>
+    <span class="c1">// Error is shown "Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException: You have requested a non-existent service "book.manager"."</span>
+    <span class="nv">$all_books</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'book.manager'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">getAllBooks</span><span class="p">();</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEmpty</span><span class="p">(</span><span class="nv">$all_books</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="cd">/**
+   * Test is passed since 'book.manager' exists in \Drupal::service() service container.
+   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="n">testDrupalPass</span><span class="p">()</span> <span class="p">{</span>
+    <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">service</span><span class="p">(</span><span class="s1">'module_installer'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">install</span><span class="p">([</span><span class="s1">'book'</span><span class="p">]);</span>
+    <span class="nv">$all_books</span> <span class="o">=</span> <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">service</span><span class="p">(</span><span class="s1">'book.manager'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">getAllBooks</span><span class="p">();</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEmpty</span><span class="p">(</span><span class="nv">$all_books</span><span class="p">);</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+<p>Тест <code class="language-plaintext highlighter-rouge">testContainerFail()</code>, который использует <code class="language-plaintext highlighter-rouge">$this-&gt;container</code>, не будет пройден потому, что после включения модуля “book” контейнер <code class="language-plaintext highlighter-rouge">$this-&gt;container</code> не обновится. Тест <code class="language-plaintext highlighter-rouge">testDrupalPass()</code> пройдет успешно - <code class="language-plaintext highlighter-rouge">\Drupal::service</code> будет включать в себя сервисы из только что включенного модуля.</p>
+
+<p>Чтобы тест <code class="language-plaintext highlighter-rouge">testContainerFail()</code> прошел успешно, нужно контейнер сервисов проинициализировать еще раз используя <code class="language-plaintext highlighter-rouge">$this-&gt;rebuildContainer();</code> либо же  <code class="language-plaintext highlighter-rouge">$this-&gt;container = \Drupal::getContainer();</code></p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">function</span> <span class="n">testContainerPass</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'module_installer'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">install</span><span class="p">([</span><span class="s1">'book'</span><span class="p">]);</span>
+  <span class="c1">// Initialise the service container once again to pass the test.</span>
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">rebuildContainer</span><span class="p">();</span>
+  <span class="nv">$all_books</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'book.manager'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">getAllBooks</span><span class="p">();</span>
+
+  <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEmpty</span><span class="p">(</span><span class="nv">$all_books</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="пример-2">Пример 2</h3>
+
+<p>Давайте рассмотрим другой пример в котором у нас контейнер сервисов используется в хуке:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Implements hook_ENTITY_TYPE_load().
+ */</span>
+<span class="k">function</span> <span class="n">example_user_load</span><span class="p">(</span><span class="kt">array</span> <span class="nv">$entities</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Service container is re-initialised during cache flush.</span>
+  <span class="nf">drupal_flush_all_caches</span><span class="p">();</span>
+  <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">service</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'test'</span><span class="p">,</span> <span class="s1">'bar'</span><span class="p">);</span>
+ <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Обратите внимание, что в хуке используется drupal_flush_all_caches().</p>
+
+<p>И есть два Functional теста:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">namespace</span> <span class="nn">Drupal\Tests\example\Functional</span><span class="p">;</span>
+
+<span class="kn">use</span> <span class="nc">Drupal\Tests\BrowserTestBase</span><span class="p">;</span>
+
+<span class="cd">/**
+ * Tests behaviour of service containers in Functional tests.
+ */</span>
+<span class="kd">class</span> <span class="nc">StateFunctionalTest</span> <span class="kd">extends</span> <span class="nc">BrowserTestBase</span> <span class="p">{</span>
+
+  <span class="k">protected</span> <span class="nv">$defaultTheme</span> <span class="o">=</span> <span class="s1">'stark'</span><span class="p">;</span>
+
+  <span class="cd">/**
+   * {@inheritdoc}
+   */</span>
+  <span class="k">protected</span> <span class="k">static</span> <span class="nv">$modules</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'example'</span><span class="p">,</span>
+  <span class="p">];</span>
+
+  <span class="cd">/**
+   * Test is passed since the state returns correct value.
+   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="n">testDrupalStatePass</span><span class="p">()</span> <span class="p">{</span>
+    <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">service</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'test'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEquals</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">,</span> <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">service</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'test'</span><span class="p">));</span>
+    <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">entityTypeManager</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">getStorage</span><span class="p">(</span><span class="s1">'user'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">load</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEquals</span><span class="p">(</span><span class="s1">'bar'</span><span class="p">,</span> <span class="err">\</span><span class="nc">Drupal</span><span class="o">::</span><span class="nf">service</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'test'</span><span class="p">));</span>
+  <span class="p">}</span>
+
+  <span class="cd">/**
+   * Test fails since \Drupal and $this-&gt;container point to different instances of State service.
+   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="n">testContainerStateFail</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'test'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEquals</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'test'</span><span class="p">));</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'entity_type.manager'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">getStorage</span><span class="p">(</span><span class="s1">'user'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">load</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEquals</span><span class="p">(</span><span class="s1">'bar'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'test'</span><span class="p">));</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Первый тест <code class="language-plaintext highlighter-rouge">testDrupalStatePass()</code>, где используется <code class="language-plaintext highlighter-rouge">\Drupal</code>, пройдет успешно, а вот второй тест <code class="language-plaintext highlighter-rouge">testContainerStateFail()</code> пройти не сможет из-за того, что в <code class="language-plaintext highlighter-rouge">example_user_load()</code> мы очистили кеш и инициализировали контейнер сервисов заново. Теперь мы имеем дело с разными экземплярами контейнера сервисов в <code class="language-plaintext highlighter-rouge">\Drupal</code> и <code class="language-plaintext highlighter-rouge">$this-&gt;container</code>. Чтобы пройти тест нужно, как и в первом примере, обновить контейнер сервисов <code class="language-plaintext highlighter-rouge">$this-&gt;container</code> вручную используя <code class="language-plaintext highlighter-rouge">$this-&gt;rebuildContainer();</code> либо же <code class="language-plaintext highlighter-rouge">$this-&gt;container = \Drupal::getContainer();</code></p>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="cd">/**
+   * Test passes since $this-&gt;container is updated manually.
+   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="n">testContainerStatePass</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'test'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEquals</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'test'</span><span class="p">));</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'entity_type.manager'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">getStorage</span><span class="p">(</span><span class="s1">'user'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">load</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">rebuildContainer</span><span class="p">();</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">assertEquals</span><span class="p">(</span><span class="s1">'bar'</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">container</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'state'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'test'</span><span class="p">));</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+<p>Обновлять вручную контейнер сервисов <code class="language-plaintext highlighter-rouge">$this-&gt;container</code> неудобно, не правда ли? Во время написания тестов достаточно сложно понять что контейнеры сервисов в <code class="language-plaintext highlighter-rouge">\Drupal</code> и <code class="language-plaintext highlighter-rouge">$this-&gt;container</code> рассинхронизированы.</p>
+
+<p><strong>Поэтому в Functional тестах для избежания непонятных ситуаций для получения сервисов лучше использовать \Drupal::service().</strong></p>
+
+<hr />
+<p>Это довольно странная ситуация, когда в Kernel тестах лучше использовать <code class="language-plaintext highlighter-rouge">$this-&gt;container-&gt;get()</code>, а в Functional тестах <code class="language-plaintext highlighter-rouge">\Drupal::service()</code>. На drupal.org eсть <a href="https://www.drupal.org/project/drupal/issues/2066993">задача</a>, где решается каким образом решить эту проблему. Надеюсь в Drupal 10 мы будем использовать единый подход.</p>
+
+	</div>
+
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html';
+    		this.page.identifier = 'https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html';
+    	};
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

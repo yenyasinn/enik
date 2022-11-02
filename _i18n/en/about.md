@@ -1,8 +1,8 @@
 Evgenii holds a Master Degree in Information Technology and has strong expertise in the Web Development domain, mastering PHP and Drupal.
 
-Evgenii worked for worldwide clients remotely and on-site and implemented projects for such brands as Specsavers, Johnson & Johnson, Veolia, Saint Gobain.
+Evgenii worked for worldwide clients remotely and on-site. He implemented projects for such brands as Specsavers, Johnson & Johnson, Veolia, Saint Gobain and also European Commission.
 
-During his career he has got an experience of developing different types of projects from small sites for local business to e-commerce solution for 10+ countries or site factory served 200+ sites, and also SaaS services. 
+During his career he has got an experience of developing different types of projects - from small sites for local business, to e-commerce solution for 10+ countries or site factory served 200+ sites, and also SaaS services. 
 
 Evgenii is also an active member of the Drupal community. He maintains several Drupal modules and contributes to the community modules (see his profile page at [https://www.drupal.org/u/sinn](https://www.drupal.org/u/sinn)).
 

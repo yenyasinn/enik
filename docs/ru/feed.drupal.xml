@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.pro</link>
-        <lastBuildDate>Sat, 04 Jun 2022 12:00:00 +0200</lastBuildDate>
+        <lastBuildDate>Sun, 02 Oct 2022 12:00:00 +0200</lastBuildDate>
         
+        
+        <item>
+            <title>Особенности использования контейнера сервисов в тестах в Drupal 9</title>
+            
+            <description>&lt;p&gt;Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$this-&amp;gt;container-&amp;gt;get()&lt;/code&gt; или через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\Drupal::service()&lt;/code&gt;? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.&lt;/p&gt;
+</description>
+            
+            <pubDate>Sun, 02 Oct 2022 12:00:00 +0200</pubDate>
+            <link>https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html</link>
+            <guid isPermaLink="true">https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html</guid>
+        </item>
         
         <item>
             <title>Использование class resolver для внедрения зависимостей в Drupal 9</title>
@@ -105,17 +116,6 @@
             <pubDate>Wed, 20 Nov 2019 11:00:00 +0100</pubDate>
             <link>https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</guid>
-        </item>
-        
-        <item>
-            <title>Разбираем систему событий в Drupal 8</title>
-            
-            <description>&lt;h2 id=&quot;для-чего-нам-event-subscriber&quot;&gt;Для чего нам Event Subscriber&lt;/h2&gt;
-</description>
-            
-            <pubDate>Mon, 04 Nov 2019 11:00:00 +0100</pubDate>
-            <link>https://www.enik.pro/drupal/api/2019/11/04/event-subscriber.html</link>
-            <guid isPermaLink="true">https://www.enik.pro/drupal/api/2019/11/04/event-subscriber.html</guid>
         </item>
         
     </channel>
