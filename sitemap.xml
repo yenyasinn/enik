@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>https://www.enik.pro/</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/about/</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/api/2022/06/04/class-resolver.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/security/2021/10/29/patches-requests.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/architecture/2021/01/10/patterns.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/standards/2020/06/11/drupal-standards.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/memsql/2020/03/31/memsql-presentation.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/memsql/2020/03/16/memsql-drupal-integration.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/memsql/2020/02/29/memsql-mysql-performance-comparison.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/memsql/2020/02/09/memsql-overview.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/api/2019/11/04/event-subscriber.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/certification/2019/10/16/acquia-certification.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/performance/2019/10/06/reverse-proxy-caching.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/tools/2019/09/13/git-maintenance.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/boilerplate/2019/08/30/drupal-boilerplates.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/security/2019/08/15/security-vulnerabilities.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/architecture/2019/08/10/queue-mail.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/theme/2019/06/10/component-based-theming.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/modules/2018/02/26/avoid-theft-data.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/about/</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/drupal/architecture/2014/12/26/lazy-evaluation.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/api/2022/06/04/class-resolver.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/security/2021/10/29/patches-requests.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/architecture/2021/01/10/patterns.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/standards/2020/06/11/drupal-standards.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/memsql/2020/03/31/memsql-presentation.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/memsql/2020/03/16/memsql-drupal-integration.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/memsql/2020/02/09/memsql-overview.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/performance/2020/01/06/views-performance.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/modules/2019/12/15/antibot-vs-honeypot.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/certification/2019/10/16/acquia-certification.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/tools/2019/09/13/git-maintenance.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/boilerplate/2019/08/30/drupal-boilerplates.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/security/2019/08/15/security-vulnerabilities.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/architecture/2019/08/10/queue-mail.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/theme/2019/06/10/component-based-theming.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/modules/2018/02/26/avoid-theft-data.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/api/2019/11/04/event-subscriber.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.enik.pro/ru/drupal/architecture/2014/12/26/lazy-evaluation.html</loc>
+  <lastmod>2022-11-02T16:53:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
+</urlset>
