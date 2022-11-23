@@ -5,7 +5,7 @@ date: 2022-10-02 10:00:00 +0000
 categories: ru Drupal tests
 canonical_url: https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html
 ---
-Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через `$this->container->get()` или через `\Drupal::service()`? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.
+Обращали ли вы внимание, что в Kernel и Functional тестах сервисы вызываются через `$this->container->get()` или через `\Drupal::service()`? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.
 
 ## Kernel тесты
 
