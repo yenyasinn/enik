@@ -21,16 +21,14 @@
 <meta property="og:title" content="Особенности использования контейнера сервисов в тестах в Drupal 9" />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="ru" />
-<meta name="description" content="Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся." />
-<meta property="og:description" content="Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся." />
-<link rel="canonical" href="https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html" />
-<meta property="og:url" content="https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html" />
+<meta name="description" content="Обращали ли вы внимание, что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся." />
+<meta property="og:description" content="Обращали ли вы внимание, что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся." />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-10-02T12:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Особенности использования контейнера сервисов в тестах в Drupal 9" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2022-10-02T12:00:00+02:00","datePublished":"2022-10-02T12:00:00+02:00","description":"Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \\Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.","headline":"Особенности использования контейнера сервисов в тестах в Drupal 9","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html"},"url":"https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2022-10-02T12:00:00+02:00","datePublished":"2022-10-02T12:00:00+02:00","description":"Обращали ли вы внимание, что в Kernel и Functional тестах сервисы вызываются через $this-&gt;container-&gt;get() или через \\Drupal::service()? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.","headline":"Особенности использования контейнера сервисов в тестах в Drupal 9","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html"},"url":"https://www.enik.pro/ru/drupal/tests/2022/10/02/service-containers.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -59,7 +57,7 @@
 		<div class="post-date"><i class="icon-calendar"></i>Oct 2, 2022</div>
 	</div>
 	<div class="post">
-		<p>Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через <code class="language-plaintext highlighter-rouge">$this-&gt;container-&gt;get()</code> или через <code class="language-plaintext highlighter-rouge">\Drupal::service()</code>? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.</p>
+		<p>Обращали ли вы внимание, что в Kernel и Functional тестах сервисы вызываются через <code class="language-plaintext highlighter-rouge">$this-&gt;container-&gt;get()</code> или через <code class="language-plaintext highlighter-rouge">\Drupal::service()</code>? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.</p>
 
 <h2 id="kernel-тесты">Kernel тесты</h2>
 

@@ -10,7 +10,7 @@
         <item>
             <title>Особенности использования контейнера сервисов в тестах в Drupal 9</title>
             
-            <description>&lt;p&gt;Обращали ли вы внимание что в Kernel и Functional тестах сервисы вызываются через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$this-&amp;gt;container-&amp;gt;get()&lt;/code&gt; или через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\Drupal::service()&lt;/code&gt;? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.&lt;/p&gt;
+            <description>&lt;p&gt;Обращали ли вы внимание, что в Kernel и Functional тестах сервисы вызываются через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$this-&amp;gt;container-&amp;gt;get()&lt;/code&gt; или через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\Drupal::service()&lt;/code&gt;? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.&lt;/p&gt;
 </description>
             
             <pubDate>Sun, 02 Oct 2022 12:00:00 +0200</pubDate>
