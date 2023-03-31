@@ -77,7 +77,7 @@ class ExampleFormEventSubscribers implements EventSubscriberInterface {
 
 Если вы используете в своем проекте какой-то модуль, который определяет свои хуки или шаблоны, то вам придется реализовать события для этого хука в своем проекте самостоятельно, что, конечно, не сделает вашу жизнь проще. Также наглядно видно насколько меньше кода нужно для хука чем для события.
 
-Но у событий есть преимущества над хуками:
+**Но у событий есть преимущества над хуками:**
 * Проще определять последовательность выполнения событий.
 * События могут блокировать выполнение последующих событий.
 * Возможность определять слушателей динамически.
@@ -117,5 +117,5 @@ Hux не умеет работать с шаблонами. Так что prepro
 
 **Ссылки:**
 
-* [Use Symfony EventDispatcher for hook system](https://www.drupal.org/project/drupal/issues/1509164)
-* [Add events for matching entity hooks](https://www.drupal.org/node/2551893)
+* [Use Symfony EventDispatcher for hook system](https://www.drupal.org/project/drupal/issues/1509164).
+* [Add events for matching entity hooks](https://www.drupal.org/node/2551893).

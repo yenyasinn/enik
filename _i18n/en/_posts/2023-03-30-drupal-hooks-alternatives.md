@@ -7,7 +7,7 @@ canonical_url: https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternati
 ---
 A system of hooks was implemented in Drupal to change the behavior of the code. It implements the [“Mediator”](/drupal/architecture/2021/01/10/patterns.html) design pattern in procedural programming and provides a single interface for communication of different parts of the system.
 
-Time does not stand still and the procedural approach in Drupal versions up to 8 has been replaced by an object-oriented approach. Drupal 8 is built on top of the Symfony framework which already has an implementation of the Mediator pattern in the symfony/event-dispatcher library. Thus, in the Drupal core, there are two parallel systems that provide the ability for components to communicate with each other - hooks and [events](/en/drupal/api/2019/11/04/event-subscriber.html).
+Time does not stand still and the procedural approach in Drupal versions up to 8 has been replaced by an object-oriented approach. Drupal 8 is built on top of the Symfony framework which already has an implementation of the Mediator pattern in the symfony/event-dispatcher library. Thus, in the Drupal core, there are two parallel systems that provide the ability for components to communicate with each other - hooks and [events](/drupal/api/2019/11/04/event-subscriber.html).
 
 Why are there currently two, in fact, duplicate systems, and what are the alternatives?
 
@@ -79,7 +79,7 @@ Also “Hook Event Dispatcher” can be used for template theming - it provides 
 
 If you use some module in your project that defines its own hooks or templates, then you have to implement events for these hooks in your project yourself, which, of course, does not make your life easier. Code above clearly shows how much less code is needed for a hook than for an event.
 
-But events have advantages over hooks:
+**But events have advantages over hooks:**
 * Easier to determine the sequence of events.
 * Events can prevent the execution of subsequent events.
 * Ability to define listeners dynamically.
@@ -114,5 +114,5 @@ For myself, I decided to **implement events** in developing of new modules, when
 
 **Links:**
 
-* [Use Symfony EventDispatcher for hook system](https://www.drupal.org/project/drupal/issues/1509164)
-* [Add events for matching entity hooks](https://www.drupal.org/node/2551893)
+* [Use Symfony EventDispatcher for hook system](https://www.drupal.org/project/drupal/issues/1509164).
+* [Add events for matching entity hooks](https://www.drupal.org/node/2551893).
