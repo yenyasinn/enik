@@ -3,7 +3,7 @@ layout: post
 title: "Альтернативы системе хуков в Drupal 10"
 date: 2023-03-30 10:00:00 +0000
 categories: ru Drupal API
-canonical_url: https://www.enik.pro/ru/drupal/api/2023/04/01/drupal-hooks-alternatives.html
+canonical_url: https://www.enik.pro/ru/drupal/api/2023/03/30/drupal-hooks-alternatives.html
 ---
 Для изменения поведения кода в Drupal была реализована система хуков. По своей сути она является реализацией шаблона проектирования [“Посредник”](/ru/drupal/architecture/2021/01/10/patterns.html) в процедурном программировании и предоставляет единый интерфейс для “общения” разных частей системы.
 

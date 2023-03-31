@@ -3,7 +3,7 @@ layout: post
 title: "Alternatives of hook system in Drupal 10"
 date: 2023-03-30 10:00:00 +0000
 categories: Drupal API
-canonical_url: https://www.enik.pro/drupal/api/2023/04/01/drupal-hooks-alternatives.html
+canonical_url: https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html
 ---
 A system of hooks was implemented in Drupal to change the behavior of the code. It implements the [“Mediator”](/drupal/architecture/2021/01/10/patterns.html) design pattern in procedural programming and provides a single interface for communication of different parts of the system.
 
