@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Разбираем систему событий в Drupal 8"
-date:   2019-11-04 10:00:00 +0000
+title: "Разбираем систему событий в Drupal 8"
+date: 2019-11-04 10:00:00 +0000
 categories: ru Drupal API
-canonical_url: https://www.enik.pro/ru/drupal/certification/2019/10/16/acquia-certification.html
+canonical_url: https://www.enik.pro/ru/drupal/api/2019/11/04/event-subscriber.html
 ---
 ## Для чего нам Event Subscriber
 
