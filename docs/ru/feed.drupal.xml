@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.pro</link>
-        <lastBuildDate>Sun, 02 Oct 2022 12:00:00 +0200</lastBuildDate>
+        <lastBuildDate>Thu, 30 Mar 2023 12:00:00 +0200</lastBuildDate>
         
+        
+        <item>
+            <title>Альтернативы системе хуков в Drupal 10</title>
+            
+            <description>&lt;p&gt;Для изменения поведения кода в Drupal была реализована система хуков. По своей сути она является реализацией шаблона проектирования &lt;a href=&quot;/ru/drupal/architecture/2021/01/10/patterns.html&quot;&gt;“Посредник”&lt;/a&gt; в процедурном программировании и предоставляет единый интерфейс для “общения” разных частей системы.&lt;/p&gt;
+</description>
+            
+            <pubDate>Thu, 30 Mar 2023 12:00:00 +0200</pubDate>
+            <link>https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</link>
+            <guid isPermaLink="true">https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</guid>
+        </item>
         
         <item>
             <title>Особенности использования контейнера сервисов в тестах в Drupal 9</title>
@@ -105,17 +116,6 @@
             <pubDate>Sun, 15 Dec 2019 11:00:00 +0100</pubDate>
             <link>https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</guid>
-        </item>
-        
-        <item>
-            <title>Выполняем код после клонирования сайта в Acquia Cloud Site Factory</title>
-            
-            <description>&lt;p&gt;Работая над фабрикой сайтов на Drupal 8 на платформе Acquia Cloud Site Factory (ACSF) мы столкнулись с интересной проблемой.&lt;/p&gt;
-</description>
-            
-            <pubDate>Wed, 20 Nov 2019 11:00:00 +0100</pubDate>
-            <link>https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</link>
-            <guid isPermaLink="true">https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</guid>
         </item>
         
     </channel>

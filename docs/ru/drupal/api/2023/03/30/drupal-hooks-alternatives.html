@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<link rel="canonical" href="https://www.enik.pro/ru/drupal/api/2023/04/01/drupal-hooks-alternatives.html" />
+<meta property="og:url" content="https://www.enik.pro/ru/drupal/api/2023/04/01/drupal-hooks-alternatives.html" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Альтернативы системе хуков в Drupal 10</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Альтернативы системе хуков в Drupal 10" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Для изменения поведения кода в Drupal была реализована система хуков. По своей сути она является реализацией шаблона проектирования “Посредник” в процедурном программировании и предоставляет единый интерфейс для “общения” разных частей системы." />
+<meta property="og:description" content="Для изменения поведения кода в Drupal была реализована система хуков. По своей сути она является реализацией шаблона проектирования “Посредник” в процедурном программировании и предоставляет единый интерфейс для “общения” разных частей системы." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-03-30T12:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Альтернативы системе хуков в Drupal 10" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2023-03-30T12:00:00+02:00","datePublished":"2023-03-30T12:00:00+02:00","description":"Для изменения поведения кода в Drupal была реализована система хуков. По своей сути она является реализацией шаблона проектирования “Посредник” в процедурном программировании и предоставляет единый интерфейс для “общения” разных частей системы.","headline":"Альтернативы системе хуков в Drupal 10","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/api/2023/04/01/drupal-hooks-alternatives.html"},"url":"https://www.enik.pro/ru/drupal/api/2023/04/01/drupal-hooks-alternatives.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<a href="/ru/about" title="О Евгении Никитине" class="name">Евгений Никитин</a>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/api/2023/03/30/drupal-hooks-alternatives.html" title="Русский">Русский</a>
+			  <a href="/drupal/api/2023/03/30/drupal-hooks-alternatives.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+	<h1>Альтернативы системе хуков в Drupal 10</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>API</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Mar 30, 2023</div>
+	</div>
+	<div class="post">
+		<p>Для изменения поведения кода в Drupal была реализована система хуков. По своей сути она является реализацией шаблона проектирования <a href="/ru/drupal/architecture/2021/01/10/patterns.html">“Посредник”</a> в процедурном программировании и предоставляет единый интерфейс для “общения” разных частей системы.</p>
+
+<p>Время не стоит на месте и на смену процедурному подходу в Drupal версиях до 8 пришел объектно-ориентированный. Drupal 8 построен на основе фреймворка Symfony в котором уже есть реализация шаблона “Посредник” в библиотеке symfony/event-dispatcher. Таким образом в ядре Drupal существуют две параллельные системы предоставляющие возможность для коммуникации компонентов друг с другом - хуки и <a href="/ru/drupal/api/2019/11/04/event-subscriber.html">события</a>.</p>
+
+<p>Почему же в данное время существуют две, по-сути дублирующие системы, и какие есть альтернативы?</p>
+
+<h2 id="хуки">Хуки</h2>
+
+<p>Как уже было сказано хуки достались Drupal 10 в наследство от более старых версий. Они являлись отличительной особенностью Drupal и когда была миграция на Symfony, то их не стали полностью вырезать и оставили как часть идентичности Drupal, которая была привычна и понятна программистам. Для того, чтобы использовать в процедурном коде такой мощный инструмент Symfony как сервисы и внедрение зависимостей, пришлось создавать класс \Drupal - оболочку статичного контейнера сервисов. По-сути, нам нужен класс \Drupal только ради хуков и препроцессов шаблонов потому, что в классах вместо \Drupal мы используем внедрение зависимостей для получения сервисов. Таким образом, поддерживая хуки нам нужно поддерживать дополнительный функционал для возможности использования в хуках сервисов, что усложняет ядро Drupal.</p>
+
+<p>В данное время многие модули используют хуки ядра и сами определяют хуки. Поэтому раз их оставили в Drupal 8, то пока что избавиться от них просто не получается. Они так и являются основным способом расширения и изменения функционала Drupal. Но возникает много вопросов по поводу использования хуков т.к. понятно что они являются рудиментом в ООП.</p>
+
+<h2 id="события-и-hook-event-dispatcher">События и Hook Event Dispatcher</h2>
+
+<p>В данное время в Drupal сложилась странная ситуация, что для расширения определенного функционала нам нужно использовать хуки (например <code class="language-plaintext highlighter-rouge">hook_form_alter()</code> для изменения работы формы), а для другого - события (например изменение существующего пути). То, что основано на компонентах Symfony изменяется через события, а то, что реализовано в Drupal - через хуки. Довольно таки неудобно, не правда ли?</p>
+
+<p>Попытка избавиться от хуков была предпринята еще в Drupal 8, затем это отложили до Drupal 9, но в Drupal 10 они все также присутствуют. Ядро Drupal не предоставляет события которые мы бы могли использовать для замены хуков. Но к счастью есть модуль <a href="https://www.drupal.org/project/hook_event_dispatcher">Hook Event Dispatcher</a>, который предоставляет события аналогичные хукам.</p>
+
+<p>Для изменения формы поиска через хуки нам достаточно кода:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cd">/**
+ * Implements hook_form_FORM_ID_alter().
+ */</span>
+<span class="k">function</span> <span class="n">example_form_search_block_form_alter</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="err">\</span><span class="nc">Drupal\Core\Form\FormStateInterface</span> <span class="nv">$form_state</span><span class="p">,</span> <span class="nv">$form_id</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>Для использования события из модуля “Hook Event Dispatcher” нам нужно вначале определить подписчик:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+ <span class="na">example.form_subscribers</span><span class="pi">:</span>
+   <span class="na">class</span><span class="pi">:</span> <span class="s">Drupal\example\ExampleFormEventSubscribers</span>
+   <span class="na">tags</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="pi">{</span> <span class="nv">name</span><span class="pi">:</span> <span class="nv">event_subscriber</span> <span class="pi">}</span>
+</code></pre></div></div>
+
+<p>А затем реализовать его:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">ExampleFormEventSubscribers</span> <span class="kd">implements</span> <span class="nc">EventSubscriberInterface</span> <span class="p">{</span>
+
+ <span class="cd">/**
+  * Alter search form.
+  *
+  * @param \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent $event
+  *   The event.
+  */</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="n">alterSearchForm</span><span class="p">(</span><span class="kt">FormIdAlterEvent</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+   <span class="nv">$form</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getForm</span><span class="p">();</span>
+   <span class="c1">// Add placeholder.</span>
+   <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
+ <span class="p">}</span>
+
+ <span class="cd">/**
+  * {@inheritdoc}
+  */</span>
+ <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="n">getSubscribedEvents</span><span class="p">():</span> <span class="kt">array</span> <span class="p">{</span>
+   <span class="k">return</span> <span class="p">[</span>
+     <span class="s1">'hook_event_dispatcher.form_search_block_form.alter'</span> <span class="o">=&gt;</span> <span class="s1">'alterSearchForm'</span><span class="p">,</span>
+   <span class="p">];</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Также “Hook Event Dispatcher” может использоваться для темизации шаблонов - он предоставляет preprocess события для шаблонов ядра.</p>
+
+<p>Если вы используете в своем проекте какой-то модуль, который определяет свои хуки или шаблоны, то вам придется реализовать события для этого хука в своем проекте самостоятельно, что, конечно, не сделает вашу жизнь проще. Также наглядно видно насколько меньше кода нужно для хука чем для события.</p>
+
+<p>Но у событий есть преимущества над хуками:</p>
+<ul>
+  <li>Проще определять последовательность выполнения событий.</li>
+  <li>События могут блокировать выполнение последующих событий.</li>
+  <li>Возможность определять слушателей динамически.</li>
+</ul>
+
+<h2 id="hux">Hux</h2>
+
+<p><a href="https://www.drupal.org/project/hux">Hux</a> это модуль, который предоставляет возможность сочетать внедрение зависимостей и ООП с простотой использования.</p>
+
+<p>Пример выше с изменением формы поиска в Hux будет выглядеть вот так:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="kn">namespace</span> <span class="nn">Drupal\example\Hooks</span><span class="p">;</span>
+
+<span class="cd">/**
+* Examples.
+*/</span>
+<span class="k">final</span> <span class="kd">class</span> <span class="nc">ExampleHooks</span> <span class="p">{</span>
+
+ <span class="c1">#[Alter('form_system_site_information_settings')]</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="n">formSystemSiteInformationSettingsAlter</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="err">\</span><span class="nc">Drupal\Core\Form\FormStateInterface</span> <span class="nv">$form_state</span><span class="p">,</span> <span class="nv">$form_id</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
+ <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Как вы видите все выглядит довольно просто - файл будет найден автоматически если будет размещен в example/src/Hooks папке. Для определения хука используется PHP аннотация. Если класс реализует ContainerInjectionInterface, то можно подключить любые сервисы через внедрение зависимостей.</p>
+
+<p>Hux не умеет работать с шаблонами. Так что preprocess функции придется определять как обычно. Но вы можете использовать любые хуки ядра и модулей. Также есть поддержка весов для изменения порядка выполнения хуков и возможность заменять реализацию хуков в модулях на свою реализацию.</p>
+
+<h2 id="что-в-итоге">Что в итоге?</h2>
+
+<p>Основная проблема “Hook Event Dispatcher” и “Hux” это то, что <strong>они декорируют стандартный сервис module_handler. Ядро Drupal как обычно вызывает хуки, а этим модулям приходится поддерживать как стандартную реализацию хуков, так и свою собственную</strong>, добавляя сложность и не делая всю систему быстрее. И если события из “Hook Event Dispatcher” вы можете вызвать используя Event Dispatcher, то для Hux вам все равно придется вызывать хуки. Если завтра от хуков откажутся, то Hux окажется бесполезным. Хотя, в данный момент пользоваться ими удобнее чем событиями.</p>
+
+<p>Для себя я решил, что при разработке новых модулей, в случае когда нужна будет возможность расширения функционала, я буду <strong>реализовывать события</strong>. В любом случае от событий мы никуда уже не денемся и в долгосрочной перспективе проще будет поддерживать именно их, чем переходить с хуков на события. Но для существующих хуков в Drupal 10 я бы рекомендовал <strong>использовать стандартный функционал</strong>, без установки “Hook Event Dispatcher” или “Hux” с их накладными расходами и дополнительным усложнением. По-сути эти модули являются попыткой исправить архитектуру Drupal. Но чтобы решить проблему хуков эффективно нужно сделать это именно в ядре.</p>
+
+<p><strong>Ссылки:</strong></p>
+
+<ul>
+  <li><a href="https://www.drupal.org/project/drupal/issues/1509164">Use Symfony EventDispatcher for hook system</a></li>
+  <li><a href="https://www.drupal.org/node/2551893">Add events for matching entity hooks</a></li>
+</ul>
+
+	</div>
+
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html';
+    		this.page.identifier = 'https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html';
+    	};
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

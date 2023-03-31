@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Alternatives of hook system in Drupal 10"
-date: 2023-04-01 10:00:00 +0000
+date: 2023-03-30 10:00:00 +0000
 categories: Drupal API
 canonical_url: https://www.enik.pro/drupal/api/2023/04/01/drupal-hooks-alternatives.html
 ---

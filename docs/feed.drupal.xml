@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.pro</link>
-        <lastBuildDate>Sun, 02 Oct 2022 12:00:00 +0200</lastBuildDate>
+        <lastBuildDate>Thu, 30 Mar 2023 12:00:00 +0200</lastBuildDate>
         
+        
+        <item>
+            <title>Alternatives of hook system in Drupal 10</title>
+            
+            <description>&lt;p&gt;A system of hooks was implemented in Drupal to change the behavior of the code. It implements the &lt;a href=&quot;/drupal/architecture/2021/01/10/patterns.html&quot;&gt;“Mediator”&lt;/a&gt; design pattern in procedural programming and provides a single interface for communication of different parts of the system.&lt;/p&gt;
+</description>
+            
+            <pubDate>Thu, 30 Mar 2023 12:00:00 +0200</pubDate>
+            <link>https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</link>
+            <guid isPermaLink="true">https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</guid>
+        </item>
         
         <item>
             <title>Features of using the service container in tests in Drupal 9</title>
@@ -104,17 +115,6 @@
             <pubDate>Sun, 15 Dec 2019 11:00:00 +0100</pubDate>
             <link>https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</guid>
-        </item>
-        
-        <item>
-            <title>Acquia Cloud Site Factory post site clone hook</title>
-            
-            <description>&lt;p&gt;We have faced with interesting issue during our work on the site factory on the Drupal 8 based on Acquia Cloud Site Factory (ACSF) platform.&lt;/p&gt;
-</description>
-            
-            <pubDate>Wed, 20 Nov 2019 11:00:00 +0100</pubDate>
-            <link>https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</link>
-            <guid isPermaLink="true">https://www.enik.pro/drupal/acsf/2019/11/20/acquia-cloud-site-factory-post-site-clone-hook.html</guid>
         </item>
         
     </channel>
