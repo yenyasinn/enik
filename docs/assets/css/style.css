@@ -325,7 +325,7 @@ green     #859900  operators, other keywords
 .highlight .il { color: #2aa198; }
 
 /* Literal.Number.Integer.Long */
-.highlight { background-color: #f4f4f4; }
+.highlight { background-color: #f4f4f4; font-size: 0.9em; }
 
 div.highlight { padding: 5px 20px; }
 

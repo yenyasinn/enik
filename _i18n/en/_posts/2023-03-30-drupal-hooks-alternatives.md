@@ -32,7 +32,7 @@ We only need the code to change the search form through hooks:
  * Implements hook_form_FORM_ID_alter().
  */
 function example_form_search_block_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
- $form['keys']['#attributes']['placeholder'] = t('Search');
+  $form['keys']['#attributes']['placeholder'] = t('Search');
 }
 
 ```
@@ -41,10 +41,10 @@ We need to define a listener first to use an event from the “Hook Event Dispat
 
 ```yaml
 services:
- example.form_subscribers:
-   class: Drupal\example\ExampleFormEventSubscribers
-   tags:
-     - { name: event_subscriber }
+  example.form_subscribers:
+    class: Drupal\example\ExampleFormEventSubscribers
+    tags:
+      - { name: event_subscriber }
 ```
 
 And then implement it:
@@ -52,17 +52,17 @@ And then implement it:
 ```php
 class ExampleFormEventSubscribers implements EventSubscriberInterface {
 
- /**
-  * Alter search form.
-  *
-  * @param \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent $event
-  *   The event.
-  */
- public function alterSearchForm(FormIdAlterEvent $event): void {
-   $form = &$event->getForm();
-   // Add placeholder.
-   $form['keys']['#attributes']['placeholder'] = $this->t('Search');
- }
+  /**
+   * Alter search form.
+   *
+   * @param \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent $event
+   *   The event.
+   */
+  public function alterSearchForm(FormIdAlterEvent $event): void {
+    $form = &$event->getForm();
+    // Add placeholder.
+    $form['keys']['#attributes']['placeholder'] = $this->t('Search');
+  }
 
  /**
   * {@inheritdoc}
@@ -95,10 +95,10 @@ namespace Drupal\example\Hooks;
 
 final class ExampleHooks {
 
- #[Alter('form_system_site_information_settings')]
- public function formSystemSiteInformationSettingsAlter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-   $form['keys']['#attributes']['placeholder'] = t('Search');
- }
+  #[Alter('form_system_site_information_settings')]
+  public function formSystemSiteInformationSettingsAlter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+    $form['keys']['#attributes']['placeholder'] = t('Search');
+  }
 }
 ```
 

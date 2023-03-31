@@ -30,7 +30,7 @@ canonical_url: https://www.enik.pro/ru/drupal/api/2023/03/30/drupal-hooks-altern
  * Implements hook_form_FORM_ID_alter().
  */
 function example_form_search_block_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
- $form['keys']['#attributes']['placeholder'] = t('Search');
+  $form['keys']['#attributes']['placeholder'] = t('Search');
 }
 
 ```
@@ -50,26 +50,26 @@ services:
 ```php
 class ExampleFormEventSubscribers implements EventSubscriberInterface {
 
- /**
-  * Alter search form.
-  *
-  * @param \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent $event
-  *   The event.
-  */
- public function alterSearchForm(FormIdAlterEvent $event): void {
-   $form = &$event->getForm();
-   // Add placeholder.
-   $form['keys']['#attributes']['placeholder'] = $this->t('Search');
- }
+  /**
+   * Alter search form.
+   *
+   * @param \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent $event
+   *   The event.
+   */
+  public function alterSearchForm(FormIdAlterEvent $event): void {
+    $form = &$event->getForm();
+    // Add placeholder.
+    $form['keys']['#attributes']['placeholder'] = $this->t('Search');
+  }
 
- /**
-  * {@inheritdoc}
-  */
- public static function getSubscribedEvents(): array {
-   return [
-     'hook_event_dispatcher.form_search_block_form.alter' => 'alterSearchForm',
-   ];
- }
+  /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents(): array {
+    return [
+      'hook_event_dispatcher.form_search_block_form.alter' => 'alterSearchForm',
+    ];
+  }
 }
 ```
 
@@ -98,10 +98,10 @@ namespace Drupal\example\Hooks;
 */
 final class ExampleHooks {
 
- #[Alter('form_system_site_information_settings')]
- public function formSystemSiteInformationSettingsAlter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-   $form['keys']['#attributes']['placeholder'] = t('Search');
- }
+  #[Alter('form_system_site_information_settings')]
+  public function formSystemSiteInformationSettingsAlter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+    $form['keys']['#attributes']['placeholder'] = t('Search');
+  }
 }
 ```
 

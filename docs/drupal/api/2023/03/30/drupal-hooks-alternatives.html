@@ -86,7 +86,7 @@
  * Implements hook_form_FORM_ID_alter().
  */</span>
 <span class="k">function</span> <span class="n">example_form_search_block_form_alter</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="err">\</span><span class="nc">Drupal\Core\Form\FormStateInterface</span> <span class="nv">$form_state</span><span class="p">,</span> <span class="nv">$form_id</span><span class="p">)</span> <span class="p">{</span>
- <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
+  <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
 <span class="p">}</span>
 
 </code></pre></div></div>
@@ -94,27 +94,27 @@
 <p>We need to define a listener first to use an event from the “Hook Event Dispatcher” module:</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
- <span class="na">example.form_subscribers</span><span class="pi">:</span>
-   <span class="na">class</span><span class="pi">:</span> <span class="s">Drupal\example\ExampleFormEventSubscribers</span>
-   <span class="na">tags</span><span class="pi">:</span>
-     <span class="pi">-</span> <span class="pi">{</span> <span class="nv">name</span><span class="pi">:</span> <span class="nv">event_subscriber</span> <span class="pi">}</span>
+  <span class="na">example.form_subscribers</span><span class="pi">:</span>
+    <span class="na">class</span><span class="pi">:</span> <span class="s">Drupal\example\ExampleFormEventSubscribers</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="pi">{</span> <span class="nv">name</span><span class="pi">:</span> <span class="nv">event_subscriber</span> <span class="pi">}</span>
 </code></pre></div></div>
 
 <p>And then implement it:</p>
 
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">ExampleFormEventSubscribers</span> <span class="kd">implements</span> <span class="nc">EventSubscriberInterface</span> <span class="p">{</span>
 
- <span class="cd">/**
-  * Alter search form.
-  *
-  * @param \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent $event
-  *   The event.
-  */</span>
- <span class="k">public</span> <span class="k">function</span> <span class="n">alterSearchForm</span><span class="p">(</span><span class="kt">FormIdAlterEvent</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
-   <span class="nv">$form</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getForm</span><span class="p">();</span>
-   <span class="c1">// Add placeholder.</span>
-   <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
- <span class="p">}</span>
+  <span class="cd">/**
+   * Alter search form.
+   *
+   * @param \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent $event
+   *   The event.
+   */</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="n">alterSearchForm</span><span class="p">(</span><span class="kt">FormIdAlterEvent</span> <span class="nv">$event</span><span class="p">):</span> <span class="kt">void</span> <span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="o">&amp;</span><span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getForm</span><span class="p">();</span>
+    <span class="c1">// Add placeholder.</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
+  <span class="p">}</span>
 
  <span class="cd">/**
   * {@inheritdoc}
@@ -148,10 +148,10 @@
 
 <span class="k">final</span> <span class="kd">class</span> <span class="nc">ExampleHooks</span> <span class="p">{</span>
 
- <span class="c1">#[Alter('form_system_site_information_settings')]</span>
- <span class="k">public</span> <span class="k">function</span> <span class="n">formSystemSiteInformationSettingsAlter</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="err">\</span><span class="nc">Drupal\Core\Form\FormStateInterface</span> <span class="nv">$form_state</span><span class="p">,</span> <span class="nv">$form_id</span><span class="p">)</span> <span class="p">{</span>
-   <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
- <span class="p">}</span>
+  <span class="c1">#[Alter('form_system_site_information_settings')]</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="n">formSystemSiteInformationSettingsAlter</span><span class="p">(</span><span class="o">&amp;</span><span class="nv">$form</span><span class="p">,</span> <span class="err">\</span><span class="nc">Drupal\Core\Form\FormStateInterface</span> <span class="nv">$form_state</span><span class="p">,</span> <span class="nv">$form_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">'keys'</span><span class="p">][</span><span class="s1">'#attributes'</span><span class="p">][</span><span class="s1">'placeholder'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">t</span><span class="p">(</span><span class="s1">'Search'</span><span class="p">);</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
