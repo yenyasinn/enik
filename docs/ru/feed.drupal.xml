@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.pro</link>
-        <lastBuildDate>Thu, 30 Mar 2023 12:00:00 +0200</lastBuildDate>
+        <lastBuildDate>Mon, 12 Jun 2023 12:00:00 +0200</lastBuildDate>
         
+        
+        <item>
+            <title>Про кеш в Drupal 10</title>
+            
+            <description>&lt;p&gt;Drupal предоставляет широкие и удобные возможности по размещению контента на сайте. К сожалению, за это приходится платить ухудшением производительности. На самом деле нам не нужно рендерить контент при каждом запросе - мы можем сохранить его в кеш и доставать его оттуда когда потребуется.&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 12 Jun 2023 12:00:00 +0200</pubDate>
+            <link>https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</link>
+            <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</guid>
+        </item>
         
         <item>
             <title>Альтернативы системе хуков в Drupal 10</title>
@@ -104,18 +115,6 @@
             <pubDate>Mon, 06 Jan 2020 11:00:00 +0100</pubDate>
             <link>https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</guid>
-        </item>
-        
-        <item>
-            <title>Antibot против Honeypot. Какую защиту от ботов выбрать для Drupal</title>
-            
-            <description>&lt;p&gt;Если у вас на сайте есть формы для анонимных пользователей, то рано или поздно вы задумаетесь о том, как защитить их от ботов. Потому, что очищать комментарии или данные в веб формах от спама довольно утомительное занятие.
-Вы можете заставлять людей решать задачи используя &lt;a href=&quot;https://www.drupal.org/project/captcha&quot;&gt;Captcha&lt;/a&gt; модуль. Это работает неплохо, но  вашим пользователям может не понравится вводить капчу каждый раз, особенно если они вводят сообщения часто.&lt;/p&gt;
-</description>
-            
-            <pubDate>Sun, 15 Dec 2019 11:00:00 +0100</pubDate>
-            <link>https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</link>
-            <guid isPermaLink="true">https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</guid>
         </item>
         
     </channel>

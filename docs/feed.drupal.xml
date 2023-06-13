@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.pro</link>
-        <lastBuildDate>Thu, 30 Mar 2023 12:00:00 +0200</lastBuildDate>
+        <lastBuildDate>Mon, 12 Jun 2023 12:00:00 +0200</lastBuildDate>
         
+        
+        <item>
+            <title>About cache in Drupal 10</title>
+            
+            <description>&lt;p&gt;Drupal provides wide and convenient options for posting content on the site. Unfortunately, this comes at the cost of performance degradation. We don’t really need to render the content on every request - we can store it in the cache and retrieve it when needed.&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 12 Jun 2023 12:00:00 +0200</pubDate>
+            <link>https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</link>
+            <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</guid>
+        </item>
         
         <item>
             <title>Alternatives of hook system in Drupal 10</title>
@@ -104,17 +115,6 @@
             <pubDate>Mon, 06 Jan 2020 11:00:00 +0100</pubDate>
             <link>https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</guid>
-        </item>
-        
-        <item>
-            <title>Antibot vs Honeypot. What spam protector to prefer in Drupal</title>
-            
-            <description>&lt;p&gt;If there are forms for anonymous users on your site then sooner or later you will think about how to protect them against bots. It is tiringly to remove spam comments or irrelevant webform submissions manually.&lt;/p&gt;
-</description>
-            
-            <pubDate>Sun, 15 Dec 2019 11:00:00 +0100</pubDate>
-            <link>https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</link>
-            <guid isPermaLink="true">https://www.enik.pro/drupal/modules/2019/12/15/antibot-vs-honeypot.html</guid>
         </item>
         
     </channel>

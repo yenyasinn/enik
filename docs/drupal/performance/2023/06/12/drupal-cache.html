@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<link rel="canonical" href="https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html" />
+<meta property="og:url" content="https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>About cache in Drupal 10</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="About cache in Drupal 10" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Drupal provides wide and convenient options for posting content on the site. Unfortunately, this comes at the cost of performance degradation. We don’t really need to render the content on every request - we can store it in the cache and retrieve it when needed." />
+<meta property="og:description" content="Drupal provides wide and convenient options for posting content on the site. Unfortunately, this comes at the cost of performance degradation. We don’t really need to render the content on every request - we can store it in the cache and retrieve it when needed." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-06-12T12:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="About cache in Drupal 10" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2023-06-12T12:00:00+02:00","datePublished":"2023-06-12T12:00:00+02:00","description":"Drupal provides wide and convenient options for posting content on the site. Unfortunately, this comes at the cost of performance degradation. We don’t really need to render the content on every request - we can store it in the cache and retrieve it when needed.","headline":"About cache in Drupal 10","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html"},"url":"https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<a href="/about" title="About Evgenii Nikitin" class="name">Evgenii Nikitin</a>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/performance/2023/06/12/drupal-cache.html" title="Русский">Русский</a>
+			  <a href="/drupal/performance/2023/06/12/drupal-cache.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+	<h1>About cache in Drupal 10</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Jun 12, 2023</div>
+	</div>
+	<div class="post">
+		<p>Drupal provides wide and convenient options for posting content on the site. Unfortunately, this comes at the cost of performance degradation. We don’t really need to render the content on every request - we can store it in the cache and retrieve it when needed.</p>
+
+<p>Drupal begins rendering the page first, then the layout, then the blocks, and finishes with the contents of the blocks. Each content part has certain cache settings - max age, cache tags and cache context (<a href="https://www.drupal.org/docs/8/api/cache-api/cache-api">Cache API basics</a>). Drupal collects the cache parameters of each element, and you can see the general parameters for the response in the page header if you enable the <code class="language-plaintext highlighter-rouge">http.response.debug_cacheability_headers</code> parameter in services.yml.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>parameters:
+  http.response.debug_cacheability_headers: true
+</code></pre></div></div>
+<p><img src="/assets/content/2023-06-12-drupal-cache/cache_headers.png" alt="Cache parameters in the response header" /></p>
+
+<p>If you need to find blocks with certain cache parameters on the page, then you can use the <a href="https://www.drupal.org/project/renderviz">Renderviz</a> module.</p>
+
+<p>By default, Drupal caches content blocks. But you can also cache the entire response. Drupal 10 has two modules for this - Internal page cache and Internal Dynamic Page Cache.</p>
+
+<h2 id="internal-page-cache-module">Internal Page Cache module.</h2>
+<p>This module caches requests from anonymous users. All anonymous users will see the same response/page. If you need to show some personal information on the page to an anonymous user, then you need to either disable the module or use an ajax request to get the desired block.</p>
+
+<p>A user is considered anonymous if he does not have an open session. If the user has cookies like <code class="language-plaintext highlighter-rouge">SSESS5a5813d2457b0cadd870939bdf9bbfd0</code>, then the user session is open and requests will not be cached by the Internal page cache module.</p>
+
+<p>Also note that only <code class="language-plaintext highlighter-rouge">GET</code> and <code class="language-plaintext highlighter-rouge">HEAD</code> requests are cached (see <code class="language-plaintext highlighter-rouge">\Symfony\Component\HttpFoundation\Request::isMethodCacheable</code>). By default, Drupal uses the <code class="language-plaintext highlighter-rouge">POST</code> method for ajax requests, so if you want to cache ajax requests, you should use the <code class="language-plaintext highlighter-rouge">GET</code> method for them.</p>
+
+<p>Also, requests that were initiated from the command line, for example through drush, are not cached.</p>
+
+<p>If the page was served from the cache, then the response header will contain the entry <code class="language-plaintext highlighter-rouge">X-Drupal-Cache: HIT</code>.</p>
+
+<p>The internal page cache sets the cache expiration only if such an expiration was set for the response - <code class="language-plaintext highlighter-rouge">$response-&gt;setExpires(\DateTimeInterface $date)</code>. Block max age values are ignored (<a href="https://www.drupal.org/project/drupal/issues/2352009">but this may change in Drupal 11</a>). The cache will be retained until either one of the cache tags is invalidated or the page cache is cleared.</p>
+
+<h2 id="internal-dynamic-page-cache-module">Internal Dynamic Page Cache module</h2>
+<p>This module will be useful if the page contains dynamic (personalised) content. By default, content is considered dynamic if it has a <code class="language-plaintext highlighter-rouge">session</code> or <code class="language-plaintext highlighter-rouge">user</code> context, or the max age is 0. This is defined in <code class="language-plaintext highlighter-rouge">core.services.yml</code> and, if necessary, the settings can be changed (for example, specify certain tags):</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">renderer.config</span><span class="pi">:</span>
+  <span class="na">auto_placeholder_conditions</span><span class="pi">:</span>
+  <span class="na">max age</span><span class="pi">:</span> <span class="m">0</span>
+  <span class="na">contexts</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">session'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">user'</span><span class="pi">]</span>
+  <span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
+</code></pre></div></div>
+<p>If the content is dynamic and a <code class="language-plaintext highlighter-rouge">#lazy_builder</code> handler is defined for it (for blocks it is defined by default in <code class="language-plaintext highlighter-rouge">\Drupal\block\BlockViewBuilder</code>), then when the page is rendered, such a block will be replaced by a placeholder string. The page with placeholders will be cached. When requested, the page will be taken from the cache, and instead of placeholders, generated blocks for a specific user will be substituted.</p>
+
+<p><img src="/assets/content/2023-06-12-drupal-cache/page_rendering.png" alt="Example of the block that won’t be cached" /></p>
+
+<p>When using the <code class="language-plaintext highlighter-rouge">user</code> context, be aware that all anonymous users are the same user. If you need to show different content to anonymous users, then it is better to use the <code class="language-plaintext highlighter-rouge">session</code> context.</p>
+
+<p>To determine if the Dynamic Page Cache was used, you need to look in the response header - there should be an entry <code class="language-plaintext highlighter-rouge">X-Drupal-Dynamic-Cache: HIT</code> if the page was taken from the cache.</p>
+
+<h2 id="about-setting-browser-and-proxy-cache-maximum-age">About setting “Browser and proxy cache maximum age”</h2>
+
+<p>It is important to know that the “Browser and proxy cache maximum age” setting on the <code class="language-plaintext highlighter-rouge">/admin/config/development/performance</code> page is used to set the Cache-Control parameter in the page header that is only read by the browser or <a href="/drupal/performance/2019/10/06/reverse-proxy-caching.html">reverse proxy systems</a> (e.g. Varnish).</p>
+
+<p>Below is the code from <code class="language-plaintext highlighter-rouge">\Drupal\Core\EventSubscriber\FinishResponseSubscriber::setResponseCacheable()</code> where this is used:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nv">$max_age</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">config</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'cache.page.max_age'</span><span class="p">);</span>
+   <span class="nv">$response</span><span class="o">-&gt;</span><span class="n">headers</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'Cache-Control'</span><span class="p">,</span> <span class="s1">'public, max-age='</span> <span class="mf">.</span> <span class="nv">$max_age</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This setting does not affect the behavior of the Internal page cache and Internal Dynamic Page Cache.</p>
+
+	</div>
+
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html';
+    		this.page.identifier = 'https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html';
+    	};
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>

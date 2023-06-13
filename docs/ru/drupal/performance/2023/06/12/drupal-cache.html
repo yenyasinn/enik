@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<link rel="canonical" href="https://www.enik.pro/ru/drupal/performance/2023/06/12/drupal-cache.html" />
+<meta property="og:url" content="https://www.enik.pro/ru/drupal/performance/2023/06/12/drupal-cache.html" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Про кеш в Drupal 10</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Про кеш в Drupal 10" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="ru" />
+<meta name="description" content="Drupal предоставляет широкие и удобные возможности по размещению контента на сайте. К сожалению, за это приходится платить ухудшением производительности. На самом деле нам не нужно рендерить контент при каждом запросе - мы можем сохранить его в кеш и доставать его оттуда когда потребуется." />
+<meta property="og:description" content="Drupal предоставляет широкие и удобные возможности по размещению контента на сайте. К сожалению, за это приходится платить ухудшением производительности. На самом деле нам не нужно рендерить контент при каждом запросе - мы можем сохранить его в кеш и доставать его оттуда когда потребуется." />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-06-12T12:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Про кеш в Drupal 10" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2023-06-12T12:00:00+02:00","datePublished":"2023-06-12T12:00:00+02:00","description":"Drupal предоставляет широкие и удобные возможности по размещению контента на сайте. К сожалению, за это приходится платить ухудшением производительности. На самом деле нам не нужно рендерить контент при каждом запросе - мы можем сохранить его в кеш и доставать его оттуда когда потребуется.","headline":"Про кеш в Drupal 10","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/performance/2023/06/12/drupal-cache.html"},"url":"https://www.enik.pro/ru/drupal/performance/2023/06/12/drupal-cache.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/ru/" title="Главная страница"><img src="/assets/portfolio_white.png" alt="Евгений Никитин"/></a>
+			<a href="/ru/about" title="О Евгении Никитине" class="name">Евгений Никитин</a>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/performance/2023/06/12/drupal-cache.html" title="Русский">Русский</a>
+			  <a href="/drupal/performance/2023/06/12/drupal-cache.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+	<h1>Про кеш в Drupal 10</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>performance</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Jun 12, 2023</div>
+	</div>
+	<div class="post">
+		<p>Drupal предоставляет широкие и удобные возможности по размещению контента на сайте. К сожалению, за это приходится платить ухудшением производительности. На самом деле нам не нужно рендерить контент при каждом запросе - мы можем сохранить его в кеш и доставать его оттуда когда потребуется.</p>
+
+<p>Drupal в начале начинает рендерить страницу, затем layout, потом блоки и заканчивает содержимыми блоков. Каждая контентная часть имеет определенные настройки кеша - время жизни, кеш теги и кеш контекст (<a href="https://www.drupal.org/docs/8/api/cache-api/cache-api">основы Cache API</a>). Drupal собирает параметры кеша каждого элемента, и общие параметры для ответа вы можете увидеть в заголовке страницы если включить параметр <code class="language-plaintext highlighter-rouge">http.response.debug_cacheability_headers</code> в services.yml.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>parameters:
+  http.response.debug_cacheability_headers: true
+
+</code></pre></div></div>
+<p><img src="/assets/content/2023-06-12-drupal-cache/cache_headers.png" alt="Параметры кеша в заголовке ответа" /></p>
+
+<p>Если нужно найти на странице блоки с определенными кеш параметрами, то для этого можно воспользоваться модулем <a href="https://www.drupal.org/project/renderviz">Renderviz</a>.</p>
+
+<p>По-умолчанию Drupal кеширует блоки с контентом. Но также можно закешировать ответ целиком. В Drupal 10 есть для этого два модуля - Internal page cache и Internal Dynamic Page Cache.</p>
+
+<h2 id="internal-page-cache-модуль">Internal Page Cache модуль.</h2>
+<p>Данный модуль кеширует запросы от анонимных пользователей. Все анонимные пользователи будут видеть один и тот же ответ/страницу. Если нужно показать какую-то персональную информацию на странице анонимному пользователю, то нужно либо отключить модуль, либо использовать ajax запрос чтобы получить нужный блок.</p>
+
+<p>Пользователь считается анонимным если у него нет открытой сессии. Если у пользователя есть куки вида <code class="language-plaintext highlighter-rouge">SSESS5a5813d2457b0cadd870939bdf9bbfd0</code>, то значит сессия у пользователя открыта и запросы не будут кешироваться модулем Internal page cache.</p>
+
+<p>Также нужно учитывать, что кешируются только <code class="language-plaintext highlighter-rouge">GET</code> and <code class="language-plaintext highlighter-rouge">HEAD</code> запросы (смотрите <code class="language-plaintext highlighter-rouge">\Symfony\Component\HttpFoundation\Request::isMethodCacheable</code>). По-умолчанию Drupal использует <code class="language-plaintext highlighter-rouge">POST</code> метод для ajax запросов, поэтому если вы хотите кешировать ajax запросы, то для них следует использовать <code class="language-plaintext highlighter-rouge">GET</code> метод.</p>
+
+<p>Также не кешируются запросы, которые были инициированы из командной строки, например через drush.</p>
+
+<p>Если страница была выдана из кеша, то в заголовке ответа будет запись <code class="language-plaintext highlighter-rouge">X-Drupal-Cache: HIT</code>.</p>
+
+<p>Internal page cache устанавливает срок жизни кеша только в том случае если для ответа такой срок жизни был установлен - <code class="language-plaintext highlighter-rouge">$response-&gt;setExpires(\DateTimeInterface $date)</code>. Значения max age у блоков игнорируются (<a href="https://www.drupal.org/project/drupal/issues/2352009">но это может поменяться в Drupal 11</a>). Кеш будет сохранен до тех пор пока какой-либо из тегов кеша не будет признан недействительным, либо же кеш страниц не будет очищен.</p>
+
+<h2 id="internal-dynamic-page-cache-модуль">Internal Dynamic Page Cache модуль</h2>
+<p>Данный модуль будет полезен если на странице присутствует динамический (персонализированный) контент. По-умолчанию, контент считается динамическим если у него установлен контекст <code class="language-plaintext highlighter-rouge">session</code> или <code class="language-plaintext highlighter-rouge">user</code>, либо же срок жизни 0. Это определяется в <code class="language-plaintext highlighter-rouge">core.services.yml</code> и, при необходимости, настройки можно поменять (например, указать определенные теги):</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">renderer.config</span><span class="pi">:</span>
+  <span class="na">auto_placeholder_conditions</span><span class="pi">:</span>
+  <span class="na">max-age</span><span class="pi">:</span> <span class="m">0</span>
+  <span class="na">contexts</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">session'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">user'</span><span class="pi">]</span>
+  <span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
+</code></pre></div></div>
+<p>Если контент динамический и для него определен <code class="language-plaintext highlighter-rouge">#lazy_builder</code> обработчик (для блоков он определяется по-умолчанию в <code class="language-plaintext highlighter-rouge">\Drupal\block\BlockViewBuilder</code>), то при рендеринге страницы такой блок будет заменен на строку-заменитель (placeholder). Страница со строками-заменителями будет сохранена в кеш. При запросе, страница будет взята из кеша, а вместо заменителей будут подставлены сгенерированные блоки для конкретного пользователя.</p>
+
+<p><img src="/assets/content/2023-06-12-drupal-cache/page_rendering.png" alt="Пример блока, который не будет закеширован" /></p>
+
+<p>При использовании контекста <code class="language-plaintext highlighter-rouge">user</code> необходимо учитывать, что все анонимные пользователи это один и тот же пользователь. Если нужно показывать разный контент анонимным пользователям, то лучше использовать контекст <code class="language-plaintext highlighter-rouge">session</code>.</p>
+
+<p>Чтобы определить использовался ли Dynamic Page Cache нужно посмотреть в заголовок ответа - там должна быть запись <code class="language-plaintext highlighter-rouge">X-Drupal-Dynamic-Cache: HIT</code> если страница взята из кеша.</p>
+
+<h2 id="про-настройку-browser-and-proxy-cache-maximum-age">Про настройку “Browser and proxy cache maximum age”</h2>
+
+<p>Важно знать, что настройка “Browser and proxy cache maximum age” на странице <code class="language-plaintext highlighter-rouge">/admin/config/development/performance</code> используется для установки параметра Cache-Control в заголовке страницы, которые читаются только браузером или <a href="/ru/drupal/performance/2019/10/06/reverse-proxy-caching.html">реверс прокси системами</a> (например Varnish).</p>
+
+<p>Ниже код из <code class="language-plaintext highlighter-rouge">\Drupal\Core\EventSubscriber\FinishResponseSubscriber::setResponseCacheable()</code>, где это используется:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$max_age</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="n">config</span><span class="o">-&gt;</span><span class="nf">get</span><span class="p">(</span><span class="s1">'cache.page.max_age'</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="n">headers</span><span class="o">-&gt;</span><span class="nf">set</span><span class="p">(</span><span class="s1">'Cache-Control'</span><span class="p">,</span> <span class="s1">'public, max-age='</span> <span class="mf">.</span> <span class="nv">$max_age</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>На поведение Internal page cache и Internal Dynamic Page Cache эта настройка никак не влияет.</p>
+
+	</div>
+
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html';
+    		this.page.identifier = 'https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html';
+    	};
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
