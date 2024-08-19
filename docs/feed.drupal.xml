@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.pro</link>
-        <lastBuildDate>Mon, 12 Jun 2023 12:00:00 +0200</lastBuildDate>
+        <lastBuildDate>Mon, 19 Aug 2024 13:00:00 +0300</lastBuildDate>
         
+        
+        <item>
+            <title>Using Acquia CLI instead of BLT for deployment to Acquia Cloud</title>
+            
+            <description>&lt;p&gt;If you have worked with Acquia Cloud, then you know that Acquia offered &lt;a href=&quot;https://github.com/acquia/blt&quot;&gt;BLT&lt;/a&gt; as the main tool for website deployment. As time goes on, Acquia has announced that it will no longer support this tool. Therefore, the question arose - how to deploy to Acquia Cloud without using BLT?&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 19 Aug 2024 13:00:00 +0300</pubDate>
+            <link>https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html</link>
+            <guid isPermaLink="true">https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html</guid>
+        </item>
         
         <item>
             <title>About cache in Drupal 10</title>
@@ -13,7 +24,7 @@
             <description>&lt;p&gt;Drupal provides wide and convenient options for posting content on the site. Unfortunately, this comes at the cost of performance degradation. We don’t really need to render the content on every request - we can store it in the cache and retrieve it when needed.&lt;/p&gt;
 </description>
             
-            <pubDate>Mon, 12 Jun 2023 12:00:00 +0200</pubDate>
+            <pubDate>Mon, 12 Jun 2023 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</guid>
         </item>
@@ -24,7 +35,7 @@
             <description>&lt;p&gt;A system of hooks was implemented in Drupal to change the behavior of the code. It implements the &lt;a href=&quot;/drupal/architecture/2021/01/10/patterns.html&quot;&gt;“Mediator”&lt;/a&gt; design pattern in procedural programming and provides a single interface for communication of different parts of the system.&lt;/p&gt;
 </description>
             
-            <pubDate>Thu, 30 Mar 2023 12:00:00 +0200</pubDate>
+            <pubDate>Thu, 30 Mar 2023 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</guid>
         </item>
@@ -35,7 +46,7 @@
             <description>&lt;p&gt;As you noticed services are called through &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$this-&amp;gt;container-&amp;gt;get()&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\Drupal::service()&lt;/code&gt; in Kernel and Functional tests. On the first glance it doesn’t matter - we receive a service in any case and tests work, but there are nuances. Let’s figure it out.&lt;/p&gt;
 </description>
             
-            <pubDate>Sun, 02 Oct 2022 12:00:00 +0200</pubDate>
+            <pubDate>Sun, 02 Oct 2022 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html</guid>
         </item>
@@ -46,7 +57,7 @@
             <description>&lt;p&gt;Let’s consider the case: there is a little class that is used in the module locally (for example in a hook) that uses service.&lt;/p&gt;
 </description>
             
-            <pubDate>Sat, 04 Jun 2022 12:00:00 +0200</pubDate>
+            <pubDate>Sat, 04 Jun 2022 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/api/2022/06/04/class-resolver.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/api/2022/06/04/class-resolver.html</guid>
         </item>
@@ -57,7 +68,7 @@
             <description>&lt;p&gt;There is a great feature that can be used after Drupal code migration into GitLab infrastructure - &lt;a href=&quot;https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests&quot;&gt;merge requests&lt;/a&gt;. It is more convenient than the old method when patches had to be created and uploaded on drupal.org to the task for a review. Everyone who already worked on GitHub with pull requests evaluated this approach.&lt;/p&gt;
 </description>
             
-            <pubDate>Fri, 29 Oct 2021 08:00:00 +0200</pubDate>
+            <pubDate>Fri, 29 Oct 2021 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/security/2021/10/29/patches-requests.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/security/2021/10/29/patches-requests.html</guid>
         </item>
@@ -68,7 +79,7 @@
             <description>&lt;p&gt;Drupal developers work with design patterns rarely because they mainly work in the formed environment. We use patterns every day, but we don’t even think about it. When you know design patterns you can simplify your communication with colleges - you can just tell the name of the pattern and everyone understands what you are talking about. Also you can use effective solutions instead of trying to invent your own things. Design patterns are the same for all programming languages but implementation differs. So you will find where to apply them in your career. By the way, questions about patterns are one of the most frequent during interviews.&lt;/p&gt;
 </description>
             
-            <pubDate>Sun, 10 Jan 2021 07:00:00 +0100</pubDate>
+            <pubDate>Sun, 10 Jan 2021 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/architecture/2021/01/10/patterns.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/architecture/2021/01/10/patterns.html</guid>
         </item>
@@ -79,7 +90,7 @@
             <description>&lt;p&gt;It’s important to define standards that will be used on the Drupal project prior to the start of the project especially if the project is big. Thus everyone involved in the project will understand which rules should be respected during development and maintenance of the project.&lt;/p&gt;
 </description>
             
-            <pubDate>Thu, 11 Jun 2020 08:00:00 +0200</pubDate>
+            <pubDate>Thu, 11 Jun 2020 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/standards/2020/06/11/drupal-standards.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/standards/2020/06/11/drupal-standards.html</guid>
         </item>
@@ -90,7 +101,7 @@
             <description>&lt;p&gt;Video from the speech “In memory database MemSQL. When and how to use with Drupal” from DrupalCamp London 2020.&lt;/p&gt;
 </description>
             
-            <pubDate>Tue, 31 Mar 2020 08:00:00 +0200</pubDate>
+            <pubDate>Tue, 31 Mar 2020 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/memsql/2020/03/31/memsql-presentation.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/memsql/2020/03/31/memsql-presentation.html</guid>
         </item>
@@ -101,20 +112,9 @@
             <description>&lt;p&gt;If you don’t know what DBMS MemSQL is you can read the article with &lt;a href=&quot;/memsql/2020/02/09/memsql-overview.html&quot;&gt;MemSQL overview&lt;/a&gt;. Difference in performance with MySQL and for what applications MemSQL is suitable is described in the &lt;a href=&quot;/memsql/2020/02/29/memsql-mysql-performance-comparison.html&quot;&gt;“MySQL and MemSQL performance comparison.”&lt;/a&gt;. In this article I describe how to integrate MemSQL with Drupal.&lt;/p&gt;
 </description>
             
-            <pubDate>Mon, 16 Mar 2020 11:00:00 +0100</pubDate>
+            <pubDate>Mon, 16 Mar 2020 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/memsql/2020/03/16/memsql-drupal-integration.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/memsql/2020/03/16/memsql-drupal-integration.html</guid>
-        </item>
-        
-        <item>
-            <title>Performance of Views in Drupal 8</title>
-            
-            <description>&lt;p&gt;Module Views is one of the most popular modules on the Drupal sites. I think it is enabled on all sites built on Drupal. In this article I would like to describe issues with performance of Views that I’ve faced using this module and ways for optimisation.&lt;/p&gt;
-</description>
-            
-            <pubDate>Mon, 06 Jan 2020 11:00:00 +0100</pubDate>
-            <link>https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</link>
-            <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</guid>
         </item>
         
     </channel>

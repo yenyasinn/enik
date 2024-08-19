@@ -20,18 +20,18 @@
 
 <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Разбираем систему событий в Drupal 8</title>
-<meta name="generator" content="Jekyll v4.2.1" />
+<meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="Разбираем систему событий в Drupal 8" />
 <meta name="author" content="Evgenii Nikitin" />
 <meta property="og:locale" content="ru" />
 <meta name="description" content="Для чего нам Event Subscriber" />
 <meta property="og:description" content="Для чего нам Event Subscriber" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-11-04T11:00:00+01:00" />
+<meta property="article:published_time" content="2019-11-04T13:00:00+03:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Разбираем систему событий в Drupal 8" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2019-11-04T11:00:00+01:00","datePublished":"2019-11-04T11:00:00+01:00","description":"Для чего нам Event Subscriber","headline":"Разбираем систему событий в Drupal 8","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/api/2019/11/04/event-subscriber.html"},"url":"https://www.enik.pro/ru/drupal/api/2019/11/04/event-subscriber.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2019-11-04T13:00:00+03:00","datePublished":"2019-11-04T13:00:00+03:00","description":"Для чего нам Event Subscriber","headline":"Разбираем систему событий в Drupal 8","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/ru/drupal/api/2019/11/04/event-subscriber.html"},"url":"https://www.enik.pro/ru/drupal/api/2019/11/04/event-subscriber.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 </head>
@@ -216,7 +216,7 @@
 */</span>
 <span class="k">public</span> <span class="k">function</span> <span class="n">onConfigImporterValidateNotEmpty</span><span class="p">(</span><span class="kt">ConfigImporterEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
  <span class="nv">$importList</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">getStorageComparer</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">getSourceStorage</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">listAll</span><span class="p">();</span>
- <span class="k">if</span> <span class="p">(</span><span class="nb">empty</span><span class="p">(</span><span class="nv">$importList</span><span class="p">))</span> <span class="p">{</span>
+ <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$importList</span><span class="p">))</span> <span class="p">{</span>
    <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">getConfigImporter</span><span class="p">()</span><span class="o">-&gt;</span><span class="nf">logError</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="nf">t</span><span class="p">(</span><span class="s1">'This import is empty and if applied would delete all of your configuration, so has been rejected.'</span><span class="p">));</span>
    <span class="nv">$event</span><span class="o">-&gt;</span><span class="nf">stopPropagation</span><span class="p">();</span>
  <span class="p">}</span>

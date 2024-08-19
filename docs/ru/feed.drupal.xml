@@ -4,8 +4,19 @@
         <title>Drupal related articles from Evgenii Nikitin</title>
         <description>Planet Drupal feed</description>
         <link>https://www.enik.pro</link>
-        <lastBuildDate>Mon, 12 Jun 2023 12:00:00 +0200</lastBuildDate>
+        <lastBuildDate>Mon, 19 Aug 2024 13:00:00 +0300</lastBuildDate>
         
+        
+        <item>
+            <title>Используем Acquia CLI вместо BLT для деплоя на Acquia Cloud</title>
+            
+            <description>&lt;p&gt;Если вы работали с Acquia Cloud, то вы знаете, что Acquia предлагало &lt;a href=&quot;https://github.com/acquia/blt&quot;&gt;BLT&lt;/a&gt; в качестве основного инструмента для деплоя сайтов. Время идет и Acquia объявило, что не будет больше поддерживать этот инструмент. Поэтому встал вопрос - как деплоить на Acquia Cloud без использования BLT?&lt;/p&gt;
+</description>
+            
+            <pubDate>Mon, 19 Aug 2024 13:00:00 +0300</pubDate>
+            <link>https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html</link>
+            <guid isPermaLink="true">https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html</guid>
+        </item>
         
         <item>
             <title>Про кеш в Drupal 10</title>
@@ -13,7 +24,7 @@
             <description>&lt;p&gt;Drupal предоставляет широкие и удобные возможности по размещению контента на сайте. К сожалению, за это приходится платить ухудшением производительности. На самом деле нам не нужно рендерить контент при каждом запросе - мы можем сохранить его в кеш и доставать его оттуда когда потребуется.&lt;/p&gt;
 </description>
             
-            <pubDate>Mon, 12 Jun 2023 12:00:00 +0200</pubDate>
+            <pubDate>Mon, 12 Jun 2023 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2023/06/12/drupal-cache.html</guid>
         </item>
@@ -24,7 +35,7 @@
             <description>&lt;p&gt;Для изменения поведения кода в Drupal была реализована система хуков. По своей сути она является реализацией шаблона проектирования &lt;a href=&quot;/ru/drupal/architecture/2021/01/10/patterns.html&quot;&gt;“Посредник”&lt;/a&gt; в процедурном программировании и предоставляет единый интерфейс для “общения” разных частей системы.&lt;/p&gt;
 </description>
             
-            <pubDate>Thu, 30 Mar 2023 12:00:00 +0200</pubDate>
+            <pubDate>Thu, 30 Mar 2023 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/api/2023/03/30/drupal-hooks-alternatives.html</guid>
         </item>
@@ -35,7 +46,7 @@
             <description>&lt;p&gt;Обращали ли вы внимание, что в Kernel и Functional тестах сервисы вызываются через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$this-&amp;gt;container-&amp;gt;get()&lt;/code&gt; или через &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\Drupal::service()&lt;/code&gt;? Казалось бы, что какая разница - мы так и так получаем сервис и тест работает, но есть нюансы. Давайте разберемся.&lt;/p&gt;
 </description>
             
-            <pubDate>Sun, 02 Oct 2022 12:00:00 +0200</pubDate>
+            <pubDate>Sun, 02 Oct 2022 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/tests/2022/10/02/service-containers.html</guid>
         </item>
@@ -46,7 +57,7 @@
             <description>&lt;p&gt;Давайте разберем такой случай: у нас есть небольшой класс, который используется локально в модуле (например в хуке) в котором мы бы хотели использовать сервисы.&lt;/p&gt;
 </description>
             
-            <pubDate>Sat, 04 Jun 2022 12:00:00 +0200</pubDate>
+            <pubDate>Sat, 04 Jun 2022 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/api/2022/06/04/class-resolver.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/api/2022/06/04/class-resolver.html</guid>
         </item>
@@ -57,7 +68,7 @@
             <description>&lt;p&gt;После миграции кода Drupal в GitLab, появилась отличная возможность создавать &lt;a href=&quot;https://www.drupal.org/docs/develop/git/using-git-to-contribute-to-drupal/creating-issue-forks-and-merge-requests&quot;&gt;“мерж” реквесты&lt;/a&gt; для работы над задачами. Это намного более удобно, чем старый способ, когда мы создавали патчи и загружали их на drupal.org в задачу для ревью. Те, кто работал над проектами в GitHub, давно оценили прелесть использования реквестов.&lt;/p&gt;
 </description>
             
-            <pubDate>Fri, 29 Oct 2021 08:00:00 +0200</pubDate>
+            <pubDate>Fri, 29 Oct 2021 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/security/2021/10/29/patches-requests.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/security/2021/10/29/patches-requests.html</guid>
         </item>
@@ -68,7 +79,7 @@
             <description>&lt;p&gt;Drupal разработчики редко имеют дело с паттернами проектирования объектов, т.к. в основном им приходится работать в уже сформированной среде. Мы используем шаблоны каждый день, но даже не задумываемся над этим. Имея представление о паттернах вам будет легче общаться с коллегами - достаточно сказать название паттерна и все понимают о чем идет речь. Вместо изобретения очередного велосипеда вы можете использовать уже отработанные эффективные решения. Паттерны проектирования одни и те же в разных языках программирования, отличается только реализация. Так что зная шаблоны вы всегда сможете найти им применение в своей карьере. Кстати, вопрос о паттернах проектирования один из самых частых при собеседованиях.&lt;/p&gt;
 </description>
             
-            <pubDate>Sun, 10 Jan 2021 07:00:00 +0100</pubDate>
+            <pubDate>Sun, 10 Jan 2021 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/architecture/2021/01/10/patterns.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/architecture/2021/01/10/patterns.html</guid>
         </item>
@@ -79,7 +90,7 @@
             <description>&lt;p&gt;Перед разработкой Drupal проекта, особенно большого, важно определиться со стандартами, которые будут использоваться на проекте. Таким образом все участвующие в проекте будут понимать каким правилам следовать во время разработки и поддержки проекта.&lt;/p&gt;
 </description>
             
-            <pubDate>Thu, 11 Jun 2020 08:00:00 +0200</pubDate>
+            <pubDate>Thu, 11 Jun 2020 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/standards/2020/06/11/drupal-standards.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/standards/2020/06/11/drupal-standards.html</guid>
         </item>
@@ -90,7 +101,7 @@
             <description>&lt;p&gt;Презентация и слайды доклада “База данных MemSQL. Когда и как использовать с Drupal” с DrupalCamp London 2020.&lt;/p&gt;
 </description>
             
-            <pubDate>Tue, 31 Mar 2020 08:00:00 +0200</pubDate>
+            <pubDate>Tue, 31 Mar 2020 09:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/memsql/2020/03/31/memsql-presentation.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/memsql/2020/03/31/memsql-presentation.html</guid>
         </item>
@@ -101,20 +112,9 @@
             <description>&lt;p&gt;Если вы еще не знаете, что из себя представляет СУБД MemSQL, то можете ознакомиться в статье по &lt;a href=&quot;/ru/memsql/2020/02/09/memsql-overview.html&quot;&gt;обзору MemSQL&lt;/a&gt;. В чем различие в производительности MemSQL и MySQL вы можете прочитать в статье &lt;a href=&quot;/ru/memsql/2020/02/29/memsql-mysql-performance-comparison.html&quot;&gt;“Cравнение производительности MySQL и MemSQL”&lt;/a&gt;. В этой статье я опишу как интегрировать MemSQL с Drupal.&lt;/p&gt;
 </description>
             
-            <pubDate>Mon, 16 Mar 2020 11:00:00 +0100</pubDate>
+            <pubDate>Mon, 16 Mar 2020 13:00:00 +0300</pubDate>
             <link>https://www.enik.pro/drupal/memsql/2020/03/16/memsql-drupal-integration.html</link>
             <guid isPermaLink="true">https://www.enik.pro/drupal/memsql/2020/03/16/memsql-drupal-integration.html</guid>
-        </item>
-        
-        <item>
-            <title>Производительность Views в Drupal 8</title>
-            
-            <description>&lt;p&gt;Модуль Views один из самых популярных модулей на Drupal сайтах. Думаю, он включен практически на всех сайтах построенных на Drupal. В этой статье я бы хотел описать проблемы с производительностью Views с которыми я столкнулся работая с этим модулем в Drupal 8 и способы оптимизации.&lt;/p&gt;
-</description>
-            
-            <pubDate>Mon, 06 Jan 2020 11:00:00 +0100</pubDate>
-            <link>https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</link>
-            <guid isPermaLink="true">https://www.enik.pro/drupal/performance/2020/01/06/views-performance.html</guid>
         </item>
         
     </channel>

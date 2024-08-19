@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300|Raleway:400,700" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<link rel="canonical" href="https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html" />
+<meta property="og:url" content="https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2607843-20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-2607843-20');
+</script>
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Using Acquia CLI instead of BLT for deployment to Acquia Cloud</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Using Acquia CLI instead of BLT for deployment to Acquia Cloud" />
+<meta name="author" content="Evgenii Nikitin" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="If you have worked with Acquia Cloud, then you know that Acquia offered BLT as the main tool for website deployment. As time goes on, Acquia has announced that it will no longer support this tool. Therefore, the question arose - how to deploy to Acquia Cloud without using BLT?" />
+<meta property="og:description" content="If you have worked with Acquia Cloud, then you know that Acquia offered BLT as the main tool for website deployment. As time goes on, Acquia has announced that it will no longer support this tool. Therefore, the question arose - how to deploy to Acquia Cloud without using BLT?" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-08-19T13:00:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Using Acquia CLI instead of BLT for deployment to Acquia Cloud" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Evgenii Nikitin"},"dateModified":"2024-08-19T13:00:00+03:00","datePublished":"2024-08-19T13:00:00+03:00","description":"If you have worked with Acquia Cloud, then you know that Acquia offered BLT as the main tool for website deployment. As time goes on, Acquia has announced that it will no longer support this tool. Therefore, the question arose - how to deploy to Acquia Cloud without using BLT?","headline":"Using Acquia CLI instead of BLT for deployment to Acquia Cloud","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html"},"url":"https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+<body>
+	<main class="container">
+		<section class="about">
+			<a href="/" title="Main page"><img src="/assets/portfolio_white.png" alt="Evgenii Nikitin"/></a>
+			<a href="/about" title="About Evgenii Nikitin" class="name">Evgenii Nikitin</a>
+			<p class="tagline"></p>
+			<ul class="social">
+				<a href="https://www.linkedin.com/in/nikitinevgeny" target="_blank"><li><i class="icon-linkedin-squared"></i></li></a>
+				<a href="https://www.drupal.org/u/sinn" target="_blank"><li><i class="icon-drupal"></i></li></a>
+			</ul>
+
+			<p>
+			  <a href="/ru/drupal/tools/2024/08/19/remove-blt.html" title="Русский">Русский</a>
+			  <a href="/drupal/tools/2024/08/19/remove-blt.html" title="English">English</a>
+			</p>
+		</section>
+		<section class="content">
+			<div class="post-container">
+	<h1>Using Acquia CLI instead of BLT for deployment to Acquia Cloud</h1>
+
+	<div class="post-meta">
+		<ul class="post-categories"><li>Drupal</li><li>tools</li></ul>
+		<div class="post-date"><i class="icon-calendar"></i>Aug 19, 2024</div>
+	</div>
+	<div class="post">
+		<p>If you have worked with Acquia Cloud, then you know that Acquia offered <a href="https://github.com/acquia/blt">BLT</a> as the main tool for website deployment. As time goes on, Acquia has announced that it will no longer support this tool. Therefore, the question arose - how to deploy to Acquia Cloud without using BLT?</p>
+
+<p>To solve this problem we need:</p>
+<ul>
+  <li>Remove BLT from the project;</li>
+  <li>Send code to Acquia Cloud;</li>
+  <li>Perform automated tasks after deploying a project to Acquia Cloud.</li>
+</ul>
+
+<h2 id="remove-blt-from-the-project">Remove BLT from the project</h2>
+
+<p>BLT brings with it a large number of *.settings.php files (found in <code class="language-plaintext highlighter-rouge">vendor/acquia/blt/settings</code>), which you most likely include in your project’s <code class="language-plaintext highlighter-rouge">settings.php</code> via include <code class="language-plaintext highlighter-rouge">blt.settings.php</code> .</p>
+
+<p>You can see what settings you need in <code class="language-plaintext highlighter-rouge">vendor/acquia/blt/settings</code> and assemble your <code class="language-plaintext highlighter-rouge">settings.php</code> from them. To work with environments on Acquia Cloud, you may need the https://github.com/acquia/drupal-environment-detector package. This method is suitable for advanced programmers who clearly know what and how they want to configure.</p>
+
+<p>Another approach is to install the package with recommended settings https://github.com/acquia/drupal-recommended-settings.</p>
+
+<p>After installing the package</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require acquia/drupal-recommended-settings
+</code></pre></div></div>
+<p>The code for enabling the recommended settings will appear in your <code class="language-plaintext highlighter-rouge">sites/default/settings.php</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/acquia-recommended.settings.php";
+</code></pre></div></div>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">require DRUPAL_ROOT is located. "/../vendor/acquia/blt/settings/blt.settings.php";</code> by this code.</p>
+
+<p>In <code class="language-plaintext highlighter-rouge">*.settings.php</code> project files replace:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Acquia\Blt\Robo\Common\EnvironmentDetector;
+</code></pre></div></div>
+<p>on</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;
+</code></pre></div></div>
+
+<p>Now you can remove BLT from the project:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer remove acquia/blt
+</code></pre></div></div>
+
+<p>Delete the <code class="language-plaintext highlighter-rouge">blt</code> folder in the project root.</p>
+
+<h2 id="configuring-automatic-execution-of-tasks-after-deploying-code-on-acquia-cloud">Configuring automatic execution of tasks after deploying code on Acquia Cloud</h2>
+
+<p>Once the code is sent to Acquia Cloud, we will need to complete the tasks of resetting the cache, running updates, importing the configuration.</p>
+
+<h3 id="cloud-actions">Cloud Actions</h3>
+
+<p>If you are using <strong>Acquia Cloud Next</strong>, then the best way is to use <strong>Cloud Actions</strong>. You can configure them in the admin panel in the Configuration / Cloud Actions section in the environment settings https://cloud.acquia.com/a/environments/[uuid]/config/cloud-actions. Setting up Cloud Actions is described in https://docs.acquia.com/acquia-cloud-platform/manage-apps/cloud-actions.</p>
+
+<p>If you are using Cloud Actions, then <strong>delete the <code class="language-plaintext highlighter-rouge">hooks</code> folder</strong> in the project root.</p>
+
+<h3 id="cloud-hooks">Cloud Hooks</h3>
+
+<p>If the capabilities of Cloud Actions are not sufficient for you, then you can use <a href="https://docs.acquia.com/acquia-cloud-platform/develop-apps/api/cloud-hooks">Cloud Hooks</a>.</p>
+
+<p>In general, place the <code class="language-plaintext highlighter-rouge">drush deploy</code> code instead of <code class="language-plaintext highlighter-rouge">blt artifact:...</code> in files in <code class="language-plaintext highlighter-rouge">hooks/common/*</code>.</p>
+
+<h2 id="sending-the-code-to-acquia-cloud">Sending the code to Acquia Cloud</h2>
+
+<p>In order to send the code to Acquia Cloud we will use <a href="https://docs.acquia.com/acquia-cloud-platform/add-ons/acquia-cli/acquia-cli">Acquia CLI</a></p>
+
+<p>First we need to install <a href="https://docs.acquia.com/acquia-cloud-platform/add-ons/acquia-cli/install">Acquia CLI</a>:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-OL</span> https://github.com/acquia/cli/releases/latest/download/acli.phar
+<span class="nb">chmod</span> +x acli.phar
+<span class="nb">mv </span>acli.phar /usr/local/bin/acl
+</code></pre></div></div>
+
+<p>Then we must authorize Acquia CLI by running the command:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acli auth:login
+</code></pre></div></div>
+
+<p>Acquia CLI will ask for <strong>API Key</strong> and <strong>API Secret</strong>, which can be created on the <a href="https://cloud.acquia.com/a/profile/tokens">API Tokens</a> page in your Acquia Cloud account settings.</p>
+
+<p>Next, Acquia CLI will ask which application on Acqua Cloud we will connect to and create the <code class="language-plaintext highlighter-rouge">.acquia-cli.yml</code> file. Add it to the repository so you don’t have to log in every time.</p>
+
+<p>(<a href="https://docs.acquia.com/acquia-cloud-platform/add-ons/acquia-cli/start">More about Acquia CLI authorization</a>)</p>
+
+<p>If you are using <strong>Gitlab CI</strong>, then you need to set the environment variables
+<strong>ACLI_KEY</strong> and <strong>ACLI_SECRET</strong> in the CI/CD settings https://gitlab.com/[name]/[repo_name]/-/settings/ci_cd that were created
+on the <a href="https://cloud.acquia.com/a/profile/tokens">API Tokens</a> page.</p>
+
+<p>The next step is to create a folder in which Acquia CLI will build the project:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /tmp/acli-push-artifact
+</code></pre></div></div>
+
+<p>If you need to perform any additional operations, for example building a theme, clearing the assembly of unnecessary files, then add the necessary commands to composer.json in the <code class="language-plaintext highlighter-rouge">scripts/post-install-cmd</code> section:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"scripts": {
+    "post-install-cmd": [
+        "./scripts/frontend-setup.sh",
+        "./scripts/frontend-build.sh"
+    ]
+}
+</code></pre></div></div>
+
+<p>Now you need to <code class="language-plaintext highlighter-rouge">git commit</code> all changes and you can build the project in test mode, in which it will not be sent to Acquia Cloud:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acli push:artifact --no-clone
+</code></pre></div></div>
+
+<p>This command will copy the code to the <code class="language-plaintext highlighter-rouge">/tmp/acli-push-artifact</code> folder and run <code class="language-plaintext highlighter-rouge">composer install</code>.</p>
+
+<p>Open <code class="language-plaintext highlighter-rouge">/tmp/acli-push-artifact</code> and check that the project was built as expected.</p>
+
+<p>If all is well, then we send the project to Acquia Cloud using the application name:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acli push:artifact [application name]
+</code></pre></div></div>
+
+<p>or send to a specific branch:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acli push:artifact --destination-git-branch=[branch]
+</code></pre></div></div>
+
+<p>(See <code class="language-plaintext highlighter-rouge">acli push:artifact –help</code> for advanced settings).</p>
+
+<p>The project will be compiled and sent to the appropriate environment/branch.</p>
+
+<p>Once the code reaches Acuia Cloud, Cloud Actions and Cloud Hooks will be executed.</p>
+
+	</div>
+
+	<div id="disqus_thread" style="margin-top:25px"></div>
+	<script>
+		var disqus_config = function () {
+    		this.page.url = 'https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html';
+    		this.page.identifier = 'https://www.enik.pro/drupal/tools/2024/08/19/remove-blt.html';
+    	};
+		(function() {
+			var d = document, s = d.createElement('script');
+			s.src = 'https://enik-io.disqus.com/embed.js';
+			s.setAttribute('data-timestamp', +new Date());
+			(d.head || d.body).appendChild(s);
+		})();
+  	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+		</section>
+	</main>
+</body>
+</html>
