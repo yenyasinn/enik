@@ -34,3 +34,5 @@ gem "wdm", "~> 0.1.0", :install_if => Gem.win_platform?
 
 # Support of GitHub gist.
 gem "jekyll-gist"
+
+gem "webrick", "~> 1.8"

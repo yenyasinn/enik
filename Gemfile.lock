@@ -101,8 +101,10 @@ GEM
       tzinfo (>= 1.0.0)
     unicode-display_width (1.8.0)
     wdm (0.1.1)
+    webrick (1.8.1)
 
 PLATFORMS
+  arm64-darwin-23
   universal-darwin-20
   universal-darwin-21
   universal-darwin-22
@@ -115,6 +117,7 @@ DEPENDENCIES
   tzinfo (~> 1.2)
   tzinfo-data
   wdm (~> 0.1.0)
+  webrick (~> 1.8)
 
 BUNDLED WITH
    2.2.26
