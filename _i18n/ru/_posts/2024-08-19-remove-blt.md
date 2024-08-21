@@ -46,7 +46,17 @@ use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;
 composer remove acquia/blt
 ```
 
+Если вы использовали пакет `mikemadison13/blt-gitlab-pipelines`, то можно удалить его 
+
+```
+composer remove mikemadison13/blt-gitlab-pipelines
+```
+
 Удаляем папку `blt` в корне проекта.
+
+Удаляем `blt.yml` файлы в папках `sites/*/`.
+
+Заменяем файлы `sites/*/settings/default.includes.settings.php`, `docroot/sites/*/settings/default.local.settings.php` на соответсвующие из `vendor/acquia/drupal-recommended-settings/settings/site`.
 
 ## Настраиваем автоматическое выполнение задач после разворачивания кода на Acquia Cloud
 

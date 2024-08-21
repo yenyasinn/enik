@@ -102,6 +102,17 @@
 
 <p>Delete the <code class="language-plaintext highlighter-rouge">blt</code> folder in the project root.</p>
 
+<p>If you used the <code class="language-plaintext highlighter-rouge">mikemadison13/blt-gitlab-pipelines</code> package, you can remove it</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer remove mikemadison13/blt-gitlab-pipelines
+</code></pre></div></div>
+
+<p>Delete the <code class="language-plaintext highlighter-rouge">blt</code> folder in the project root.</p>
+
+<p>Delete blt.yml files in the <code class="language-plaintext highlighter-rouge">sites/*/</code> folders.</p>
+
+<p>Replace the files <code class="language-plaintext highlighter-rouge">sites/*/settings/default.includes.settings.php</code>, <code class="language-plaintext highlighter-rouge">docroot/sites/*/settings/default.local.settings.php</code> with the corresponding ones from <code class="language-plaintext highlighter-rouge">vendor/acquia/drupal-recommended-settings/settings/site</code>.</p>
+
 <h2 id="configuring-automatic-execution-of-tasks-after-deploying-code-on-acquia-cloud">Configuring automatic execution of tasks after deploying code on Acquia Cloud</h2>
 
 <p>Once the code is sent to Acquia Cloud, we will need to complete the tasks of resetting the cache, running updates, importing the configuration.</p>

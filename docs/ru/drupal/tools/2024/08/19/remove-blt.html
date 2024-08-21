@@ -98,7 +98,16 @@
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer remove acquia/blt
 </code></pre></div></div>
 
+<p>Если вы использовали пакет <code class="language-plaintext highlighter-rouge">mikemadison13/blt-gitlab-pipelines</code>, то можно удалить его</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer remove mikemadison13/blt-gitlab-pipelines
+</code></pre></div></div>
+
 <p>Удаляем папку <code class="language-plaintext highlighter-rouge">blt</code> в корне проекта.</p>
+
+<p>Удаляем <code class="language-plaintext highlighter-rouge">blt.yml</code> файлы в папках <code class="language-plaintext highlighter-rouge">sites/*/</code>.</p>
+
+<p>Заменяем файлы <code class="language-plaintext highlighter-rouge">sites/*/settings/default.includes.settings.php</code>, <code class="language-plaintext highlighter-rouge">docroot/sites/*/settings/default.local.settings.php</code> на соответсвующие из <code class="language-plaintext highlighter-rouge">vendor/acquia/drupal-recommended-settings/settings/site</code>.</p>
 
 <h2 id="настраиваем-автоматическое-выполнение-задач-после-разворачивания-кода-на-acquia-cloud">Настраиваем автоматическое выполнение задач после разворачивания кода на Acquia Cloud</h2>
 

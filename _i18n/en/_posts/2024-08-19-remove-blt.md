@@ -50,6 +50,18 @@ composer remove acquia/blt
 
 Delete the `blt` folder in the project root.
 
+If you used the `mikemadison13/blt-gitlab-pipelines` package, you can remove it
+
+```
+composer remove mikemadison13/blt-gitlab-pipelines
+```
+
+Delete the `blt` folder in the project root.
+
+Delete blt.yml files in the `sites/*/` folders.
+
+Replace the files `sites/*/settings/default.includes.settings.php`, `docroot/sites/*/settings/default.local.settings.php` with the corresponding ones from `vendor/acquia/drupal-recommended-settings/settings/site`.
+
 ## Configuring automatic execution of tasks after deploying code on Acquia Cloud
 
 Once the code is sent to Acquia Cloud, we will need to complete the tasks of resetting the cache, running updates, importing the configuration.
