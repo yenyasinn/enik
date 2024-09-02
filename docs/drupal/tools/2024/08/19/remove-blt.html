@@ -129,6 +129,26 @@
 
 <p>In general, place the <code class="language-plaintext highlighter-rouge">drush deploy</code> code instead of <code class="language-plaintext highlighter-rouge">blt artifact:...</code> in files in <code class="language-plaintext highlighter-rouge">hooks/common/*</code>.</p>
 
+<p>Example of the <code class="language-plaintext highlighter-rouge">hooks/common/post-code-deploy/post-code-deploy.sh</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
+
+set -ev
+
+site="$1"
+target_env="$2"
+db_name="$3"
+source_env="$4"
+
+repo_root="/var/www/html/$site.$target_env"
+export PATH=$repo_root/vendor/bin:$PATH
+cd $repo_root
+
+drush deploy
+
+set +v
+</code></pre></div></div>
+
 <h2 id="sending-the-code-to-acquia-cloud">Sending the code to Acquia Cloud</h2>
 
 <p>In order to send the code to Acquia Cloud we will use <a href="https://docs.acquia.com/acquia-cloud-platform/add-ons/acquia-cli/acquia-cli">Acquia CLI</a></p>
@@ -178,7 +198,48 @@ on the <a href="https://cloud.acquia.com/a/profile/tokens">API Tokens</a> page.<
 
 <p>Open <code class="language-plaintext highlighter-rouge">/tmp/acli-push-artifact</code> and check that the project was built as expected.</p>
 
-<p>If all is well, then we send the project to Acquia Cloud using the application name:</p>
+<p>I found a lot of files in my project that I would not like to see on the production server. Previously, they were removed by BLT, but now I need to take care of them myself.</p>
+
+<p>Unfortunately, the <code class="language-plaintext highlighter-rouge">push:artifact</code> command does not have an option to specify how to clean up. So I wrote a script <code class="language-plaintext highlighter-rouge">clean-up.sh</code> that removes unnecessary files (don’t forget to make *.sh files executable <code class="language-plaintext highlighter-rouge">chmod 755 clean-up.sh</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/env bash
+
+set -ev
+
+# Clean the project if only it is built by ACLI.
+if [ `pwd` != "/tmp/acli-push-artifact" ] ; then
+  exit;
+fi
+
+find . -name tests -prune -exec rm -rf {} \;
+find . -name .github -prune -exec rm -rf {} \;
+find . -name node_modules -prune -exec rm -rf {} \;
+
+find . -name LICENSE.txt -prune -exec rm {} \;
+find . -name README.md -prune -exec rm {} \;
+
+find docroot/modules/contrib/ -name .gitignore -prune -exec rm {} \;
+find . -name package.json -prune -exec rm {} \;
+find . -name package-lock.json -prune -exec rm {} \;
+find . -name *.css.map -prune -exec rm {} \;
+
+set +v
+</code></pre></div></div>
+
+<p>And added it to composer.json so that the cleanup happens after running <code class="language-plaintext highlighter-rouge">composer install</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"scripts": {
+    "post-install-cmd": [
+        "./scripts/frontend-setup.sh",
+        "./scripts/frontend-build.sh",
+        "./scripts/clean-up.sh"
+    ]
+}
+</code></pre></div></div>
+
+<p>To ensure that cleaning only occurs when building a project via ACLI, a condition has been added to the beginning that checks that we are in the “/tmp/acli-push-artifact” folder. This way, the cleaning script will not be called when installing the project locally.</p>
+
+<p>You can run the project build in test mode again. If everything is OK, then we send the project to Acquia Cloud by the application name:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acli push:artifact [application name]
 </code></pre></div></div>

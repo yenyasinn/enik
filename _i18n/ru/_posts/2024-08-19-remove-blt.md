@@ -74,6 +74,27 @@ composer remove mikemadison13/blt-gitlab-pipelines
 
 В общем случае, поместите код `drush deploy` вместо `blt artifact:...` в файлы в `hooks/common/*`.
 
+Пример файла `hooks/common/post-code-deploy/post-code-deploy.sh`:
+
+```
+#!/bin/sh
+
+set -ev
+
+site="$1"
+target_env="$2"
+db_name="$3"
+source_env="$4"
+
+repo_root="/var/www/html/$site.$target_env"
+export PATH=$repo_root/vendor/bin:$PATH
+cd $repo_root
+
+drush deploy
+
+set +v
+```
+
 ## Отправляем код в Acquia Cloud
 
 Для того, чтобы отправить код в Acquia Cloud будем использовать [Acquia CLI](https://docs.acquia.com/acquia-cloud-platform/add-ons/acquia-cli/acquia-cli)
@@ -118,7 +139,7 @@ mkdir /tmp/acli-push-artifact
 }
 ```
 
-Теперь нужно сделать `git commit` всех изменений и можно собрать проект в тестовом режиме, в котором он не будет отправлен в Acquia Cloud:
+Теперь нужно сохранить все изменения в репозитории `git commit` и можно собрать проект в тестовом режиме, в котором он не будет отправлен в Acquia Cloud:
 
 ```
 acli push:artifact --no-clone
@@ -128,7 +149,50 @@ acli push:artifact --no-clone
 
 Откройте `/tmp/acli-push-artifact` и проверьте, что проект был собран как нужно.
 
-Если все хорошо, то отправляем проект в Acquia Cloud по названию приложения:
+У себя в проекте я нашел множество файлов, которые я бы не хотел видеть на production сервере. Раньше они удалялись BLT, но сейчас нужно позаботиться о них самим.
+
+К сожалению в команде `push:artifact` нет возможности указать как нужно проводить очистку. Поэтому я написал скрипт `clean-up.sh`, который удаляет ненужные файлы (не забывайте делать *.sh файлы выполняемыми `chmod 755 clean-up.sh`):
+
+```
+#!/usr/bin/env bash
+
+set -ev
+
+# Clean the project if only it is built by ACLI.
+if [ `pwd` != "/tmp/acli-push-artifact" ] ; then
+  exit;
+fi
+
+find . -name tests -prune -exec rm -rf {} \;
+find . -name .github -prune -exec rm -rf {} \;
+find . -name node_modules -prune -exec rm -rf {} \;
+
+find . -name LICENSE.txt -prune -exec rm {} \;
+find . -name README.md -prune -exec rm {} \;
+
+find docroot/modules/contrib/ -name .gitignore -prune -exec rm {} \;
+find . -name package.json -prune -exec rm {} \;
+find . -name package-lock.json -prune -exec rm {} \;
+find . -name *.css.map -prune -exec rm {} \;
+
+set +v
+```
+
+И добавил его в composer.json, чтобы очистка происходила после запуска `composer install`:
+
+```
+"scripts": {
+    "post-install-cmd": [
+        "./scripts/frontend-setup.sh",
+        "./scripts/frontend-build.sh",
+        "./scripts/clean-up.sh"
+    ]
+}
+```
+
+Чтобы очистка происходила только при построении проекта через ACLI, в начало добавлено условие, которое проверяет, что мы находимся в папке "/tmp/acli-push-artifact". Таким образом скрипт очистки не будет вызван при установке проекта локально.
+
+Можно запустить сборку проекта в тестовом режиме еще раз. Если все хорошо, то отправляем проект в Acquia Cloud по названию приложения:
 
 ```
 acli push:artifact [application name]

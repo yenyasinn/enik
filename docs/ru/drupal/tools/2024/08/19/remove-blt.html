@@ -125,6 +125,26 @@
 
 <p>В общем случае, поместите код <code class="language-plaintext highlighter-rouge">drush deploy</code> вместо <code class="language-plaintext highlighter-rouge">blt artifact:...</code> в файлы в <code class="language-plaintext highlighter-rouge">hooks/common/*</code>.</p>
 
+<p>Пример файла <code class="language-plaintext highlighter-rouge">hooks/common/post-code-deploy/post-code-deploy.sh</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
+
+set -ev
+
+site="$1"
+target_env="$2"
+db_name="$3"
+source_env="$4"
+
+repo_root="/var/www/html/$site.$target_env"
+export PATH=$repo_root/vendor/bin:$PATH
+cd $repo_root
+
+drush deploy
+
+set +v
+</code></pre></div></div>
+
 <h2 id="отправляем-код-в-acquia-cloud">Отправляем код в Acquia Cloud</h2>
 
 <p>Для того, чтобы отправить код в Acquia Cloud будем использовать <a href="https://docs.acquia.com/acquia-cloud-platform/add-ons/acquia-cli/acquia-cli">Acquia CLI</a></p>
@@ -165,7 +185,7 @@
 }
 </code></pre></div></div>
 
-<p>Теперь нужно сделать <code class="language-plaintext highlighter-rouge">git commit</code> всех изменений и можно собрать проект в тестовом режиме, в котором он не будет отправлен в Acquia Cloud:</p>
+<p>Теперь нужно сохранить все изменения в репозитории <code class="language-plaintext highlighter-rouge">git commit</code> и можно собрать проект в тестовом режиме, в котором он не будет отправлен в Acquia Cloud:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acli push:artifact --no-clone
 </code></pre></div></div>
@@ -174,7 +194,48 @@
 
 <p>Откройте <code class="language-plaintext highlighter-rouge">/tmp/acli-push-artifact</code> и проверьте, что проект был собран как нужно.</p>
 
-<p>Если все хорошо, то отправляем проект в Acquia Cloud по названию приложения:</p>
+<p>У себя в проекте я нашел множество файлов, которые я бы не хотел видеть на production сервере. Раньше они удалялись BLT, но сейчас нужно позаботиться о них самим.</p>
+
+<p>К сожалению в команде <code class="language-plaintext highlighter-rouge">push:artifact</code> нет возможности указать как нужно проводить очистку. Поэтому я написал скрипт <code class="language-plaintext highlighter-rouge">clean-up.sh</code>, который удаляет ненужные файлы (не забывайте делать *.sh файлы выполняемыми <code class="language-plaintext highlighter-rouge">chmod 755 clean-up.sh</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/usr/bin/env bash
+
+set -ev
+
+# Clean the project if only it is built by ACLI.
+if [ `pwd` != "/tmp/acli-push-artifact" ] ; then
+  exit;
+fi
+
+find . -name tests -prune -exec rm -rf {} \;
+find . -name .github -prune -exec rm -rf {} \;
+find . -name node_modules -prune -exec rm -rf {} \;
+
+find . -name LICENSE.txt -prune -exec rm {} \;
+find . -name README.md -prune -exec rm {} \;
+
+find docroot/modules/contrib/ -name .gitignore -prune -exec rm {} \;
+find . -name package.json -prune -exec rm {} \;
+find . -name package-lock.json -prune -exec rm {} \;
+find . -name *.css.map -prune -exec rm {} \;
+
+set +v
+</code></pre></div></div>
+
+<p>И добавил его в composer.json, чтобы очистка происходила после запуска <code class="language-plaintext highlighter-rouge">composer install</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"scripts": {
+    "post-install-cmd": [
+        "./scripts/frontend-setup.sh",
+        "./scripts/frontend-build.sh",
+        "./scripts/clean-up.sh"
+    ]
+}
+</code></pre></div></div>
+
+<p>Чтобы очистка происходила только при построении проекта через ACLI, в начало добавлено условие, которое проверяет, что мы находимся в папке “/tmp/acli-push-artifact”. Таким образом скрипт очистки не будет вызван при установке проекта локально.</p>
+
+<p>Можно запустить сборку проекта в тестовом режиме еще раз. Если все хорошо, то отправляем проект в Acquia Cloud по названию приложения:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acli push:artifact [application name]
 </code></pre></div></div>

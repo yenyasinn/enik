@@ -78,6 +78,27 @@ If the capabilities of Cloud Actions are not sufficient for you, then you can us
 
 In general, place the `drush deploy` code instead of `blt artifact:...` in files in `hooks/common/*`.
 
+Example of the `hooks/common/post-code-deploy/post-code-deploy.sh`:
+
+```
+#!/bin/sh
+
+set -ev
+
+site="$1"
+target_env="$2"
+db_name="$3"
+source_env="$4"
+
+repo_root="/var/www/html/$site.$target_env"
+export PATH=$repo_root/vendor/bin:$PATH
+cd $repo_root
+
+drush deploy
+
+set +v
+```
+
 ## Sending the code to Acquia Cloud
 
 In order to send the code to Acquia Cloud we will use [Acquia CLI](https://docs.acquia.com/acquia-cloud-platform/add-ons/acquia-cli/acquia-cli)
@@ -132,7 +153,50 @@ This command will copy the code to the `/tmp/acli-push-artifact` folder and run 
 
 Open `/tmp/acli-push-artifact` and check that the project was built as expected.
 
-If all is well, then we send the project to Acquia Cloud using the application name:
+I found a lot of files in my project that I would not like to see on the production server. Previously, they were removed by BLT, but now I need to take care of them myself.
+
+Unfortunately, the `push:artifact` command does not have an option to specify how to clean up. So I wrote a script `clean-up.sh` that removes unnecessary files (don't forget to make *.sh files executable `chmod 755 clean-up.sh`):
+
+```
+#!/usr/bin/env bash
+
+set -ev
+
+# Clean the project if only it is built by ACLI.
+if [ `pwd` != "/tmp/acli-push-artifact" ] ; then
+  exit;
+fi
+
+find . -name tests -prune -exec rm -rf {} \;
+find . -name .github -prune -exec rm -rf {} \;
+find . -name node_modules -prune -exec rm -rf {} \;
+
+find . -name LICENSE.txt -prune -exec rm {} \;
+find . -name README.md -prune -exec rm {} \;
+
+find docroot/modules/contrib/ -name .gitignore -prune -exec rm {} \;
+find . -name package.json -prune -exec rm {} \;
+find . -name package-lock.json -prune -exec rm {} \;
+find . -name *.css.map -prune -exec rm {} \;
+
+set +v
+```
+
+And added it to composer.json so that the cleanup happens after running `composer install`:
+
+```
+"scripts": {
+    "post-install-cmd": [
+        "./scripts/frontend-setup.sh",
+        "./scripts/frontend-build.sh",
+        "./scripts/clean-up.sh"
+    ]
+}
+```
+
+To ensure that cleaning only occurs when building a project via ACLI, a condition has been added to the beginning that checks that we are in the "/tmp/acli-push-artifact" folder. This way, the cleaning script will not be called when installing the project locally.
+
+You can run the project build in test mode again. If everything is OK, then we send the project to Acquia Cloud by the application name:
 
 ```
 acli push:artifact [application name]
